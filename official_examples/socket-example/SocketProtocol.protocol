@@ -1,0 +1,20 @@
+typestate SocketProtocol {
+  DISC = {
+    boolean connect(): <true: CONN, false: DISC>,
+    drop: end
+  }
+
+  CONN = {
+    boolean canSend(String): <true: SEND, false: CONN>,
+    boolean canReceive(): <true: REC, false: CONN>,
+    void close(): end
+  }
+
+  SEND = {
+    void send(String): CONN
+  }
+
+  REC = {
+    String receive(): CONN
+  }
+}
