@@ -1,0 +1,22 @@
+typestate AlarmDeviceProtocol {
+
+  DISC = {
+    void connect(): CONN,
+    drop: end
+  }
+
+  CONN = {
+    void notify(double): NOTIFIED,
+    void setThreshold(double): CONN,
+    void disconnect(): DISC
+  }
+
+  NOTIFIED = {
+    boolean thresholdCheck(): <true: ALERT, false: CONN>
+  }
+
+  ALERT = {
+    void alert(): CONN
+  }
+
+}

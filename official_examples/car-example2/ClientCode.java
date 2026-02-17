@@ -17,15 +17,9 @@ public class ClientCode {
   // }
   public static void main(String[] args) {
     AutoDrivingCar car = new AutoDrivingCar();
-    if (!car.turnOn()) {
-      System.out.println("Damn thing won't start!");
-      return;
-    };
-    
-    Mode mode = car.switchMode();
-    if (mode == Mode.AUTO_DRIVE) {
-      car.autoPark();
-    }
+    while (!car.turnOn()) { System.out.println("turning on..."); }
+    while (car.switchMode() != Mode.AUTO_DRIVE) { System.out.println("Switching mode..."); }
+    car.autoPark();
     car.turnOff();
     System.out.println("Done!");
   }

@@ -1,3 +1,7 @@
+# Official Examples Notes
+
+I will include some analysis on how the tool can be used based off of the examples that I find the most interesting.
+
 ## car-example
 
 ### car-example2
@@ -68,6 +72,19 @@ ClientCode.java:27: error: Cannot call [autoPark] on State{AutoDrivingCar, MANUA
       car.autoPark();
 ```
 
+Utilizando este nuevo hallazgo, proporcionandole al while directamente el método del objeto parece haber funcionado:
+
+```java
+public static void main(String[] args) {
+    AutoDrivingCar car = new AutoDrivingCar();
+    while (!car.turnOn()) { System.out.println("turning on..."); }
+    while (car.switchMode() != Mode.AUTO_DRIVE) { System.out.println("Switching mode..."); }
+    car.autoPark();
+    car.turnOff();
+    System.out.println("Done!");
+}
+```
+
 ### car-example
 
 En este ejemplo, sucede algo similar donde a pesar de que el protocolo se cumple, tenemos el siguiente método que se llama desde main:
@@ -84,4 +101,3 @@ private static void setSpeed(@jatyc.lib.Requires("ON") Car car) {
 Observemos que el método `setFourWheels()` solo puede accederse en el modo SPORT. De todos modos, en la entrada de este método asumimos que tenemos una instancia de la clase Car de input en el estado `"ON"`, y desconocemos si su subestado en caso de ser SUV es el modo sport o comfort. De querer redefinir este método para que siempre active el fourwheel drive, y en su caso pasar el auto al estado sport, tanto este como el ejemplo anterior de `car-example2` no nos servirían.
 
 Voy a seguir observando los ejemplos en caso de que alguno sea útil para resolver esta clase de problemas de diseño. Quizás podría resolverse con alguna secuencia específica de condicionales o agregando algún método nuevo a las clases/protocolos para cambiar a un modo en específico o checkear modo.
-
