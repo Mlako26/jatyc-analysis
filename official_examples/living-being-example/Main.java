@@ -2,9 +2,10 @@ public class Main {
   public static void main(String[] args) {
     Animal x = new Dog();
     x.move();
+    Dog dog = (Dog) x; // Casting x to a variable such that a linear reference is maintained
     m1(x);
     LivingBeing x1 = x;
-    ((Dog) x1).wag();
+    dog.wag();
     x1.sound();
   }
 

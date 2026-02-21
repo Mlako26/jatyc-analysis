@@ -16,14 +16,23 @@ public class RemovableIterator extends BaseIterator {
   }
 
   public boolean hasNext() {
-    return this.index < this.items.size();
+    if (this.items != null) {
+      return this.index < this.items.size();
     }
+    throw new RuntimeException();
+  }
 
   public @Nullable Object next() {
-    return this.items.get(this.index++);
+    if (this.items != null) {
+      return this.items.get(this.index++);
+    }
+    throw new RuntimeException();
   }
 
   public void remove() {
-    this.items.remove(--this.index);
+    if (this.items != null) {
+      this.items.remove(--this.index);
+    }
+    throw new RuntimeException();
   }
 }
