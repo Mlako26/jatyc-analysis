@@ -406,4 +406,3 @@ public class RemovableIterator extends BaseIterator {
 ### IDEA DE EJEMPLO
 
 Tener un Objeto con un Objeto con protocolo dentro. Verifica correctamente el protocolo? Hay que checkear si esto ya está ejemplificado en algún lugar.
-
