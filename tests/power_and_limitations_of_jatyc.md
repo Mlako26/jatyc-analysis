@@ -97,3 +97,78 @@ Jatyc will not be able to tell that the implicit stack's specification is not be
 #### Extra notes
 
 - If this test follows our expectations, it means that indeed jatyc, and perhaps protocols in general, are not able to assert that specifications are being followed within an object's methods. In that sense, pre-post conditions are perhaps more expressive and powerful in this area.
+
+### restrictive_line_reader
+
+#### Aim
+
+With this example we aim to show how a protocol could be too restrictive for a particular implementation. This is similar to how a pre-post condition could overspecify a method.
+
+#### Implementation
+
+Have a FDLineReader class that accepts in its constructor a file name or a file descriptor. It will have methods `open()`, `hasNext()`, `next()` and `close()`. The protocol will be a very basic one, following the lines of the other line reader examples. 
+
+If a file descriptor is passed at construction, then the `open()` method can be avoided. 
+
+#### Expectations
+
+Jatyc will not let the client use the `hasNext()`, `next()` and `close()` methods until `open()` is called, even if a FD is properly provided.  
+
+#### Results
+
+#### Conclusion
+
+#### Extra notes
+
+- There should be another example of underspecifying.
+
+### restrictive_iterator
+
+#### Aim
+
+Perhaps a more clear or feasible example of a protocol that is more restrictive than necessary.
+
+#### Implementation
+
+Have an Abstract Class for an Iterator with the usual protocol that is provided by the Jatyc tool. In particular, this protocol only allows you to call the `next()` method if `hasNext()` returns true.
+
+Then create a subclass that implements the methods of the interface, but called the `LoopIterator`. Calling the `next()` method on an instance of this class when the end of the collection has been reached, the iterator will loop back to the beginning of the collection and start again. The `hasNext()` method will work as usual, where it returns true at all stages except when the end of the collection is reached.
+
+We can try this example both with a subprotocol, where `next()` can be called even if `hasNext()` returns false, and without one (`LoopIterator` would follow the abstract class' protocol).
+
+#### Expectations
+
+Jatyc will not let the client use the `next()` method if `hasNext()` returns false. In the case of the `LoopIterator` following a subprotocol, Jatyc might not even allow the protocol to inherit from the parent one.
+
+#### Results
+
+#### Conclusion
+
+#### Extra notes
+
+### lax_iterator
+
+#### Aim
+
+Following the previous examples where the protocol managed to be more restrictive than needed, and sometimes not allowing the objects to perform all of their features, this example will showcase how a protocol badly written might prove to be too lax. That is, having a class that, despite its method calls following a protocol, the execution raises an exception.
+
+#### Implementation
+
+Have an Abstract Class for an Iterator with the usual protocol that is provided by the Jatyc tool. In particular, this protocol only allows you to call the `next()` method if `hasNext()` returns true.
+
+Have a subclass `EvenIntIterator`, which iterates over arrays of integers. In the case that an odd number is encountered within the collection, it will raise an exception in the `next()` method. It will follow the same protocol as the parent class.
+
+#### Expectations
+
+Jatyc will not let the client use the `next()` method if `hasNext()` returns false. In the case of the `LoopIterator` following a subprotocol, Jatyc might not even allow the protocol to inherit from the parent one.
+
+#### Results
+
+#### Conclusion
+
+#### Extra notes
+
+- Obviously this implementation would be anything but production ready. Despite this, I find it interesting how, since Jatyc has absolutely no way of telling what the contents of the collection could be before the `next()` method is called (to disable it), the programmer will have to modify the way he implements in order to fully utilize the Jatyc protocols. That is, perhaps adding a new `nextIsOdd()` method, which can only be called between `hasNext()` and `next()`, to make sure an instance of this class does not raise exceptions.
+- Do these examples make any sense? I'm not sure these are the kind of exceptions we want to examplify with (deliberately throwing an exception instead of something actually breaking).
+
+###
