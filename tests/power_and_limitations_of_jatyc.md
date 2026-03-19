@@ -171,4 +171,84 @@ Jatyc will not let the client use the `next()` method if `hasNext()` returns fal
 - Obviously this implementation would be anything but production ready. Despite this, I find it interesting how, since Jatyc has absolutely no way of telling what the contents of the collection could be before the `next()` method is called (to disable it), the programmer will have to modify the way he implements in order to fully utilize the Jatyc protocols. That is, perhaps adding a new `nextIsOdd()` method, which can only be called between `hasNext()` and `next()`, to make sure an instance of this class does not raise exceptions.
 - Do these examples make any sense? I'm not sure these are the kind of exceptions we want to examplify with (deliberately throwing an exception instead of something actually breaking).
 
-###
+### state_equals_typestate
+
+#### Aim
+
+In section 2.2 of the Four Dark Corners Of Object Protocols, it mentions an example of an implementation of the `Iterator` interface that adds its own reset method, which sends its index back to the beginning of the collection. If following the protocol of the interface, since this method is not mentioned Jatyc will consider it an *anytime* method. Then, calling it should not allow it to modify the state of an instance (the values of its internal collaborators).
+
+But does modifying the state of an instance mean modifying the typestate? Remember what the documentation says about the typestates:
+
+```
+A typestate is associated with a Java class with the @Typestate annotation and defines: the object's states, the methods that can be safely called in each state, and the states resulting from the calls
+```
+
+I believe that not always modifying the state of an instance makes it necessarily change its typestate. That is pretty easy to see: having internal collaborators that represent a log context for example, or a timestamp for the last operation performed. Changing these would change the state of an object, but not necessarily its typestate. Therefore, were Jatyc to not allow an anytime method to modify any collaborator, we could say it is overly restrictive.
+
+In this example, the collaborator modified will technically be of importance to the protocol, which will be the index of the array being iterater over.
+
+#### Implementation
+
+Have an Iterator interface, with its very simple protocol including typestates for the methods `hasNext()` and `next()`.
+
+Have an implementation of the Iterator interface, `ResettableIterator`, which adds an *anytime* method `reset()` which resets the index of the iterator to the beginning of the collection. It will have as an internal collaborators an array/list and an integer index.
+
+Have the client code utilize this `reset()` method after a few calls of the `hasNext()` and `next()` loop.
+
+#### Expectations
+
+Jatyc will not compile the `reset()` method since it modifies internal collaborators despite being an *anytime* method.
+
+#### Results
+
+#### Conclusion
+
+#### Extra notes
+
+### state_equals_typestate_2
+
+#### Aim
+
+Same as the previous example, but this time instead of modifying an important variable to the protocol, reset one that has no importance whatsoever to it. This will show if Jatyc makes any sort of distinction
+
+#### Implementation
+
+Have an Iterator interface, with its very simple protocol including typestates for the methods `hasNext()` and `next()`.
+
+Have an implementation of the Iterator interface, `CountingIterator`. It will have as an internal collaborators an array/list, an integer index and an integer counter of operations, which goes up for every operation performed. The class also adds an *anytime* method `resetOperationCounter()` which resets the counter.
+
+Have the client code utilize this `resetOperationCounter()` method after a few calls of the `hasNext()` and `next()` loop.
+
+#### Expectations
+
+Jatyc will behave the same as the previous example.
+
+#### Results
+
+#### Conclusion
+
+#### Extra notes
+
+### public_stack
+
+- Hacer un ejemplo de un stack donde su pila es un colaborador interno publico, lo puedo modificar desde afuera y el mismo sabra su estado?
+
+#### Aim
+
+With the goal of testing the flexibility of the tool, this test aims to create a class with a public internal collaborator with importance to the typestate of an instance. For example, the index of an interator. Then, we want to see what would happen were the client code to create an instance of this class and then read/modify its internal collaborator.
+
+Would Jatyc allow any of these operations? In the case that it doesn't, then it would represent another limitation for the programmer using this tool. If it does, what would happen to the typestate of the class? Would Jatyc be able to recognize it the change?
+
+#### Implementation
+
+Have a `Stack` class.
+
+#### Expectations
+
+Jatyc will behave the same as the previous example.
+
+#### Results
+
+#### Conclusion
+
+#### Extra notes
