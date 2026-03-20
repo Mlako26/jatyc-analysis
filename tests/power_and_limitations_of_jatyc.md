@@ -24,7 +24,7 @@ We want to see how much does Jatyc take into account the state of internal colla
 
 #### Implementation
 
-Create a Robot and RobotController class. The map that the robot will traverse is a 2x2 map and, starting out in the top left corner (coordinates (1,2)), it will have methods to move a single unit at a time in any cardinal direction. It will have a typestate for each position in the map, dictating which methods it can call so that it does not fall off the map.
+Create a Robot and RobotController class. The map that the robot will traverse is a 2x2 map and, starting out in the top left corner (coordinates (0,0)), it will have methods to move a single unit at a time in any cardinal direction. It will have a typestate for each position in the map, dictating which methods it can call so that it does not fall off the map.
 
 The controller simply takes user input and then moves the robot. Its methods will be two simple ones with a boolean returning method `canMoveRobot()`, which "checks its connection to the robot", and then `move(direction: string)` which moves the robot on the corresponding direction. The protocol will consist of only two typestates, one for each method. 
 
@@ -36,11 +36,159 @@ For this example in particular, Jatyc should be able to tell from the client cod
 
 #### Results
 
+Our first implementation had the controller receive in its constructor the robot to be controlled.
+
+```java
+	public RobotController(Robot robot) {
+		this.robot = robot;
+	}
+```
+
+This made it so Jatyc interpreted the robot as a *shared* reference, thus no method calls would work. For example:
+
+```
+RobotController.java:24: error: Cannot call [moveDown] on Shared{Robot}
+                                this.robot.moveDown();
+```
+
+When instead implementing it so that it created its own robot within the constructor, and using the following client code:
+
+
+```java
+public class Main {
+    public static void main(String args[]) throws Exception {
+		RobotController controller = new RobotController();
+
+		if (controller.canMoveRobot()) {
+			controller.move("right");
+		}
+    }
+}
+```
+
+We got the following errors:
+
+```
+RobotController.java:27: error: Cannot call [moveLeft] on State{Robot, TopLeft}
+                                this.robot.moveLeft();
+                                                   ^
+RobotController.java:21: error: Cannot call [moveUp] on State{Robot, TopLeft}
+                                this.robot.moveUp();
+                                                 ^
+2 errors
+```
+
+What this tells us is interesting. Since the robot starts at position topleft, the tool will not allow us to simply create a switch statement moving the robot around, and it blocks off both invalid methods that would break the protocol. 
+
+We would need to add more methods to the `RobotProtocol`, such as new boolean returning methods that enable certain movements based off of the robot's current position. 
+
+Trying to trick the system by adding private methods also doesn't work:
+
+
+```java
+	public void move(String direction) {
+		switch (direction) {
+			case "up":
+				this.moveUp();
+				break;
+			case "down":
+				this.moveDown();
+				break;
+			case "left":
+				this.moveLeft();
+				break;
+			case "right":
+				this.moveRight();
+				break;
+			default:
+				throw new RuntimeException("Invalid direction of movement");
+		}
+	}
+
+	private void moveLeft() {
+		this.robot.moveLeft();
+	}
+
+	private void moveRight() {
+		this.robot.moveRight();
+	}
+
+	private void moveDown() {
+		this.robot.moveDown();
+	}
+	
+	private void moveUp() {
+		this.robot.moveUp();
+	}
+```
+
+But it yields new interesting findings!
+
+```
+RobotController.java:42: error: Cannot call [moveRight] on Shared{Robot}
+                this.robot.moveRight();
+                                    ^
+RobotController.java:50: error: Cannot call [moveUp] on Shared{Robot}
+                this.robot.moveUp();
+                                 ^
+RobotController.java:46: error: Cannot call [moveDown] on Shared{Robot}
+                this.robot.moveDown();
+                                   ^
+RobotController.java:7: error: [this.robot] did not complete its protocol (found: Shared{Robot} | State{Robot, ?})
+public class RobotController {
+       ^
+RobotController.java:38: error: Cannot call [moveLeft] on Shared{Robot}
+                this.robot.moveLeft();
+                                   ^
+5 errors
+```
+
+It seems that when calling a new method, the internal collaborator becomes a shared variable even if not provided as an argument to the method. Changing its visibility to `Public` did not change this result.
+
+Trying to trick it even further by adding a `@Requires` statement at the method declaration also did not work:
+
+``` java
+	private void moveLeft(@Requires({"TopRight", "BotRight"}) Robot robot) {
+		robot.moveLeft();
+	}
+
+	private void moveRight(@Requires({"TopLeft", "BotLeft"}) Robot robot) {
+		robot.moveRight();
+	}
+
+	private void moveDown(@Requires({"TopLeft", "TopRight"}) Robot robot) {
+		robot.moveDown();
+	}
+	
+	private void moveUp(@Requires({"BotLeft", "BotRight"}) Robot robot) {
+		robot.moveUp();
+	}
+```
+
+Returning errors similar to the first one
+
+```
+RobotController.java:18: error: Incompatible parameter: cannot cast from State{Robot, TopLeft} to State{Robot, BotLeft} | State{Robot, BotRight}
+                                this.moveUp(this.robot);
+                                                ^
+RobotController.java:24: error: Incompatible parameter: cannot cast from State{Robot, TopLeft} to State{Robot, BotRight} | State{Robot, TopRight}
+                                this.moveLeft(this.robot);
+                                                  ^
+2 errors
+```
+
+Seems like this might just be a restriction that the programmer will have to live with in order to write "safer code" and use the tool freely.
+
 #### Conclusion
+
+Seems like there is a pretty strong limitation with Jatyc where it does not really care about client code if we are talking about the typestate of an internal collaborator. We could be sure that the robot would not fall of the map, and it still would not care.
+
+We need to explicitly delcare with boolean returning methods the current typestate we are in and therefore the methods that are available to the internal collaborator.
 
 #### Extra notes
 
-- Is an object able to read the current typestate of an internal collaborator and make different decisions based off of it? Perhaps land in different typestates?
+- Is an object able to read the current typestate of an internal collaborator and make different decisions based off of it? Perhaps land in different typestates? 
+  - Does not seem like it. More likely it will use the methods available in the current typestate, which might provide some information into the next typestate of the collaborator and its available methods.
 
 ### normal_stack
 
@@ -56,6 +204,28 @@ Create a simple stack implementation with methods `push()`, `pop()`, `isEmpty()`
 
 The protocol will be a simple one, where one can only push if the stack is not full, and pop if it's not empty.
 
+```
+typestate StackProtocol {
+  Init = {
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    boolean isFull(): <true: Init, false: CanPush>,
+    drop: end
+  }
+  CanPush = {
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    boolean isFull(): <true: Init, false: CanPush>,
+    boolean push(T): Init,
+    drop: end
+  }
+  CanPop = {
+    boolean isFull(): <true: Init, false: CanPush>,
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    T pop(): Init,
+    drop: end
+  }
+}
+```
+
 There will be client code attempting to push or pop without first checking if it can.
 
 #### Expectations
@@ -64,7 +234,34 @@ Jatyc will be able to tell that the client code is wrongly calling the stack's m
 
 #### Results
 
+I first tried doing this test with a stack supporting any kind of variable, using generics, but Jatyc started complaining. Then I remembered that they mentioned that limitation in their documentation:
+
+```
+Currently, JaTyC has some limitations that we are working on:
+- No overall support for generics (parametric types are non-linear and nullable by default);
+```
+
+Using integers instead as the values stored within the stack, we get the following expected error using this client code:
+
+```java
+public class Main {
+    public static void main(String args[]) throws Exception {
+		Stack stack = new Stack(5);
+		stack.push(5);
+    }
+}
+```
+
+```
+Main.java:4: error: Cannot call [push] on State{Stack, Init}
+                stack.push(5);
+                          ^
+1 error
+```
+
 #### Conclusion
+
+As expected, using Jatyc definitely ensures that callers to an object that follows a protocol do not break it.
 
 #### Extra notes
 
@@ -76,7 +273,7 @@ Jatyc will be able to tell that the client code is wrongly calling the stack's m
 
 Following the previous example, as far as we know Jatyc is unable to tell if an implementation actually does what it is supposed to. That is, it verifies that the usage of an object follows its protocol, but not that an object's methods follow some sort of **specification** (pre-post condition). 
 
-While it registers that client code could be using an object in a way that it breaks its protocol, it does not control whether if a boolean method simply returns a random value instead of what it actually should.
+While it registers that client code could be using an object in a way that it breaks its protocol, it does not control whether a boolean method simply returns a random value instead of what it actually should.
 
 #### Implementation
 
@@ -92,13 +289,32 @@ Jatyc will not be able to tell that the implicit stack's specification is not be
 
 #### Results
 
+Using the following implementation for the `isFull()` method and client code we got Jatyc to compile.
+
+```java
+	public boolean isFull() {
+		return false;
+	}
+```
+
+```java
+    public static void main(String args[]) throws Exception {
+        Stack stack = new Stack(1);
+        while (!stack.isFull()) {
+            stack.push(5);
+        }
+    }
+```
+
 #### Conclusion
+
+As expected, the tool's purpose is not to verify a "correct" implementation. Just that its method calls are in the correct order.
 
 #### Extra notes
 
 - If this test follows our expectations, it means that indeed jatyc, and perhaps protocols in general, are not able to assert that specifications are being followed within an object's methods. In that sense, pre-post conditions are perhaps more expressive and powerful in this area.
 
-### restrictive_line_reader
+### restrictive_iterator
 
 #### Aim
 
@@ -106,35 +322,13 @@ With this example we aim to show how a protocol could be too restrictive for a p
 
 #### Implementation
 
-Have a FDLineReader class that accepts in its constructor a file name or a file descriptor. It will have methods `open()`, `hasNext()`, `next()` and `close()`. The protocol will be a very basic one, following the lines of the other line reader examples. 
-
-If a file descriptor is passed at construction, then the `open()` method can be avoided. 
-
-#### Expectations
-
-Jatyc will not let the client use the `hasNext()`, `next()` and `close()` methods until `open()` is called, even if a FD is properly provided.  
-
-#### Results
-
-#### Conclusion
-
-#### Extra notes
-
-- There should be another example of underspecifying.
-
-### restrictive_iterator
-
-#### Aim
-
-Perhaps a more clear or feasible example of a protocol that is more restrictive than necessary.
-
-#### Implementation
-
-Have an Abstract Class for an Iterator with the usual protocol that is provided by the Jatyc tool. In particular, this protocol only allows you to call the `next()` method if `hasNext()` returns true.
+Have a class `BaseIterator` with the protocol that is provided by the Jatyc tool. In particular, this protocol only allows you to call the `next()` method if `hasNext()` returns true.
 
 Then create a subclass that implements the methods of the interface, but called the `LoopIterator`. Calling the `next()` method on an instance of this class when the end of the collection has been reached, the iterator will loop back to the beginning of the collection and start again. The `hasNext()` method will work as usual, where it returns true at all stages except when the end of the collection is reached.
 
 We can try this example both with a subprotocol, where `next()` can be called even if `hasNext()` returns false, and without one (`LoopIterator` would follow the abstract class' protocol).
+
+Finally, have the client code simply make a loop of `hasNext()` and `next()` calls, and then a final `next()` call when it exits the loop. This technically will not raise an exception and is expected behavior for the object, but not for the protocol.
 
 #### Expectations
 
@@ -142,7 +336,62 @@ Jatyc will not let the client use the `next()` method if `hasNext()` returns fal
 
 #### Results
 
+This is the client code that was used.
+
+```java
+    public static void main(String[] args) {
+        BaseIterator it = new LoopIterator(args);
+        while (it.hasNext()) {
+			it.next();
+		}
+		it.next();
+	}
+```
+
+
+I first tried this test without having the `LoopIterator` subclass follow a protocol. As expected, we got the following error message:
+
+```
+ClientCode.java:9: error: Cannot call [next] on State{LoopIterator, end}
+                it.next();
+                       ^
+1 error
+```
+
+This time, I created a new protocol for the subclass which allow to use the `hasNext()` and `next()` methods all the time.
+
+```
+typestate LoopIterator {
+  Init = {
+    boolean hasNext(): <true: Init, false: Init>,
+    Object next(): Init,
+    drop: end
+  }
+}
+```
+
+This time it worked. This is weird, since technically both protocols should not be compatible with each other. Remember how in the documentation of the tool it states that:
+
+```
+The tool also has support for subtyping. This means that you may have a class with a protocol that extends another class with another protocol and the tool will ensure that the first protocol is a subtype of the second one.
+```
+
+Finally, just to check, I created a new `ClientCode2` example where I left both protocols working, but instead of creating a `LoopIterator` as is I upcasted it to a `BaseIterator`. It failed again.
+
+```java
+    BaseIterator it = new LoopIterator(args);
+```
+
+```
+ClientCode2.java:9: error: Cannot call [next] on State{BaseIterator, end}
+                it.next();
+                       ^
+1 error
+```
+
 #### Conclusion
+
+We should probably review how the algorithm for subtyping support works, which is detailed in a paper linked by the developers of the tool. I don't believe it did in this case what it should've been doing.
 
 #### Extra notes
 
@@ -150,13 +399,15 @@ Jatyc will not let the client use the `next()` method if `hasNext()` returns fal
 
 #### Aim
 
-Following the previous examples where the protocol managed to be more restrictive than needed, and sometimes not allowing the objects to perform all of their features, this example will showcase how a protocol badly written might prove to be too lax. That is, having a class that, despite its method calls following a protocol, the execution raises an exception.
+Following the previous examples where the protocol managed to be more restrictive than needed, and sometimes not allowing the objects to perform all of their features, this example will showcase how a protocol badly written might prove to be too lax. That is, having a class that, despite its method calls following a protocol, the execution raises an unwanted exception.
 
 #### Implementation
 
-Have an Abstract Class for an Iterator with the usual protocol that is provided by the Jatyc tool. In particular, this protocol only allows you to call the `next()` method if `hasNext()` returns true.
+Have a `BaseIterator` class with the usual protocol that is provided by the Jatyc tool. In particular, this protocol only allows you to call the `next()` method if `hasNext()` returns true.
 
 Have a subclass `EvenIntIterator`, which iterates over arrays of integers. In the case that an odd number is encountered within the collection, it will raise an exception in the `next()` method. It will follow the same protocol as the parent class.
+
+Finally, have a client code supply a list of items that include an odd number.
 
 #### Expectations
 
@@ -164,7 +415,21 @@ Jatyc will not let the client use the `next()` method if `hasNext()` returns fal
 
 #### Results
 
+Using the following client code we got the code to compile without errors.
+
+```java
+    public static void main(String[] args) {
+		int[] array = {2,3};
+        EvenIntIterator it = new EvenIntIterator(array);
+        while (it.hasNext()) {
+			it.next();
+		}
+	}
+```
+
 #### Conclusion
+
+What this tells us is that Jatyc, just like doing pre and post conditions, is vulnerable to underspecification and human error prone.
 
 #### Extra notes
 
@@ -175,7 +440,7 @@ Jatyc will not let the client use the `next()` method if `hasNext()` returns fal
 
 #### Aim
 
-In section 2.2 of the Four Dark Corners Of Object Protocols, it mentions an example of an implementation of the `Iterator` interface that adds its own reset method, which sends its index back to the beginning of the collection. If following the protocol of the interface, since this method is not mentioned Jatyc will consider it an *anytime* method. Then, calling it should not allow it to modify the state of an instance (the values of its internal collaborators).
+In section 2.2 of the Four Dark Corners Of Object Protocols, it mentions an example of an implementation of the `Iterator` interface that adds its own reset method, which sends its index back to the beginning of the collection. Following the protocol of the interface, since this method is not mentioned Jatyc will consider it an *anytime* method. Then, calling it should not allow it to modify the state of an instance (the values of its internal collaborators).
 
 But does modifying the state of an instance mean modifying the typestate? Remember what the documentation says about the typestates:
 
@@ -189,9 +454,9 @@ In this example, the collaborator modified will technically be of importance to 
 
 #### Implementation
 
-Have an Iterator interface, with its very simple protocol including typestates for the methods `hasNext()` and `next()`.
+Have a `BaseIterator` class, with its very simple protocol including typestates for the methods `hasNext()` and `next()`.
 
-Have an implementation of the Iterator interface, `ResettableIterator`, which adds an *anytime* method `reset()` which resets the index of the iterator to the beginning of the collection. It will have as an internal collaborators an array/list and an integer index.
+Have a subclass of the Iterator interface, `ResettableIterator`, which adds an *anytime* method `reset()` which resets the index of the iterator to the beginning of the collection. It will have as an internal collaborators an array/list and an integer index.
 
 Have the client code utilize this `reset()` method after a few calls of the `hasNext()` and `next()` loop.
 
@@ -201,37 +466,91 @@ Jatyc will not compile the `reset()` method since it modifies internal collabora
 
 #### Results
 
+Using the following client code, compilation did not raise any errors and indeed the prints show how the index went back to 0. 
+
+```java
+    public static void main(String[] args) {
+		String[] array = {"hello", "world"};
+        ResseteableIterator it = new ResseteableIterator(array);
+        if (it.hasNext()) {
+			it.next();
+		}
+		it.print();
+		it.reset();
+		it.print();
+	}
+```
+
 #### Conclusion
 
+I find it interesting that Jatyc would not check for internal collaborators modifications within *anytime* methods. Given its quite restrictive nature, I would've assumed that it simply would not let you modify them.
+
+Looking at the documentation there is something mentioned about this limitation though:
+
+```
+Currently, JaTyC has some limitations that we are working on:
+
+Anytime methods cannot write to fields.
+```
+
 #### Extra notes
+
+- An interesting next example would be to break the protocol with this.
 
 ### state_equals_typestate_2
 
 #### Aim
 
-Same as the previous example, but this time instead of modifying an important variable to the protocol, reset one that has no importance whatsoever to it. This will show if Jatyc makes any sort of distinction
+Same as previous example but showing how we can abuse this gap to cause a protocol fault.
 
 #### Implementation
 
-Have an Iterator interface, with its very simple protocol including typestates for the methods `hasNext()` and `next()`.
+Have a `BaseIterator` class, with its very simple protocol including typestates for the methods `hasNext()` and `next()`.
 
-Have an implementation of the Iterator interface, `CountingIterator`. It will have as an internal collaborators an array/list, an integer index and an integer counter of operations, which goes up for every operation performed. The class also adds an *anytime* method `resetOperationCounter()` which resets the counter.
+Have a subclass of the Iterator interface, `ResettableIterator`, which adds an *anytime* method `moveToEnd()` which sets the index of the iterator to the end of the collection. It will have as an internal collaborators an array/list and an integer index.
 
-Have the client code utilize this `resetOperationCounter()` method after a few calls of the `hasNext()` and `next()` loop.
+Have the client code utilize this `end()` method within an if conditional of the `hasNext()` method. This should tell Jatyc that we are in a state to call the `next()` method. Instead, before doing that, call the `moveToEnd()` method.
 
 #### Expectations
 
-Jatyc will behave the same as the previous example.
+Jatyc will not raise any errors and running the code ends up in an exception.
 
 #### Results
 
+Compiling the test and running it indeed ends up in a `IndexOutOfBoundsException`.
+
+```
+C:\Users\mlako\OneDrive\Desktop\Stuff\Facultad\tesis\jatyc-analysis\tests\state_equals_typestate_2>java ClientCode                                                        
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 2 out of bounds for length 2
+        at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+        at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+        at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+        at java.base/java.util.Objects.checkIndex(Objects.java:374)
+        at java.base/java.util.ArrayList.get(ArrayList.java:459)
+        at ResseteableIterator.next(ResseteableIterator.java:15)
+        at ClientCode.main(ClientCode.java:9)
+```
+
+This is the client code ran:
+
+```java
+    public static void main(String[] args) {
+		String[] array = {"hello", "world"};
+        ResseteableIterator it = new ResseteableIterator(array);
+        if (it.hasNext()) {
+			it.moveToEnd();
+			it.next();
+		}
+	}
+```
+
 #### Conclusion
+
+This is clearly still not a feature supported by the tool.
 
 #### Extra notes
 
 ### public_stack
-
-- Hacer un ejemplo de un stack donde su pila es un colaborador interno publico, lo puedo modificar desde afuera y el mismo sabra su estado?
 
 #### Aim
 
@@ -241,14 +560,37 @@ Would Jatyc allow any of these operations? In the case that it doesn't, then it 
 
 #### Implementation
 
-Have a `Stack` class.
+Have a `Stack` class and protocols similar to the other two done before. Then, have its `size` internal collaborator be of public visibility.
+
+Have client code create a new instance of this class. Then, change the `size` variable to a very big number. Finally, push elements until the stack potentially runs out of space.
 
 #### Expectations
 
-Jatyc will behave the same as the previous example.
+Jatyc will not allow the client code to modify the internal state of the Stack.
 
 #### Results
 
+With the following client code Jatyc returned the following error:
+
+```java
+	public static void main(String args[]) throws Exception {
+		Stack stack = new Stack(1);
+		stack.size = 2; 
+		while (!stack.isFull()) {
+			stack.push(2);
+		}
+	}
+```
+
+```
+Main.java:4: error: Cannot access [stack.size]
+                stack.size = 2;
+                     ^
+1 error
+```
+
 #### Conclusion
+
+Indeed Jatyc does not let client code make use of public collaborators. This makes certain sense though, helps keep object's use under control and makes code safer.
 
 #### Extra notes
