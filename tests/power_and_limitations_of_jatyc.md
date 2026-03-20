@@ -609,8 +609,6 @@ typestate ResseteableIterator {
 ```
 
 ```
-
-```
 typestate BaseIterator {
   HasNext = {
     boolean hasNext(): <true: Next, false: NotNext>
@@ -623,6 +621,8 @@ typestate BaseIterator {
     drop: end
   }
 }
+```
+
 ```
 ResseteableIterator.java:6: error: [print] transition(s) in [NotNext] of BaseIterator.protocol are not included in [Init] of ResseteableIterator.protocol
 public class ResseteableIterator extends BaseIterator {
