@@ -1,4 +1,4 @@
-typestate LoopIterator {
+typestate ResseteableIterator {
   Init = {
     boolean hasNext(): <true: Init, false: Init>,
     Object next(): Init,

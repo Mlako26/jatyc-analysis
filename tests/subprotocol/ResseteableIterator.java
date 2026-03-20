@@ -2,7 +2,7 @@ import java.util.*;
 import jatyc.lib.Typestate;
 import jatyc.lib.Nullable;
 
-@Typestate("LoopIterator")
+@Typestate("ResseteableIterator")
 public class ResseteableIterator extends BaseIterator {
     protected List<Object> items;
 
@@ -16,8 +16,5 @@ public class ResseteableIterator extends BaseIterator {
     }
 
     public boolean hasNext() { return this.index < this.items.size(); }
-    public void reset() {this.index = 0;}
-    public void print() {
-        System.out.printf("%d",this.index);
-    }
+    public void print() {System.out.printf("%d",this.index);}
 }

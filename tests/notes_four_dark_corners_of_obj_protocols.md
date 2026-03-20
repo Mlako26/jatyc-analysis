@@ -14,12 +14,16 @@ These are some test cases ideas or things to read more on that came up while rea
   - Si siempre devuleve true, entonces simplemente el protocolo se cumple. Siempre que hasNext devuelva true, que va a ser en todos sus llamados, se va a poder llamar al next.
 - Hacer un ejemplo de un stack donde su pila es un colaborador interno publico, lo puedo modificar desde afuera y el mismo sabra su estado?
 - Hacer un ejemplo donde haya un proxy y que mi "protocolo" sea completamente dependiente del protocolo de mi colaborador interno. Ej, hacer un wrapper de iterador LoggerIterator, que itera y loggea, pero sin protocolo. Que sucede?
+  - Esto va a ser muy similar al primer ejemplo que hice de typestate compuesto.
 - Decorator pattern example:  buscar ejemplos simples del patron de decorator y ver que onda. La idea es buscar un ejemplo donde el protocolo para usar apropiadamente un decorador dependa del objeto que estamos decorando (su contexto?).
 - Hacer algun ejemplo donde el estado final de un objeto al salir del constructor varie. Por ejemplo, una excepcion donde la inicializamos con el cause o no.
 - Hacer un ejemplo donde una excepcion siempre inicialize el cause, y una sublclase que sobrecargue el metodo. Pasara que rompe el protocolo? La herramienta maneja bien esto?
 - De la seccion 2.4, ver que onda el ejemplo del java.math.BigInteger. Es decir, ver el tema de objetos inmutables.
+  - No sé como hacer este test muy bien. Es decir, quizás debería de hacer alguna clase nueva y meterle algún protocolo.
+  - A priori, de querer hacer esto el protocolo y la clase deben de contar con métodos para distinguir los dos tipos de protocolo (e.g el numero es positivo o negativo).
 - Con el tema de las factories, no pasa nada en jatyc. Esto es porque subclasses de clases con PROTOCOLO deben si o si implementar su protocolo. Incluso si implementan un segundo protocolo, el mismo debe de ser un subprotocolo.
 - Ver el ejemplo de java util list de la seccion 2.4.
 - Ejemplo: Ponele que tengo una factory que devuleve una implementacion particular de una interfaz con protocolo. Estas subclases tienen distrintos subprotocolos. La tool revisa que el subprotocolo se respete? Y que el protocolo grande?
-- Pensar algun ejemplo relacionado a assertion checking. Es mas poderoso el protoclo que hacer laguna espcie de assercion al comineo de los metodos? Pareceria que si.
+  - No creo. Es decir, una factory te devuelve algo que respeta una interfaz, no sabés que subclase tenes. Revisa que tu protocolo de interfaz se cumpla no mas
+- Pensar algun ejemplo relacionado a assertion checking. Es mas poderoso el protocolo que hacer alguna espcie de assercion al comienzo de los metodos? Pareceria que si.
 - Se te ocurre algun ejemplo donde el protocolosea mejor que la pre o post condicion? En un principio pareceria que la pre y post condicion es un protocolo en esteroides, donde a pesar de que no define cadena de metodos, define que es necesario para poder utilizar a uno correctamente. Hay algun cas donde necesitar definir los typestates de un objeto? Mirar articulo donde menciona las partes malas de la pre y post condicion

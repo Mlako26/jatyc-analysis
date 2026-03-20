@@ -2,7 +2,7 @@ import java.util.*;
 import jatyc.lib.Typestate;
 import jatyc.lib.Nullable;
 
-@Typestate("LoopIterator")
+@Typestate("ResseteableIterator")
 public class ResseteableIterator extends BaseIterator {
     protected List<Object> items;
 

@@ -1,0 +1,12 @@
+typestate BaseIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: NotNext>
+  }
+  Next = {
+    Object next(): HasNext
+  }
+  NotNext = {
+    void print(): NotNext,
+    drop: end
+  }
+}

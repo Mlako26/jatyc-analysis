@@ -15,4 +15,6 @@ public class BaseIterator {
   }
   public @Nullable Object next() { return this.items[this.index++]; }
   public int remainingItems() { return this.items.length - this.index; }
+  public void print() {System.out.println("Printing something");}
+
 }

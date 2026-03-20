@@ -189,6 +189,7 @@ We need to explicitly delcare with boolean returning methods the current typesta
 
 - Is an object able to read the current typestate of an internal collaborator and make different decisions based off of it? Perhaps land in different typestates? 
   - Does not seem like it. More likely it will use the methods available in the current typestate, which might provide some information into the next typestate of the collaborator and its available methods.
+- I could create a test for it, but I'm pretty sure that even with having user inputted robot movements (so that Jatyc can't know which way the robot might go beforehand) would also result in the same error. This makes a lot of sense, since where Jatyc puts emphasis on is that you use objects safely, no matter which methods you call. That is, always verify the typestate you are on before calling a certain methods.
 
 ### normal_stack
 
@@ -594,3 +595,40 @@ Main.java:4: error: Cannot access [stack.size]
 Indeed Jatyc does not let client code make use of public collaborators. This makes certain sense though, helps keep object's use under control and makes code safer.
 
 #### Extra notes
+
+### subprotocol
+
+```
+typestate ResseteableIterator {
+  Init = {
+    boolean hasNext(): <true: Init, false: Init>,
+    Object next(): Init,
+    drop: end
+  }
+}
+```
+
+```
+
+```
+typestate BaseIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: NotNext>
+  }
+  Next = {
+    Object next(): HasNext
+  }
+  NotNext = {
+    void print(): NotNext,
+    drop: end
+  }
+}
+```
+ResseteableIterator.java:6: error: [print] transition(s) in [NotNext] of BaseIterator.protocol are not included in [Init] of ResseteableIterator.protocol
+public class ResseteableIterator extends BaseIterator {
+       ^
+ClientCode.java:11: error: Cannot call [hasNext] on State{ResseteableIterator, NotNext}
+                if (!it.hasNext()) {
+                               ^
+2 errors
+```
