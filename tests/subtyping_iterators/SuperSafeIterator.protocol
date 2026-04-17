@@ -3,7 +3,7 @@ typestate SuperSafeIterator {
     boolean hasNext(): <true: Verify, false: end>
   }
   Verify = {
-    boolean iAmSure(): <true: Next, false: HasNext>
+    boolean iAmSure(): <true: Next, false: end>
   }
   Next = {
     int next(): HasNext

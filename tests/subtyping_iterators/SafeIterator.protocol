@@ -1,0 +1,12 @@
+typestate SafeIterator {
+  HasNext = {
+    boolean hasNext(): <true: Verify, false: end>
+  }
+  Verify = {
+    boolean iAmSure(): <true: Next, false: end>,
+    int next(): HasNext
+  }
+  Next = {
+    int next(): HasNext
+  }
+}

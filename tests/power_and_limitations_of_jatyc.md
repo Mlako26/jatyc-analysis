@@ -886,11 +886,47 @@ I feel like I really want to know the algorithm that this tool follows to ensure
 
 #### Extra notes
 
-### super_safe_iterator
+### subtyping_iterators
 
 #### Aim
 
-We saw how a protocol can subtype another as long as it allows **more** method sequences, but never less. We want to see what would happen if we were to implement a protocol that went from typestate A to B to A and so on, and a subprotocol that went from A to B to C to A and so on, both on a loop. Would that make Jatyc raise an error.
+We saw how a protocol can subtype another as long as it allows **more** method sequences, but never less. We want to see what would happen if we were to implement a protocol that went from typestate A to B to A and so on, and a subprotocol that went from A to B to C to A and so on, both on a loop. Would that make Jatyc raise an error?
+
+```mermaid
+graph LR
+    start(( )) --> q0((q0))
+    q0 -->|a| q1((q1))
+    q1 -->|b| q0
+```
+
+```mermaid
+graph LR
+    start(( )) --> q0((q0))
+    q0 -->|a| q1((q1))
+    q1 -->|c| q2((q2))
+    q2 -->|b| q0
+```
+
+Would these configurations work too?
+
+```mermaid
+graph LR
+    start(( )) --> q0((q0))
+    q0 -->|a| q1((q1))
+    q1 -->|b| q2((q2))
+    q2 -->|c| q0
+```
+
+```mermaid
+graph LR
+    start(( )) --> q0((q0))
+    q0 -->|a| q1((q1))
+    q1 -->|c| q2((q2))
+    q1 -->|b| q0
+    q2 -->|b| q0
+```
+
+Also, what would happen if there was another subprotocol that after calling A, B and C are available, 
 
 #### Implementation
 
@@ -915,7 +951,40 @@ typestate SuperSafeIterator {
     boolean hasNext(): <true: Verify, false: end>
   }
   Verify = {
-    boolean iAmSure(): <true: Next, false: HasNext>
+    boolean iAmSure(): <true: Next, false: end>
+  }
+  Next = {
+    int next(): HasNext
+  }
+}
+```
+
+Have a `TiredIterator` class that has an additional method, `rest()`, which is to be called after `next()` and before `hasNext()` can be called again. The protocol for this class should be the following:
+
+```
+typestate TiredIterator {
+  HasNext = {
+    boolean hasNext(): <true: Verify, false: end>
+  }
+  Next = {
+    int next(): HasNext
+  }
+  Rest = {
+    void rest(): HasNext
+  }
+}
+```
+
+Have a `SafeIterator` class that has an additional method, `iAmSure()`, which can only be called after `hasNext()` and before `next()`. It allows users to call `next()` right after `hasNext()` though. The protocol for this class should be the following:
+
+```
+typestate SafeIterator {
+  HasNext = {
+    boolean hasNext(): <true: Verify, false: end>
+  }
+  Verify = {
+    boolean iAmSure(): <true: Next, false: end>,
+    int next(): HasNext
   }
   Next = {
     int next(): HasNext
@@ -925,7 +994,7 @@ typestate SuperSafeIterator {
 
 #### Expectations
 
-I believe it should raise an error. Lets suppose we have a factory that returns implementations of the `BaseIterator`. The consumer of this iterator would expect to be able to call `next()` staight away after calling `hasNext()`, but if the `SuperSafeIterator` were to be called this would not be possible due to its protocol.
+I believe it should raise an error for both the `SuperSafeIterator` and `TiredIterator`. Lets suppose we have a factory that returns implementations of the `BaseIterator`. The consumer of this iterator would expect to be able to call `next()` staight away after calling `hasNext()` and viceversa, but if any of both of these were to be called this would not be possible due to its protocol.
 
 #### Results
 
@@ -935,8 +1004,15 @@ Indeed it raised an error as expected:
 SuperSafeIterator.java:6: error: [next] transition(s) in [Next] of BaseIterator.protocol are not included in [Verify] of SuperSafeIterator.protocol
 public class SuperSafeIterator extends BaseIterator {
        ^
-1 error
+TiredIterator.java:6: error: [hasNext] transition(s) in [HasNext] of BaseIterator.protocol are not included in [Rest] of TiredIterator.protocol
+public class TiredIterator extends BaseIterator {
+       ^
+2 errors
 ```
+
+It complains that the method `next()` is not included in the typestate `Verify` for the protocol of the `SuperSafeIterator`. At the same time, the transition for method `hasNext()` does not exist within the `Rest` typestate of the protocol for `TiredIterator`.
+
+Note how it did not raise any errors for the `SafeIterator`, where all original `BaseIterator`'s protocol transitions were present.
 
 #### Conclusion
 
