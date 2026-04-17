@@ -1,0 +1,11 @@
+typestate SuperSafeIterator {
+  HasNext = {
+    boolean hasNext(): <true: Verify, false: end>
+  }
+  Verify = {
+    boolean iAmSure(): <true: Next, false: HasNext>
+  }
+  Next = {
+    int next(): HasNext
+  }
+}

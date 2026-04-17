@@ -371,7 +371,7 @@ typestate LoopIterator {
 }
 ```
 
-This time it worked. This is weird, since technically both protocols should not be compatible with each other. Remember how in the documentation of the tool it states that:
+This time it worked. This makes sense since the subprotocol allows **more** method calls than the parent protocol. This means that no matter which class we use to create a `BaseIterator`, it will follow both protocols. Remember how in the documentation of the tool it states that:
 
 ```
 The tool also has support for subtyping. This means that you may have a class with a protocol that extends another class with another protocol and the tool will ensure that the first protocol is a subtype of the second one.
@@ -632,3 +632,314 @@ ClientCode.java:11: error: Cannot call [hasNext] on State{ResseteableIterator, N
                                ^
 2 errors
 ```
+### collaborator_compound_typestate_2
+
+#### Aim
+
+Following up on the `collaborator_compound_typestate` test we performed earlier, results showed how Jatyc was able to recognize when a move was being performed that the robot was at the top-left corner in its initial state. We know this since the two method calls that threw a compilation error were `moveLeft()` and `moveRight()`.
+
+```
+RobotController.java:27: error: Cannot call [moveLeft] on State{Robot, TopLeft}
+                                this.robot.moveLeft();
+                                                   ^
+RobotController.java:21: error: Cannot call [moveUp] on State{Robot, TopLeft}
+                                this.robot.moveUp();
+                                                 ^
+2 errors
+```
+
+We wonder what would happen if instead the controller had a method `run()` which would simply move the robot around the map, in a clock-wise direction. Would Jatyc allow it, despite moving the robot without checking its state first with some sort of conditional method? What would happen if we ran it twice?
+
+#### Implementation
+
+Same as for the same example but with a method `run()` which first moves the robot right, then down, then left, and finally up. You can only call method `run()` if `canMoveRobot()` returned `true`.
+
+#### Expectations
+
+Jatyc should allow it, since after each method call the robot's state changes to one where the following method call does not break the protocol.
+
+On the other hand, running it twice should not make a difference to jatyc, since it does not check implementations. That is, jatyc makes sure client code respects the protocol of the objects it is using, and calling the `RobotController` twice following the protocol should not raise any alarms. In other words, if the first call to the method `run()` did not raise any errors, then calling it twice shouldn't either.
+
+#### Results
+
+Using the following `run()` implementation and calling it only once we got **no errors**:
+
+```java
+	public void run() {
+		this.robot.moveRight();
+		this.robot.moveDown();
+		this.robot.moveLeft();
+		this.robot.moveUp();
+	}
+```
+
+Calling it twice from the client code also does not raise any errors.
+
+#### Conclusion
+
+Seems like as long as you follow the protocol from typestate to typestate you don't need any conditionals to check the current typestate.
+
+#### Extra notes
+
+### collaborator_compound_typestate_3
+
+#### Aim
+
+Going even further with the `Robot` and `RobotController` example, we would like to now instead of having a `run()` method, what would happen if we had a `next()` method, which if called 4 times in a row it would replicate the behavior of `run()`. That is, it moves the robot one position clockwise. We also want to have a `reset()` method, which tells the controller to start the sequence from the beginning.
+
+Does Jatyc track the typestate of internal collaborators between method calls of its parent object? Or can we somehow make an implementation of the `RobotController` and client code that will cause the robot to fall of the map?
+
+#### Implementation
+
+Have a new internal collaborator variable called position, which tells the controller which position de robot is in. Have a new `next()` method which moves the robot to the next position in the map clockwise. Finally, have a new `reset()` method which will reset the position variable to the top-left corner of the map (starting position).
+
+The protocol for the robot and implementations should be the same as for the previous tests, and the protocol for the controller should be similar (client code must check that the robot can be moved before moving it).
+
+Client code will call `next()` two times, then `reset()` and finally one more `next()` call. This should cause the controller to send the robot right from the bottom-right corner and fall of the map.
+
+#### Expectations
+
+I don't even think I have to test this. In order to implement the `next()` method, I have use a switch statement or many ifs to know where to move the robot to. Thus, the result of the first test will repeat, where we did a similar implementation for the `move()` method.
+
+#### Implementation 2
+
+Have the method `run()` but **also** a method `moveRight()`, which simply moves the robot to the right. This move should be allowed if the robot is in the starting position.
+
+Then have the client code call `run()`, which will make the robot loop clockwise around the map and go back to the top-left starting position, `moveRight()`, causing the robot to be in the top-right position, and another `run()` call. Since the first movement of `run()` is also to the right, it should move the robot out of the map.
+
+#### Expectations
+
+Jatyc will not recognize this and the robot will throw an exception when it falls of the map. I believe Jatyc always assumes the internal collaborator is in the initial state.
+
+#### Results
+
+With this client code:
+
+```java
+public static void main(String args[]) throws Exception {
+		RobotController controller = new RobotController();
+
+		if (controller.canMoveRobot()) {
+			controller.run();
+		}
+
+		if (controller.canMoveRobot()) {
+			controller.moveRight();
+		}
+
+		if (controller.canMoveRobot()) {
+			controller.run();
+    }
+}
+```
+
+and this controller implementations:
+
+```java
+public void run() {
+		this.robot.moveRight();
+		this.robot.moveDown();
+		this.robot.moveLeft();
+		this.robot.moveUp();
+}
+
+public void moveRight() {
+		this.robot.moveRight();
+}
+```
+
+and protocol:
+
+```
+typestate RobotControllerProtocol {
+  CanMove = {
+    boolean canMoveRobot(): <true: Move, false: CanMove>,
+    drop: end
+  }
+  Move = {
+    void run(): CanMove,
+    void moveRight(): CanMove
+  }
+}
+```
+
+we got the following errors:
+
+```
+RobotController.java:23: error: Cannot call [moveRight] on State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveRight();
+                                    ^
+RobotController.java:16: error: Cannot call [moveRight] on State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveRight();
+                                    ^
+2 errors
+```
+
+Seems like it recognizes, for some reason, that the robot could be in the top-right corner and thus you cannot move right initially without "checking".
+
+Experimenting a bit more with it, I made the client code simply call `run()` once, and thus making the robot not fall off the map. I got the same errors.
+
+I will now create one move method for each direction to see if we get even more errors. Interestingly, when adding a new `moveDown()` method to the controller, we get a new error for that direction:
+
+```java
+public void run() {
+		this.robot.moveRight();
+		this.robot.moveDown();
+		this.robot.moveLeft();
+		this.robot.moveUp();
+}
+
+public void moveRight() {
+		this.robot.moveRight();
+}
+
+public void moveDown() {
+		this.robot.moveDown();
+}
+```
+
+```
+RobotController.java:16: error: Cannot call [moveRight] on State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveRight();
+                                    ^
+RobotController.java:27: error: Cannot call [moveDown] on Shared{Robot}
+                this.robot.moveDown();
+                                   ^
+RobotController.java:23: error: Cannot call [moveRight] on State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveRight();
+                                    ^
+3 errors
+```
+
+But now the new error states that the robot is a shared variable somehow. Writing all of the methods gives us:
+
+```
+RobotController.java:35: error: Cannot call [moveUp] on Shared{Robot}
+                this.robot.moveUp();
+                                 ^
+RobotController.java:31: error: Cannot call [moveLeft] on Shared{Robot}
+                this.robot.moveLeft();
+                                   ^
+RobotController.java:23: error: Cannot call [moveRight] on State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveRight();
+                                    ^
+RobotController.java:27: error: Cannot call [moveDown] on Shared{Robot}
+                this.robot.moveDown();
+                                   ^
+RobotController.java:16: error: Cannot call [moveRight] on State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveRight();
+                                    ^
+5 errors
+```
+
+In all methods except for the `moveRight()`, we get an error due to calling a protocol method from a shared reference (which can only use anytime methods).
+
+If we now remove the `moveRight()` methods but leave the other three, we get a new error which tells me a lot about what was happening with the shared variable:
+
+```
+RobotController.java:4: error: Method [moveRight] is required by the typestate but not implemented
+public class RobotController {
+       ^
+RobotController.java:23: error: Cannot call [moveDown] on Shared{Robot}
+                this.robot.moveDown();
+                                   ^
+RobotController.java:27: error: Cannot call [moveLeft] on Shared{Robot}
+                this.robot.moveLeft();
+                                   ^
+RobotController.java:31: error: Cannot call [moveUp] on Shared{Robot}
+                this.robot.moveUp();
+                                 ^
+4 errors
+```
+
+This new `moveRight method was not implemented` reminded me that I didn't include the other movement methods to the protocol of the controller. After adding them to it, and re-implementing the missing method, we get:
+
+```
+RobotController.java:17: error: Cannot call [moveDown] on State{Robot, BotRight} | State{Robot, TopRight}
+                this.robot.moveDown();
+                                   ^
+RobotController.java:16: error: Cannot call [moveRight] on State{Robot, BotLeft} | State{Robot, BotRight} | State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveRight();
+                                    ^
+RobotController.java:27: error: Cannot call [moveDown] on State{Robot, BotLeft} | State{Robot, BotRight} | State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveDown();
+                                   ^
+RobotController.java:23: error: Cannot call [moveRight] on State{Robot, BotLeft} | State{Robot, BotRight} | State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveRight();
+                                    ^
+RobotController.java:35: error: Cannot call [moveUp] on State{Robot, BotLeft} | State{Robot, BotRight} | State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveUp();
+                                 ^
+RobotController.java:31: error: Cannot call [moveLeft] on State{Robot, BotLeft} | State{Robot, BotRight} | State{Robot, TopLeft} | State{Robot, TopRight}
+                this.robot.moveLeft();
+                                   ^
+6 errors
+```
+
+Now it seems like the tool recognizes that the robot could be anywhere, and thus we cannot simply call the methods as they are. That is very interesting and would love to investigate more how it does that. It clearly seems like it reads which methods could be called from the controller class, and maybe tests different method calls with them? 
+
+I also am not sure why it only complained about moving the robot right and down within the `run()` method (lines 16 and 17), but not going left and up.
+
+#### Conclusion
+
+I feel like I really want to know the algorithm that this tool follows to ensure an object's protocol is being followed. I assume it checks the final state that the internal collaborator would be left at after each method call and colors the typestate graph but not sure.
+
+#### Extra notes
+
+### super_safe_iterator
+
+#### Aim
+
+We saw how a protocol can subtype another as long as it allows **more** method sequences, but never less. We want to see what would happen if we were to implement a protocol that went from typestate A to B to A and so on, and a subprotocol that went from A to B to C to A and so on, both on a loop. Would that make Jatyc raise an error.
+
+#### Implementation
+
+Have a `BaseIterator` class like the previous ones, with a `hasNext()` and `next()` methods. Its protocol will be the usual:
+
+```
+typestate BaseIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>
+  }
+  Next = {
+    int next(): HasNext
+  }
+}
+```
+
+Have a `SuperSafeIterator` class that has an additional method, `iAmSure()`, which is to be called after `hasNext()` and before `next()`. One should only be able to call `next()` if first `hasNext()` returned true and then `iAmSure()` does so too. The protocol for this class should be the following:
+
+```
+typestate SuperSafeIterator {
+  HasNext = {
+    boolean hasNext(): <true: Verify, false: end>
+  }
+  Verify = {
+    boolean iAmSure(): <true: Next, false: HasNext>
+  }
+  Next = {
+    int next(): HasNext
+  }
+}
+```
+
+#### Expectations
+
+I believe it should raise an error. Lets suppose we have a factory that returns implementations of the `BaseIterator`. The consumer of this iterator would expect to be able to call `next()` staight away after calling `hasNext()`, but if the `SuperSafeIterator` were to be called this would not be possible due to its protocol.
+
+#### Results
+
+Indeed it raised an error as expected:
+
+```
+SuperSafeIterator.java:6: error: [next] transition(s) in [Next] of BaseIterator.protocol are not included in [Verify] of SuperSafeIterator.protocol
+public class SuperSafeIterator extends BaseIterator {
+       ^
+1 error
+```
+
+#### Conclusion
+
+All available transitions in the supertype must be also available in the subtype's protocol for it to work.
+
+#### Extra notes
