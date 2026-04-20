@@ -177,6 +177,8 @@ In the paper, there is an example mentioning the decorator pattern. In particula
 
 In my opinion, since there are inconsistencies in the protocol of the superclass, there **should not** be a parent protocol mentioning the `write()` method. That is, were `OutputStream` to have a protocol that all subclasses must follow, why would it even include `write()` in it when it's not even sure how to handle it?
 
+Otherwise, lets remember that Jatyc considers a protocol to be a subtype of another if it allows the same method sequences or more. Therefore, one could technically create a protocol for the parent class with the most restrictive alternative (in this case, can't have the sequence `close()` -> `write()`) as the protocol. Then, subclasses extending this one could simply allow writing after closing as well and no warnings would be thrown.
+
 Now, overloaded variants is an interesting topic, because I don't think it is talked about in Jatyc. For example, is this allowed?
 
 ```
