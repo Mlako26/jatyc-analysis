@@ -111,7 +111,7 @@ On another example the paper brings up the method `remove()` for the iterators. 
 
 The other option is to make it **non-optional** and not allow abstract subtypes to ignore the method.
 
-One final option is to have a `RemovableIterator`, which is still an abstract class, but it has the `remove()` method within its protocol. A concrete class can decide to extend this abstract class or the simple `Iterator` abstract class.
+One final option is to have a `RemovableIterator`, which is still an abstract class, but it has the `remove()` method within its protocol. It will be a subclass of the general `Iterator`. A concrete class can decide to extend this abstract class or the simple `Iterator` abstract class.
 
 **Jatyc to Example**: This probably would be as simple as adding optional protocol typestates. That is, if it is common that optional methods would be declared in interfaces, and that abstract subtypes break its behavior, then add a feature to the tool to allow certain transitions and typestates to be breakable by subtypes.
 
