@@ -212,6 +212,8 @@ In this section a point is being made about how attaching protocols to specific 
 
 Then the Jatyc tool would be able to let the client code know in compile time that it is setting the cause twice incorrectly.
 
+There are probably other smarter ways for doing this.
+
 ### Section 2.4 - Immutable objects
 
 It also mentions in this section the problem with *immutable objects*. Examplifying with the class `java.math.BigInteger`, it speaks about how these objects can have different protocols, or available methods, depending on the constant values that they store. For the given example, if provided a negative number then one cannot call methods `sqrt()` or `nextProbablePrime()`.
