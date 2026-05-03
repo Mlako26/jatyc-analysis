@@ -18,6 +18,8 @@ Each test case described in this file will stick to the following structure:
 
 ### collaborator_compound_typestate
 
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_typestate).
+
 #### Aim
 
 We want to see how much does Jatyc take into account the state of internal collaborators of an object following a protocol. In particular, jatyc seems to interpret a typestate as a set of enabled methods and their destination typestates. But could the typestate of an object be dictated also by the one of an internal collaborator? That is, could the typestate of the parent object be a compound of both typestates, where calls to the same method from the same parent typestate yield different results (such as an exception for example)?
@@ -193,6 +195,8 @@ We need to explicitly delcare with boolean returning methods the current typesta
 
 ### normal_stack
 
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/normal_stack).
+
 #### Aim
 
 Within the Four Dark Horses of Object Protocols paper, there is an example in section 2.1 mentioning the difficulty of protocols to properly analyze a stack state. The paper claims that to 100% do so, one needs a sort of stack automata to count the amount of push and pops.
@@ -270,6 +274,8 @@ As expected, using Jatyc definitely ensures that callers to an object that follo
 
 ### faulty_stack
 
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/faulty_stack).
+
 #### Aim
 
 Following the previous example, as far as we know Jatyc is unable to tell if an implementation actually does what it is supposed to. That is, it verifies that the usage of an object follows its protocol, but not that an object's methods follow some sort of **specification** (pre-post condition). 
@@ -316,6 +322,8 @@ As expected, the tool's purpose is not to verify a "correct" implementation. Jus
 - If this test follows our expectations, it means that indeed jatyc, and perhaps protocols in general, are not able to assert that specifications are being followed within an object's methods. In that sense, pre-post conditions are perhaps more expressive and powerful in this area.
 
 ### restrictive_iterator
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/restrictive_iterator).
 
 #### Aim
 
@@ -398,6 +406,8 @@ We should probably review how the algorithm for subtyping support works, which i
 
 ### lax_iterator
 
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/lax_iterator).
+
 #### Aim
 
 Following the previous examples where the protocol managed to be more restrictive than needed, and sometimes not allowing the objects to perform all of their features, this example will showcase how a protocol badly written might prove to be too lax. That is, having a class that, despite its method calls following a protocol, the execution raises an unwanted exception.
@@ -438,6 +448,8 @@ What this tells us is that Jatyc, just like doing pre and post conditions, is vu
 - Do these examples make any sense? I'm not sure these are the kind of exceptions we want to examplify with (deliberately throwing an exception instead of something actually breaking).
 
 ### state_equals_typestate
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/state_equals_typestate).
 
 #### Aim
 
@@ -500,6 +512,8 @@ Anytime methods cannot write to fields.
 
 ### state_equals_typestate_2
 
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/state_equals_typestate_2).
+
 #### Aim
 
 Same as previous example but showing how we can abuse this gap to cause a protocol fault.
@@ -553,6 +567,8 @@ This is clearly still not a feature supported by the tool.
 
 ### public_stack
 
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/public_stack).
+
 #### Aim
 
 With the goal of testing the flexibility of the tool, this test aims to create a class with a public internal collaborator with importance to the typestate of an instance. For example, the index of an interator. Then, we want to see what would happen were the client code to create an instance of this class and then read/modify its internal collaborator.
@@ -596,43 +612,9 @@ Indeed Jatyc does not let client code make use of public collaborators. This mak
 
 #### Extra notes
 
-### subprotocol
-
-```
-typestate ResseteableIterator {
-  Init = {
-    boolean hasNext(): <true: Init, false: Init>,
-    Object next(): Init,
-    drop: end
-  }
-}
-```
-
-```
-typestate BaseIterator {
-  HasNext = {
-    boolean hasNext(): <true: Next, false: NotNext>
-  }
-  Next = {
-    Object next(): HasNext
-  }
-  NotNext = {
-    void print(): NotNext,
-    drop: end
-  }
-}
-```
-
-```
-ResseteableIterator.java:6: error: [print] transition(s) in [NotNext] of BaseIterator.protocol are not included in [Init] of ResseteableIterator.protocol
-public class ResseteableIterator extends BaseIterator {
-       ^
-ClientCode.java:11: error: Cannot call [hasNext] on State{ResseteableIterator, NotNext}
-                if (!it.hasNext()) {
-                               ^
-2 errors
-```
 ### collaborator_compound_typestate_2
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_typestate_2).
 
 #### Aim
 
@@ -682,6 +664,8 @@ Seems like as long as you follow the protocol from typestate to typestate you do
 #### Extra notes
 
 ### collaborator_compound_typestate_3
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_typestate_3).
 
 #### Aim
 
@@ -887,6 +871,8 @@ I feel like I really want to know the algorithm that this tool follows to ensure
 #### Extra notes
 
 ### subtyping_iterators
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/subtyping_iterators).
 
 #### Aim
 
