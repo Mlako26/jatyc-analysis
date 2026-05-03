@@ -171,9 +171,9 @@ In this section, a problematic example is mentioned where there is two objects: 
 
 **Jatyc to Example**: Same as with previous examples, I don't see a way to inspect the variables of an object without making the tool a lot more complex and diverging from its philosophy.
 
-### Section 2.3 - Decorator Pattern
+### Section 2.3 - OutputStream
 
-In the paper, there is an example mentioning the decorator pattern. In particular, it examplifies with the abstract class `java.io.OutputStream`, which declares that a method `write()` should be implemented when extending it. Since there are inconsistencies in the spec, different subclasse implement different protocols. For example, `ByteArrayOutputStream` allows client code to write after closing, but `FileOutputStream` does not.
+In the paper, it examplifies with the abstract class `java.io.OutputStream`, which declares that a method `write()` should be implemented when extending it. Since there are inconsistencies in the spec, different subclasse implement different protocols. For example, `ByteArrayOutputStream` allows client code to write after closing, but `FileOutputStream` does not.
 
 In my opinion, since there are inconsistencies in the protocol of the superclass, there **should not** be a parent protocol mentioning the `write()` method. That is, were `OutputStream` to have a protocol that all subclasses must follow, why would it even include `write()` in it when it's not even sure how to handle it?
 
