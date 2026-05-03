@@ -111,6 +111,8 @@ On another example the paper brings up the method `remove()` for the iterators. 
 
 The other option is to make it **non-optional** and not allow abstract subtypes to ignore the method.
 
+One final option is to have a `RemovableIterator`, which is still an abstract class, but it has the `remove()` method within its protocol. It will be a subclass of the general `Iterator`. A concrete class can decide to extend this abstract class or the simple `Iterator` abstract class.
+
 **Jatyc to Example**: This probably would be as simple as adding optional protocol typestates. That is, if it is common that optional methods would be declared in interfaces, and that abstract subtypes break its behavior, then add a feature to the tool to allow certain transitions and typestates to be breakable by subtypes.
 
 We could interpret this similarly to how subtyping a protocol should always allow you to do **more** transitions and not less than the ones stated in the supertype.
@@ -169,11 +171,13 @@ In this section, a problematic example is mentioned where there is two objects: 
 
 **Jatyc to Example**: Same as with previous examples, I don't see a way to inspect the variables of an object without making the tool a lot more complex and diverging from its philosophy.
 
-### Section 2.3 - Decorator Pattern
+### Section 2.3 - OutputStream
 
-In the paper, there is an example mentioning the decorator pattern. In particular, it examplifies with the abstract class `java.io.OutputStream`, which declares that a method `write()` should be implemented when extending it. Since there are inconsistencies in the spec, different subclasse implement different protocols. For example, `ByteArrayOutputStream` allows client code to write after closing, but `FileOutputStream` does not.
+In the paper, it examplifies with the abstract class `java.io.OutputStream`, which declares that a method `write()` should be implemented when extending it. Since there are inconsistencies in the spec, different subclasse implement different protocols. For example, `ByteArrayOutputStream` allows client code to write after closing, but `FileOutputStream` does not.
 
 In my opinion, since there are inconsistencies in the protocol of the superclass, there **should not** be a parent protocol mentioning the `write()` method. That is, were `OutputStream` to have a protocol that all subclasses must follow, why would it even include `write()` in it when it's not even sure how to handle it?
+
+Otherwise, lets remember that Jatyc considers a protocol to be a subtype of another if it allows the same method sequences or more. Therefore, one could technically create a protocol for the parent class with the most restrictive alternative (in this case, can't have the sequence `close()` -> `write()`) as the protocol. Then, subclasses extending this one could simply allow writing after closing as well and no warnings would be thrown.
 
 Now, overloaded variants is an interesting topic, because I don't think it is talked about in Jatyc. For example, is this allowed?
 
@@ -207,6 +211,8 @@ In this section a point is being made about how attaching protocols to specific 
 - Overloading of methods support. That is, if we were to provide the cause argument, then it would take us to a different typestate.
 
 Then the Jatyc tool would be able to let the client code know in compile time that it is setting the cause twice incorrectly.
+
+There are probably other smarter ways for doing this.
 
 ### Section 2.4 - Immutable objects
 
