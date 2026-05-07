@@ -81,15 +81,11 @@ Capacity can be set within the constructor:
 
 ```java
 public Stack(@Loads('size') int size) {
-this.size = size;
+  this.size = size;
 }
 ```
 
 This does have a problem, which is that it makes static verification more complex. In fact, this practically moves the problem of attempting to check that a stack does not run out of space statically in a normal way to the protocol checker, which will try to do this in the same way that a "regular static analyzer would". In some sense, doing it this way would make Jatyc lose its *essence* of being a typestate checker and philosophy.
-
-**question**: More specifically, how does one even check statically that a dynamic protocol is followed when its use is dependent on an initial user input?
-
-**question**: Should we investigate other protocol tools to see if they implement a similar feature?
 
 ### Section 2.1 - Iterator example
 
@@ -150,11 +146,15 @@ One final mentioned example is if one were to implement a circular iterator whos
 
 On another example the paper brings up the method `remove()` for the iterators. "In the same vein, the non-implementation of optional methods by subtypes converts one protocol (“only call remove after next”) to a different one (“don’t call remove”)". Notice how *don't call remove* is an even stricter restriction than *call it after next*. If this were to be implemented in Jatyc as is, it would probably fail, since the subclass' protocol would not be a proper subprotocol of the superclass' one. Do notice though that this particular example is related to **optional methods**, and therefore their behavior might vary for each implementation. In that regard, there could be some adaptation here between Jatyc and the example.
 
-**Example to Jatyc**: Accept that `remove()` is an **optional method** and don't define its behavior within the protocol of the abstract superclass. In general, methods of a subclass should follow the proper calling order from the superclass (such as for `hastNext()` and `next()`), so they should be included in the protocol, but not for optional methods.
+**Example to Jatyc**: There are multiple ways that this can already be tackled.
 
-The other option is to make it **non-optional** and not allow abstract subtypes to ignore the method.
+One option is to accept that `remove()` is an **optional method** and don't define its behavior within the protocol of the abstract superclass. Since subclasses are forced to follow the method sequences dictated by their superclasses' protocol, optional methods could be excluded from them.
 
-One final option is to have a `RemovableIterator`, which is still an abstract class, but it has the `remove()` method within its protocol. It will be a subclass of the general `Iterator`. A concrete class can decide to extend this abstract class or the simple `Iterator` abstract class.
+Another option is to make it **non-optional** and not allow abstract subtypes to ignore the method. This would not solve our issue really, but simply limit the expressibility of our coding environment.
+
+We could also have a `RemovableIterator`, which is still an abstract class, but it has the `remove()` method within its protocol. It will be a subclass of the general `Iterator`. A concrete class can decide to extend this abstract class or the simple `Iterator` abstract class.
+
+Finally, since subclasses always **extend** their parent's protocol, mantaining the same method call sequences while adding newer ones, we could make the parent's protocol as strict as it can be. That is, make the protocol as "small" as possible (less transitions), so that future subclasses can enlarge it. In this case for optional methods, the two alternatives are to allow the method call or not. Therefore, the parent's protocol should **not** include the optional method (it will behave as an [anytime method](https://github.com/jdmota/java-typestate-checker/wiki/Documentation#linearity) initially), allowing subclasses to define in which order to use it within theirs.
 
 **Jatyc to Example**: This probably would be as simple as adding optional protocol typestates. That is, if it is common that optional methods would be declared in interfaces, and that abstract subtypes break its behavior, then add a feature to the tool to allow certain transitions and typestates to be breakable by subtypes.
 
@@ -194,7 +194,7 @@ Notice how now there is an `|`, which implies that a subprotocol might opt out o
 
 ### Section 2.2 - Public Stack
 
-This example has already been implemented in our tests of the tool. Basically, the paper puts in question how a protocol can properly function when a class has public internal collaborators which could be modified by client code. If the protocol is supposed to be an abstract concept and not care for the internal state of an object, then how will it behave if the typestate should change because of a change in its state?
+This example has already been implemented in our tests of the tool [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/public_stack). Basically, the paper puts in question how a protocol can properly function when a class has public internal collaborators which could be modified by client code. If the protocol is supposed to be an abstract concept and not care for the internal state of an object, then how will it behave if the typestate should change because of a change in its state?
 
 In this case, if we were to empty a stack manually by accessing its internal array of elements, the typestate **should** go back to being the initial one. The test showed how Jatyc simply does not let client code modify internal collaborators of objects that follow a protocol.
 
@@ -210,7 +210,7 @@ I feel like the conclusion I've reached is that subtyping a protocol must be don
 
 In this section, a problematic example is mentioned where there is two objects: a `Context` object and a `Command` object which has a reference to the first. If one wanted for example to disable the command based off of the context, and include this within the protocol, how can one do this without observing the **external state** of the object?
 
-**Example to Jatyc**: Same as with other examples, have a new method `canExecute()` within the `Command` class which when returning True it will move the object to the typestate allowed to execute the command. Within this method, the very command object can decide by itself, inspecting its internal and external state, whether it can be ran or not. This would force client code to first check for enabledness of the execution method.
+**Example to Jatyc**: Same as with other examples, have a new method `canExecute()` within the `Command` class which when returning `True` it will move the object to the typestate allowed to execute the command. Within this method, the very command object can decide by itself, inspecting its internal and external state, whether it can be ran or not. This would force client code to first check for enabledness of the execution method.
 
 **Jatyc to Example**: Same as with previous examples, I don't see a way to inspect the variables of an object without making the tool a lot more complex and diverging from its philosophy.
 
@@ -218,11 +218,12 @@ In this section, a problematic example is mentioned where there is two objects: 
 
 In the paper, it examplifies with the abstract class `java.io.OutputStream`, which declares that a method `write()` should be implemented when extending it. Since there are inconsistencies in the spec, different subclasse implement different protocols. For example, `ByteArrayOutputStream` allows client code to write after closing, but `FileOutputStream` does not.
 
+This is very similar to the previously mentioned  [Iterator and ListIterator examples](#section-22---iterator-and-listiterator)
 In my opinion, since there are inconsistencies in the protocol of the superclass, there **should not** be a parent protocol mentioning the `write()` method. That is, were `OutputStream` to have a protocol that all subclasses must follow, why would it even include `write()` in it when it's not even sure how to handle it?
 
 Otherwise, lets remember that Jatyc considers a protocol to be a subtype of another if it allows the same method sequences or more. Therefore, one could technically create a protocol for the parent class with the most restrictive alternative (in this case, can't have the sequence `close()` -> `write()`) as the protocol. Then, subclasses extending this one could simply allow writing after closing as well and no warnings would be thrown.
 
-Now, overloaded variants is an interesting topic, because I don't think it is talked about in Jatyc. For example, is this allowed?
+Now, the paper also mentions methods with overloaded variants which is an interesting topic, because I don't think it is talked about in Jatyc. For example, is something like this allowed?
 
 ```
 typestate LineWriterProtocol {
@@ -237,6 +238,8 @@ typestate LineWriterProtocol {
   }
 }
 ```
+
+As shown in this [overloaded_stack](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/overloaded_stack) example, Jatyc does support it.
 
 ### Section 2.3 - Conclusions
 
@@ -284,6 +287,15 @@ if (myNumber.canCalculateSqrt()) {
 ```
 
 In my opinion both are declarative from the client code that we are accepting that the operation could fail and we are reacting to that eventuality.
+
+It it true though, that for some codes it does make it a lot more defensive than it has to be, such as for:
+
+```java
+  BigInteger myNumber = new BigInteger(25);
+  float sqrt = myNumber.sqrt();
+```
+
+In this case, it is not even necessary to add a try-catch block since we already know it is safe.
 
 **Jatyc to Example**: To fix this issue from Jatyc's side, and not have boolean control methods, one must necessarily peek into the object's state. In the case of *immutable objects*, there could be many ways of solving this with new features:
 

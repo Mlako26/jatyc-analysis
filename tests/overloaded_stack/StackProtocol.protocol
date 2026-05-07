@@ -1,0 +1,20 @@
+typestate StackProtocol {
+  Init = {
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    boolean isFull(): <true: Init, false: CanPush>,
+    drop: end
+  }
+  CanPush = {
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    boolean isFull(): <true: Init, false: CanPush>,
+    void push(int): Init,
+    void push(float): Init,
+    drop: end
+  }
+  CanPop = {
+    boolean isFull(): <true: Init, false: CanPush>,
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    int pop(): Init,
+    drop: end
+  }
+}
