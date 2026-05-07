@@ -1,0 +1,14 @@
+typestate ListIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    void add(int): HasNext
+  }
+  Next = {
+    int next(): AfterNext
+  }
+  AfterNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    void add(int): HasNext,
+    void set(int): HasNext
+  }
+}

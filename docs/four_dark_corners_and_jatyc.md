@@ -36,6 +36,8 @@ In order to adapt the example to Jatyc, one can introduce new control methods to
 
 This makes it so clients to instances of this stack would have to check with conditionals before each push and pull, thus adapting their coding style to match the tool.
 
+An implementation of this can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/normal_stack).
+
 **Jatyc to Example**: Currently Jatyc keeps no track of an object's state. For example, it has absolutely no way of having a notion of a stack's maximum size or the value of its index variable.
 
 One way to do this would be to add typestates with arguments, which would be sort of equivalent to dynamic typestates. That is, whenever we push the first element, we enter a typestate where the stack's current load is 1, pushing another calls another one with load 2, etc.
@@ -99,9 +101,50 @@ On the topic of `Tension between Sequences and States`, I believe that modeling 
 
 ### Section 2.2 - Iterator and ListIterator
 
-Notice how in this example, it talks about an abstract subclass doing more than its superclass. That is, following the subclass' protocol does not mean that the superclass' protocol is being violated.  For example, for the ListIterator it is also the case that before using `next()` one must receive approval from the `hasNext()` method first. In that sense, the subclass' protocol is an **extension** of the superclass.
+Notice how in this example, it talks about an abstract subclass doing **more** than its superclass. That is, following the subclass' protocol does not mean that the superclass' protocol is being violated. For example, for the `ListIterator` it is also true that before using `next()` one must receive approval from the `hasNext()` method first, it shares that method sequence from its parent interface's protocol. Therefore, were one to receive a random implementation of the interface `Iterator`, even if it implements `ListIterator`, the same code would work and follow `Iterator`'s protocol. In that sense, the subclass' protocol is an **extension** of the superclass'.
 
-For example, if a concrete `Iterator` declared a method `reset()` to return the iterator to its initial abstract state, it would still be doing **more** than its supertype protocol. That is, you still cannot call `next()` until `hasNext()` has first returned a True value. Also, if one were to implement a circular iterator whose `hasNext()` method never returns **false**, then it would still not be allowing less within its protocol compared to its supertype (one must still call `hasNext()` before calling `next()`).
+An implementation of this can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/list_iterator). It creates two parent-child interfaces, `Iterator` with methods `hasNext()` and `next()`, and `ListIterator` adding methods `add(element)` and `set(element)`. Their protocols are the following:
+
+```
+typestate Iterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>
+  }
+  Next = {
+    int next(): HasNext
+  }
+}
+```
+
+```
+typestate ListIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    void add(int): HasNext
+  }
+  Next = {
+    int next(): AfterNext
+  }
+  AfterNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    void add(int): HasNext,
+    void set(int): HasNext
+  }
+}
+```
+
+Notice how the same method call sequences (`hasNext() -> next() -> hasNext() -> (...)`) from the parent interface are allowed in the subinterface. It simply adds **more** allowed sequences, which makes it so Jatyc does not throw errors when compiling the code. If one were to for example remove the `hasNext()` method from the `AfterNext` typestate, the following compilation error arises, which proves Jatyc is actually analyzing the compatibility of both protocols:
+
+```
+ListIterator.java:4: error: [hasNext] transition(s) in [HasNext] of Iterator.protocol are not included in [AfterNext] of ListIterator.protocol
+public interface ListIterator extends Iterator {
+       ^
+1 error
+```
+
+Another mentioned example is if a concrete `Iterator` declared a method `reset()` to return the instance to its initial abstract state. That would still be doing **more** than its supertype protocol. That is, you still cannot call `next()` until `hasNext()` has first returned a True value. 
+
+One final mentioned example is if one were to implement a circular iterator whose `hasNext()` method never returns **false**. In that case, it still would be allowing the same method call sequences within its protocol as its supertype (one must still call `hasNext()` before calling `next()`).
 
 ### Section 2.2 - Remove Iterators
 
