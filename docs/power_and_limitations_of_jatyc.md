@@ -1005,3 +1005,122 @@ Note how it did not raise any errors for the `SafeIterator`, where all original 
 All available transitions in the supertype must be also available in the subtype's protocol for it to work.
 
 #### Extra notes
+
+### overloaded_stack_1
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/overloaded_stack_1).
+
+#### Aim
+
+We would like to know if Jatyc supports declaring overloaded methods within its protocols. That is, what would happen for example if two methods with the same name but different input arguments were to be mentioned in the protocol? Would Jatyc complain?
+
+#### Implementation
+
+Have a `Stack` class and protocols similar to the `normal_stack` implementation, but have two `push()` methods: `push(int e)` and `push(float e)`. Include both of these methods within its protocol like this:
+
+```
+typestate StackProtocol {
+  Init = {
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    boolean isFull(): <true: Init, false: CanPush>,
+    drop: end
+  }
+  CanPush = {
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    boolean isFull(): <true: Init, false: CanPush>,
+    void push(int): Init, <----- HERE
+    void push(float): Init, <--- HERE
+    drop: end
+  }
+  CanPop = {
+    boolean isFull(): <true: Init, false: CanPush>,
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    int pop(): Init,
+    drop: end
+  }
+}
+```
+
+#### Expectations
+
+Jatyc will complain since we are declaring the method twice.
+
+#### Results
+
+Compiling this example gives no errors whatsoever
+
+#### Conclusion
+
+It would seem like Jatyc does indeed support the usage of method overloading.
+
+#### Extra notes
+
+### overloaded_stack_2
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/overloaded_stack_2).
+
+#### Aim
+
+Despite the previous example, we would like to know what would happen if the overloaded methods were only usable in different typestates, would Jatyc be able to differenciate between them properly?
+
+#### Implementation
+
+Have a `Stack` class similar to the previous implementation, but add methods `canPushInt()` and `canPushFloat()`, with the following protocol:
+
+```
+typestate StackProtocol {
+  Init = {
+    boolean canPushInt(): <true: PushInt, false: Init>,
+    boolean canPushFloat(): <true: PushFloat, false: Init>,
+    drop: end
+  }
+  PushInt = {
+    void push(int): Init
+  }
+  PushFloat = {
+    void push(float): Init
+  }
+}
+```
+
+The client code will first use both push operations correctly, following the protocol by using their correspondent boolean control method, and then switch them around:
+
+```java
+      if (stack.canPushFloat()) {
+        stack.push((float) 3.4);
+      }
+
+      if (stack.canPushInt()) {
+        stack.push(3);
+      }
+
+      if (stack.canPushInt()) {
+        stack.push((float) 3.4);
+      }
+
+      if (stack.canPushFloat()) {
+        stack.push(3);
+      }
+```
+
+#### Expectations
+
+If Jatyc indeed supports method overloading, it should raise an error with the final two calls to push.
+
+#### Results
+
+When compiling, Jatyc throws these two errors for both the incorrect calls to push.
+```
+Main.java:13: error: Cannot call [push] on State{Stack, PushInt}
+        stack.push((float) 3.4);
+                  ^
+Main.java:17: error: Cannot call [push] on State{Stack, PushFloat}
+        stack.push(3);
+                  ^
+2 errors
+```
+
+#### Conclusion
+
+This example confirms even more that Jatyc does indeed process both of these methods as different ones despite having the same name. There are many more variables that could be tested for, such as overloading return types, or having overloaded methods lead to different protocol typestates, but I don't think it is necessary for now.
+#### Extra notes

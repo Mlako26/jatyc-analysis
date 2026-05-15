@@ -239,7 +239,7 @@ typestate LineWriterProtocol {
 }
 ```
 
-As shown in this [overloaded_stack](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/overloaded_stack) example, Jatyc does support it.
+Some notes on this can be seen [here](https://github.com/Mlako26/jatyc-analysis/blob/main/docs/power_and_limitations_of_jatyc.md#overloaded_stack_1), but it would seem like Jatyc does indeed support it.
 
 ### Section 2.3 - Conclusions
 

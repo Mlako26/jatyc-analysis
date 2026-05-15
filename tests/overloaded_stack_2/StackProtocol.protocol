@@ -1,0 +1,13 @@
+typestate StackProtocol {
+  Init = {
+    boolean canPushInt(): <true: PushInt, false: Init>,
+    boolean canPushFloat(): <true: PushFloat, false: Init>,
+    drop: end
+  }
+  PushInt = {
+    void push(int): Init
+  }
+  PushFloat = {
+    void push(float): Init
+  }
+}
