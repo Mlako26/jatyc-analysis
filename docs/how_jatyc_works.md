@@ -83,6 +83,29 @@ It then starts to process all states within the queue doing the following:
 
 The algorithm stops when there are no more states in the queue to process, thus having checked all possible combinations of call sequences and all possible types for the variables and fields.
 
+#### Type Inferring
+
+For this section, it is unclear if the current working of Jatyc is the same, and I strongly believe it might defer in several places due to the differences between versions. Nonetheless, I thought they might probably be close enough.
+
+For each expression analyzed, the following is how the tool updates information on the types of variables or parameters. Remember that they are assigned a type from the previously mentioned lattice. 
+
+- *java.lang.Object* are assigned *Object*.
+- Primitive types such as integers are assigned *Primitive*.
+- Null values are assigned *Null*.
+- Variables/fields that are instances of a class without protocols are assigned *NoProtocol*.
+- For return types of methods, it is the declared `@State` annotation (equivalent to the current `@Ensures` annotation) or the union of all the states in the protocol except *end*.
+  - Unless the method is from a library, which cannot be analyzed. Unless declared in a stub file, it is assigned *Unknown*.
+- For parameters, the initial value is the ones specified in the `@Requires` annotation or the union of all possible states except *end* (It works a bit differently now, the parameter is simply a shared reference).
+- For public fields, the type is *Unknown*.
+- For private fields and local variable declarations, initial type is the union of all states in the protocol.
+- For instantiations of an object with protocol, they are assigned te initial state.
+- For assignments x = y, x becomes the type of y, and y becomes *Moved* (if it used to be an object type). This is to ensure linearity.
+- For return statements, the type of the returned expression becomes *Moved*.
+- For method calls on object types with protocols, the resulting protocol is the destination state after calling that specific method. If they are *NoProtocol* they stay the same.
+- For method calls on objects that has *Ended*, *Moved*, *Null* or *Primitive* type, or if the method is not available in their state, it is assigned *Bottom*. Method calls are not allowed on those.
+- For method calls on objects of union of types, they are assigned the subprocessing of each subtype with the previous rules.
+- The arguments for method calls are assigned *Moved* unless specified with the `@Ensures` annotation.
+
 ### Second Phase: Error Checking
 
 In this phase, all expressions are checked for:
@@ -90,3 +113,12 @@ In this phase, all expressions are checked for:
 - Type incompatibilities, such as the variable/field being a correct type for a method call.
 - Unsafe operations, such as method calls on potential null objects.
 - Protocol completion by the end of methods.
+
+In particular:
+
+- For assignments x = y, it ensures that y is of subtype required by x.
+- For assignments x = y, if x is an object with protocol, it must be of type *Ended*, *Moved* or in a droppable state. Otherwise we would lose the reference, and the object would not complete its protocol.
+- For return statements, the expression must be a subtype of the expected return type for the method.
+- For return statements, the returned expression must be assigned to a variable so that it can finish its protocol, unless it is returned in a droppable state.
+- For method calls, the receiver must be in a state that allows for that method to be called. Also, arguments need to be subtypes of the expected parameter types.
+- For protocol completion, it checks the *exit store* of all methods analyzed. For every variable, their type should be the one stated by the `@Ensures` notation, or *Ended*(protocol completed)/*Moved*(delegated), or in a state that is droppable.
