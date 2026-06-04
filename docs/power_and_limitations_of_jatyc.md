@@ -1124,3 +1124,99 @@ Main.java:17: error: Cannot call [push] on State{Stack, PushFloat}
 
 This example confirms even more that Jatyc does indeed process both of these methods as different ones despite having the same name. There are many more variables that could be tested for, such as overloading return types, or having overloaded methods lead to different protocol typestates, but I don't think it is necessary for now.
 #### Extra notes
+
+### parameter_ensures
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/parameter_ensures).
+
+#### Aim
+
+Following the analysis of the master thesis which the tool is based on, we noticed some discrepancies between the initial version and the current one. In particular, the initial version allowed method parameters to be noted with the `@Ensures` annotation, making sure that the parameters are then left in a specific state. Since this version does not seem to allow for it according to the documentation, we wanted to see how Jatyc actually reacts to using the annotation on parameters.
+
+Also, we want to know what type does Jatyc currently assign to variables which were passed as arguments after the method call ends.
+
+#### Implementation
+
+Have the same stack implementation and protocol as the `normal_stack` example. Then, have a new method in main that gets a stack in its inital position and pushes an element if it can:
+
+```java
+    public static void pushToStack(@Requires("Init") Stack stack, int e) {
+      if (!stack.isFull()) {
+        stack.push(e);
+      }
+    }
+```
+
+Then, from main, call this method and then attempt to use the stack.
+
+```java
+    public static void main(String args[]) throws Exception {
+		  Stack stack = new Stack(5);
+      pushToStack(stack, 2);
+      if (!stack.isFull()) {
+        stack.push(3);
+      }
+    }
+```
+
+#### Expectations
+
+Jatyc will turn the stack variable into a shared reference and not allow us to use it.
+
+#### Results
+
+When compiling, Jatyc returns the following error:
+
+```
+Main.java:7: error: Cannot call [isFull] on Shared{Stack}
+      if (!stack.isFull()) {
+                       ^
+1 error
+```
+
+#### Conclusion
+
+It seems like Jatyc turns the variable into a shared reference after the method call. Checking the [linearity section](https://github.com/jdmota/java-typestate-checker/wiki/Documentation#linearity) of the documentation, it seems like if we pass control to another variable of the object (such as using a variable as a paramter), then it instantaneously becomes shared and cannot be used to modify the state of the object anymore.
+
+#### Extra notes
+
+### parameter_ensures_2
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/parameter_ensures_2).
+
+#### Aim
+
+In this example, we are going to try to return the parameter reference to the original variable that held it using the `@Ensures` annotation.
+
+#### Implementation
+
+Use the same implementation as before but change the method in main to use the `@Ensures`:
+
+```java
+    public static void pushToStack(@Requires("Init") @Ensures("Init") Stack stack, int e) {
+      if (!stack.isFull()) {
+        stack.push(e);
+      }
+    }
+```
+
+#### Expectations
+
+Since the documentation does not mention it, and specifically says it is for return type values, it should raise an error.
+
+#### Results
+
+When compiling, Jatyc returns the following error:
+
+```
+Main.java:13: error: Parameters with @Ensures should be final
+    public static void pushToStack(@Requires("Init") @Ensures("Init") Stack stack, int e) {
+                                                     ^
+1 error
+```
+
+Seems like it requires for the variable to be final (that is, we cannot change the object the parameter stack is pointing to). After adding the final keyword, we get no errors!
+
+#### Conclusion
+
+If setting the parameter as final, and then using the `@Ensures` annotation, then it seems like the control returns to the original variable.
