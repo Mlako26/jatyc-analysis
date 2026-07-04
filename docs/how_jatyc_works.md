@@ -4,7 +4,7 @@ In this document I will attempt to compile findings on the inner workings of the
 
 [Link to the original msc thesis](https://github.com/jdmota/java-typestate-checker/blob/master/docs/msc-thesis.pdf).
 
-## Version Differences
+## Initial Version - Type-checker
 
 From chapter 4.2, where the thesis explains the features that their initial Jatyc tool has, we can observe some differences between it and the current version. Here are what I consider to be the most important distinctions (there probably are more).
 
@@ -13,8 +13,6 @@ Some extra features include:
 - **State Refinement** (chapter 4.2.2): In this version, one can write an `@Ensures` annotation not only for return types but also for method parameters. While I did not test it, the [documentation on the current tool](https://github.com/jdmota/java-typestate-checker/wiki/Documentation#ensures-annotation) is specific on this apparently only working on returning types. In fact, the original tool did not support using the `@Ensures` annotation in the return type at all, but they did have a different one for the same functionality: `@State`. This actually makes me think of a new example that I have not tested before: how does Jatyc currently ensures linearity of objects passed as parameters?
   - Tested [here](https://github.com/Mlako26/jatyc-analysis/blob/main/docs/power_and_limitations_of_jatyc.md#parameter_ensures)
 - **Linearity**: While the paper does describe how a second version of the tool might enforce linearity in a more relaxed way, the explanation for the first version seems to not allow to share a reference to the same object. That is, if there are multiple references to the same object, ensuring that the protocol is followed and completed is harder, and the current version does so with strict linearity (no more than one reference can alter the protocol of the object).
-
-## Implementation
 
 According to section 4.3 of the thesis, the tool basically analyzes each class on their own, going method for method in two phases. A first one infers the types of the variables and fields. A second one uses these inferred types to report errors when type incompatibilities are detected or invalid operations are performed. Also it ensures that protocols are completed and objects are used in a linear way.
 
@@ -123,3 +121,23 @@ In particular:
 - For return statements, the returned expression must be assigned to a variable so that it can finish its protocol, unless it is returned in a droppable state.
 - For method calls, the receiver must be in a state that allows for that method to be called. Also, arguments need to be subtypes of the expected parameter types.
 - For protocol completion, it checks the *exit store* of all methods analyzed. For every variable, their type should be the one stated by the `@Ensures` notation, or *Ended*(protocol completed)/*Moved*(delegated), or in a state that is droppable.
+
+
+
+## Second Version - Alliasing and Linearity Checking
+
+For now, I will not explain how this works more. I will if my tutor says so. This is because it explains how another version of the tool which supports alliasing could work, but it is currently being implemented in a separate branch from master for the tool ([`non-linear-mode](https://github.com/jdmota/java-typestate-checker/tree/non-linear-mode)) which has not gotten a single commit since 2021. It apparently is simply an experimental branch.
+
+In chapter 7 of the msc thesis, the authors describe a second version for the tool, one which attempts to also take into account **alliasing**. Remember how in the first version of the tool having multiple references to the same protocoled object meant that only one could have access to it, while the rest were unusable variables. This second version attempts to improve this functionallity by introducing a **language of assertions**, allowing the tool to give more freedom and code expressability to use alliasing.
+
+### Language of Assertions
+
+In the language, assertions are built up from conjunctions of 5 basic predicates:
+
+- **Access**: Specifies permissions over an *access location*, which are variables, the object that they may point to (if there is one), and object fields.
+  - Permissions are specified with a fractional number between 0 (no access) and 1 (full read/write access). If the value is in between, there is only read access to the location.
+- **Equalities**: Specifies that two variables or fields point to the same object (memory address).
+- **Typeof**: Specifies the type for a variable of field.
+- **Packed/Unpacked**: Specifies whether the concrete types of an object are exposed or hidden. We will expand on this later.
+
+By following the usage depicted in the thesis, the language guarantees that all objects follow their protocols (even when there is alliasing). (there is more here to explain but I'm pausing it here).
