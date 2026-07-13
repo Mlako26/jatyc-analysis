@@ -18,12 +18,16 @@ public class ProtocolListIterator {
 		list.next();
 		assertThrows(NoSuchElementException.class, () -> list.next());
 	}
+
+	// This is a simple hasNext() protocol we've already tested
 	
 	@Test
 	void previousMustHaveElement() {
 		ListIterator<Integer> iter = List.of(1).listIterator();
 		assertThrows(NoSuchElementException.class, () -> iter.previous());
 	}
+
+	// Same but with hasPrevious()
 	
 	@Test
 	void removeMustHappenAfterNext() {
@@ -32,6 +36,8 @@ public class ProtocolListIterator {
 		ListIterator<Integer> iter = list.listIterator();
 		assertThrows(IllegalStateException.class, () -> iter.remove());
 	}
+
+	// Same here with the remove, can only be called after next() and should be included in the protocol
 	
 	@Test
 	void removeMustHappenOnlyOncePerCallToNext() {
@@ -42,6 +48,8 @@ public class ProtocolListIterator {
 		iter.remove();
 		assertThrows(IllegalStateException.class, () -> iter.remove());
 	}
+
+	// After calling remove, it moves into a different typestate where remove is not allowed anymore.
 	
 	@Test
 	void removeMustNotHappenAfterAdd() {
@@ -52,5 +60,7 @@ public class ProtocolListIterator {
 		iter.add(2);
 		assertThrows(IllegalStateException.class, () -> iter.remove());
 	}
+
+	// Same here with add, calling it leaves the object in a state where remove is not allowed to be called.
 
 }
