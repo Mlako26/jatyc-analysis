@@ -1,0 +1,11 @@
+typestate DroppedList {
+  Mutable = {
+    void add(String): Mutable,
+    void unmutable(): Unmutable,
+    drop: end
+  }
+  Unmutable = {
+    String get(): Unmutable,
+    drop: end
+  }
+}

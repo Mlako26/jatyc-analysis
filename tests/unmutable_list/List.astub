@@ -1,0 +1,8 @@
+import jatyc.lib.Ensures;
+
+package java.util;
+
+public interface List<E> {
+    // This way, the method returns an 'unmutable' list, or one that has already completed its protocol.
+    @Ensures("Mutable") static <E> List<E> of(E e1);
+} 
