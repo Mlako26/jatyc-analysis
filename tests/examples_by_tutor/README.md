@@ -12,11 +12,13 @@ This document lists the available samples organized by the type of constrains pl
 
 ## Certain argument values are excluded in relation to object state
 
-* `Throwable#initCause` (`this`)
+* `Throwable#initCause` (`this`) (this looks more like an argument thing, not a protocol thing. What does it have to do with object state?)
 * `ArrayList#toArray` (types must be compatible)
 * `List#get` (index invalid)
 
 ## The object must have a intrinsic state (checkable by a regular language)
+
+(dont understand these ones)
 
 * `Throwable#initCause`
 * `OutputStream#write`

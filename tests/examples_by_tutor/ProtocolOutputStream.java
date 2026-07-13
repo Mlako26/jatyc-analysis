@@ -17,9 +17,9 @@
 			assertThrows(ArrayStoreException.class, () -> list.toArray(new Integer[3]));
 		}
 
-		// I don't believe this can be modeled in Jatyc or by protocols in general. After all, protocols are usually
-		// used to declare the order in which methods are executed, or which methods are available for an object
-		// in a specific point of a program. This is more of an invalid argument error, not method call.
+		// Jatyc currently does not have support for generics sadly (its in the documentation).
+		// If generics were supported, this would probably be solved as a protocol stating that the toArray should be
+		// the same type as the generic type of the list or something.
 		
 		@Test
 		void addUnsupported() {
