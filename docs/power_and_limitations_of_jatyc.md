@@ -1220,3 +1220,275 @@ Seems like it requires for the variable to be final (that is, we cannot change t
 #### Conclusion
 
 If setting the parameter as final, and then using the `@Ensures` annotation, then it seems like the control returns to the original variable.
+
+### collaborator_compound_state_4
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_state_4).
+
+#### Aim
+
+In this example, we would like to know how Jatyc handles protocol completion when a protocoled object is an internal collaborator another protocoled one. Specifically, we would like to know what would happen in the scenario where the parent object finishes its protocol before its child object does. Would jatyc let us know that we can have not finished the protocol? Also, can we continue using the robot, or will we simply lose the reference?
+
+#### Implementation
+
+Use the same `RobotController` and `Robot` implementation as before. This time though, the only way of finishing the protocol for the robot is to call the method `rest()`. On the other hand, the controller also can only finish its protocol by calling method `turnOff()`. Also, add a `Robot` anytime method (outside of the protocol) called `dance()` which does nothing.
+
+We will have two client codes for this. First, an initial method where we initialize a Robot object, then a controller and pass the robot object as a parameter to the constructor. It will then attempt to turn off the controller before turning off the robot. After that, it will attempt to first call `dance()` and then an alliased method for moving the robot. A second client code will do the same but initialize the robot directly as the argument to the constructor of the controller.
+
+#### Expectations
+
+For both of them, it will simply let us know that we are not finishing the robots protocol by the end of the client code's methods. Also, attempting to use the robot after facto, in the the first client code, will simply let us know that it is a shared reference, and thus we cannot use it anymore (for alliased methods at least).
+
+#### Results
+
+The first client code ended up looking like this:
+
+```java
+public static void main(String args[]) throws Exception {
+		Robot robot = new Robot();
+		RobotController controller = new RobotController(robot);
+
+		if (controller.canMoveRobot()) {
+			controller.run();
+		}
+
+		controller.turnOff();
+
+		robot.dance();
+		robot.moveLeft();
+}
+```
+
+Running Jatyc on the code returns the following errors:
+
+```
+RobotController.java:5: error: [this.robot] did not complete its protocol (found: State{Robot, TopLeft})
+public class RobotController {
+       ^
+Main.java:13: error: Cannot call [moveLeft] on Shared{Robot}
+                robot.moveLeft();
+                              ^
+2 errors
+```
+
+This basically says that the robot was not able to complete the protocol, and then that we cannot call method `moveLeft()` from main after passing the robot to the controller's constructor. Notice though how the protocol completion error is mentioned within the `RobotController` class and not on main.
+
+The second client code ended up looking like this, and we got a very similar error:
+
+```java
+public static void main(String args[]) throws Exception {
+		RobotController controller = new RobotController(new Robot());
+
+		controller.turnOff();
+}
+```
+
+```
+RobotController.java:5: error: [this.robot] did not complete its protocol (found: State{Robot, TopLeft})
+public class RobotController {
+       ^
+1 error
+```
+#### Conclusion
+
+The tool was able to properly recognize that the internal collaborator's protocol was not completed.
+
+### collaborator_compound_state_5
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_state_5).
+
+#### Aim
+
+Following from the previous example, we would like to know what happens when we finish the protocol of the internal collaborator from the controller as well. What would happen with the methods that actually move the robot and thus modify its state?
+
+#### Implementation
+
+Use the same `RobotController` and `Robot` implementation as before.Keep the `rest()` method in the robot that finishes its protocol.
+
+Then, have both a new protocoled and anytime method for the robotController, lets say `anytimeEnd()` and `alliasedEnd()` methods, that both perform the same action of calling the robots `rest()` method and thus finishing its protocol.
+
+We will have two client codes here, one which call each end methods.
+
+#### Expectations
+
+Since after both method calls in both client codes the robot's state will be at `end`, that will be used as input for all the other methods again in the class analysis. This will make it raise errors for every method in the controller, since attempting to call any type of alliased method on the robot at state `end` should not be possible.
+
+#### Results
+
+The first client code for the anytimeEnd ended up looking like this. Remember that this method is called anytimeEnd since it is **not** included in the protocol of the controller, and thus any reference to the controller would be able to modify its "internal state" (or, better said, its robot's).
+
+```java
+public static void main(String args[]) throws Exception {
+		RobotController controller = new RobotController(new Robot());
+
+		controller.anytimeEnd();
+}
+```
+```
+RobotController.java:28: error: Cannot call [rest] on State{Robot, TopLeft} | State{Robot, end}
+                this.robot.rest();
+                               ^
+RobotController.java:17: error: Cannot call [moveRight] on State{Robot, TopLeft} | State{Robot, end}
+                this.robot.moveRight();
+                                    ^
+RobotController.java:5: error: [this.robot] did not complete its protocol (found: State{Robot, TopLeft} | State{Robot, end})
+public class RobotController {
+       ^
+RobotController.java:32: error: Cannot call [rest] on State{Robot, TopLeft} | State{Robot, end}
+                this.robot.rest();
+                               ^
+4 errors
+```
+
+We get four interesting errros. Both the first and last one, mentioning errors while calling the `rest()` method, mention that we cannot call that method since the robot would potentially already be in the end state. These correspond to both end methods in the controller. The second error is the same, but for the `moveRight()` robot's method being called from the controller. Remember that the controller's implementation looks like this:
+
+```java
+	public void run() {
+		this.robot.moveRight();
+		this.robot.moveDown();
+		this.robot.moveLeft();
+		this.robot.moveUp();
+	}
+
+	public void turnOff() {
+		return;
+	}
+
+	public void anytimeEnd() {
+		this.robot.rest();
+	}
+
+	public void alliasingEnd() {
+		this.robot.rest();
+	}
+```
+
+Finally, the third error is very interesting, where it states that the robot might have potentially not finished its protocol.
+
+```
+[this.robot] did not complete its protocol (found: State{Robot, TopLeft} | State{Robot, end})
+```
+
+This is because, were we not to call any of the end related methods in the controller, the robot would effectively not complete its protocol.
+
+For the second client method, we get the exact same errors.
+
+```java
+public static void main(String args[]) throws Exception {
+		RobotController controller = new RobotController(new Robot());
+
+		controller.alliasingEnd();
+}
+```
+
+#### Conclusion
+
+que pasaria si tuviesemos un controller simple, que tenga un metodo qeu solo pueda terminar el protocol del robot una sola vez, o que por ejemplo se termine el protocolo del robot dentro del constructor del objeto.
+
+### collaborator_compound_state_6
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_state_6).
+
+#### Aim
+
+What would happen if we allowed to share internal collaborators that are protocoled? Would Jatyc allow us to have getters for internal collaborators?
+
+If so, would its internal collaborator reference become shared potentially?
+
+#### Implementation
+
+Use the same `RobotController` and `Robot` implementation as before. Keep the `rest()` method in the robot that finishes its protocol.
+
+Then, have a new method in the controller which returns the robot in its inital state:
+
+```java
+public @Ensures("TopLeft") Robot getRobot() {
+		return this.robot;
+}
+```
+
+Finally, have a client two client codes. They will both create the controller with its robot and then ask for the robot. The first client code will only attempt to move the robot to the right. The second one will straight up finish the protocol by calling the `rest()` method.
+
+#### Expectations
+
+After returning the internal collaborator, the reference within the controller will become shared. This will cause the class analysis of all methods fail, since one cant call alliased methods on a shared reference.
+
+#### Results
+
+The following compilation error arises when using the following client code:
+
+```java
+public static void main(String args[]) throws Exception {
+		RobotController controller = new RobotController(new Robot());
+
+		Robot robot = controller.getRobot();
+		robot.moveRight();
+}
+```
+```
+RobotController.java:25: error: Incompatible return value: cannot cast from Shared{Robot} to State{Robot, TopLeft}
+                return this.robot;
+                ^
+1 error
+```
+
+It basically says that the internal collaborator is already taken for a shared reference, which is weird. This could be related to the fact that this method in the controller is an anytime method, and thus it might convert it into a shared reference. Using the other client code gives the same error. To see if anything changes, I will add the method to the protocol of the controller.
+
+```
+typestate RobotControllerProtocol {
+  CanMove = {
+    boolean canMoveRobot(): <true: Move, false: CanMove>,
+    Robot getRobot(): CanMove,
+    drop: end
+  }
+  Move = {
+    void run(): CanMove
+  }
+}
+```
+
+Now we get different errors, which are exactly what we expected in the first place:
+
+```
+RobotController.java:18: error: Cannot call [moveRight] on Shared{Robot}
+                this.robot.moveRight();
+                                    ^
+RobotController.java:25: error: Incompatible return value: cannot cast from Shared{Robot} to State{Robot, TopLeft}
+                return this.robot;
+                ^
+2 errors
+```
+
+Now we can't call any method from the controller that utilizes the robot, since it might possible be a shared reference. Also notice how we did not get an error from using the robot from the client code after getting it from the object:
+
+```java
+public static void main(String args[]) throws Exception {
+		RobotController controller = new RobotController(new Robot());
+
+		Robot robot = controller.getRobot();
+		robot.rest();
+}
+```
+
+If we change the protocol a little bit, so that after calling the `getRobot()` method, the controller does not call the `run()` or `getRobot()` methods again, then there are no compilation errors:
+
+```
+typestate RobotControllerProtocol {
+  CanMove = {
+    boolean canMoveRobot(): <true: Move, false: CanMove>,
+    Robot getRobot(): CantShare,
+    drop: end
+  }
+  Move = {
+    void run(): CanMove
+  }
+  CantShare = {
+    boolean canMoveRobot():  <true: CantShare, false: CantShare>,
+    drop: end
+  }
+}
+```
+
+#### Conclusion
+
+Jatyc clearly follows the protocol's method sequences to analyze a class, otherwise the latest example wouldn't have worked. Other than that, clearly one can get possesion of the linear reference of a protocoled object from another class, and that is no problem.

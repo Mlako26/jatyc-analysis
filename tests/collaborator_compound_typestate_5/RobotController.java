@@ -1,0 +1,34 @@
+import jatyc.lib.*;
+import jatyc.lib.Requires;
+
+@Typestate("RobotControllerProtocol")
+public class RobotController {
+    private Robot robot;
+
+	public RobotController(@Requires("TopLeft") Robot robot) {
+		this.robot = robot;
+	}
+
+	public boolean canMoveRobot() {
+		return true;
+	}
+
+	public void run() {
+		this.robot.moveRight();
+		this.robot.moveDown();
+		this.robot.moveLeft();
+		this.robot.moveUp();
+	}
+
+	public void turnOff() {
+		return;
+	}
+
+	public void anytimeEnd() {
+		this.robot.rest();
+	}
+
+	public void alliasingEnd() {
+		this.robot.rest();
+	}
+}

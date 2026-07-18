@@ -1,9 +1,0 @@
-typestate ListProtocol {
-  Mutable = {
-    boolean add(int): <true: Unmutable, false: end>,
-    drop: end
-  }
-  Unmutable = {
-    int getLast(): Mutable
-  }
-}

@@ -1,0 +1,11 @@
+typestate RobotControllerProtocol {
+  CanMove = {
+    void alliasingEnd(): CanMove,
+    void anytimeEnd(): CanMove,
+    boolean canMoveRobot(): <true: Move, false: CanMove>,
+    drop: end
+  }
+  Move = {
+    void run(): CanMove
+  }
+}
