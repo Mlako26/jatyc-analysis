@@ -1,0 +1,12 @@
+typestate ImmutableList {
+  Mutable = {
+    void add(String): Mutable,
+    String get(): Mutable,
+    void immutable(): Immutable,
+    drop: end
+  }
+  Immutable = {
+    String get(): Immutable,
+    drop: end
+  }
+}

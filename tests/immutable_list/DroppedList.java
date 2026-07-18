@@ -5,7 +5,7 @@ import jatyc.lib.Ensures;
 public class DroppedList {
     private String s;
 
-    private DroppedList(String s) {
+    public DroppedList(String s) {
         this.s = s;
     }
 

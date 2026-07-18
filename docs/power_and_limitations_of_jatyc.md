@@ -1492,3 +1492,101 @@ typestate RobotControllerProtocol {
 #### Conclusion
 
 Jatyc clearly follows the protocol's method sequences to analyze a class, otherwise the latest example wouldn't have worked. Other than that, clearly one can get possesion of the linear reference of a protocoled object from another class, and that is no problem.
+
+### immutable_list
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/immutable_list).
+
+#### Aim
+
+Sometimes we have objects that, depending on the construction, have different methods available to them. Take for example the `List.of("foo")` method. This creates an *immutable list* which, as its name states, cannot be modified with methods such as `add()`. Now, if one were to create a protocol for the `List` interface, how could we represent this?
+
+#### Implementation 
+
+Lets have a `DroppedList` class. Then, to get instances of this class, one can call the public constructor (which returns a reference at the initial typestate) or call a `of(String)` method, which creates a list and then returns it without an `@Ensures` annotation. This should make it so the reference returned by the `of(String)` method is a shared one, and thus one cannot call methods included in the protocol. Then, include the `add(String)` method into the protocol, and check that it cannot be called from the client code if the object is created through the `of(String)` method.
+
+#### Expectations 
+
+Jatyc will recognize that objects created via the static method will be shared, or at the `end` state, and thus the `add(String)` method should not be able to be called.
+
+#### Results 
+
+With the following client code, that is indeed what happens:
+
+```java
+public static void main(String[] args) {
+		DroppedList list = DroppedList.of("foo");
+		DroppedList list2 = new DroppedList("foo");
+		String s = list.get();
+		list.add("bar");
+		s = list2.get();
+		list2.add("bar");
+}
+```
+```
+ClientCode.java:8: error: Cannot call [add] on Shared{DroppedList}
+                list.add("bar");
+                        ^
+1 error
+```
+
+#### Implementation 2
+
+Have two protocols in one, one for the mutable and another one for the immutable methods. Then, at construction time with the `of(String)` method, move the object into the immutable part of the protocol. 
+
+```
+typestate ImmutableList {
+  Mutable = {
+    void add(String): Mutable,
+    String get(): Mutable,
+    void immutable(): Immutable,
+    drop: end
+  }
+  Immutable = {
+    String get(): Immutable,
+    drop: end
+  }
+}
+```
+
+```java
+public @Ensures("Immutable")static ImmutableList of(String s) {
+   ImmutableList list= new ImmutableList(s);
+    list.immutable();
+    return list;
+}
+
+private void immutable() {
+    return;
+}
+```
+ 
+#### Results 2
+
+Running this configuration yields the following errors:
+
+```
+ImmutableList.java:5: error: Method [immutable] is required by the typestate but not implemented
+public class ImmutableList {
+       ^
+ClientCode.java:16: error: Cannot call [get] on Shared{ImmutableList}
+                String s = list.get();
+                                   ^
+ClientCode.java:18: error: Cannot call [get] on State{ImmutableList, Mutable}
+                s = list2.get();
+                             ^
+3 errors
+```
+
+Looking at the first error, one can see that it mentions that the `immutable()` is required by the typestate but it is not implemented. I assumed it was due to it being private, so I changed the method's visibility to public. Now we get the desired outcome:
+
+```
+ClientCode.java:17: error: Cannot call [add] on State{ImmutableList, Immutable}
+                list.add("bar");
+                        ^
+1 error
+```
+
+#### Conclusion
+
+One way to represent immutable objects is to have all methods that mutate it into the protocol, and then return an object that's already ended the protocol. Another one is to have another method which moves the object into an immutable state, although this isnt't as clean as this method must show in the interface of the object and it might be senseless.
