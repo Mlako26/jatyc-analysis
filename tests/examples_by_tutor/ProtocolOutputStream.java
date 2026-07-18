@@ -18,15 +18,17 @@
 		}
 
 		// Jatyc currently does not have support for generics sadly (its in the documentation).
-		// If generics were supported, this would probably be solved as a protocol stating that the toArray should be
-		// the same type as the generic type of the list or something.
+		// Anyways, this is still an argument problem, not a protocol one. As an example of this, let's suppose we have a
+		// protocoled class IntList that implements List<E>, and let's suppose Jatyc has support for generics. Then, the
+		// IntList class would have to implement method toArray(T[] a) with a generic type T. The compiler might still
+		// not know in compilation time what the type of the array would be, and thus it cannot be checked in the protocol.
+		// The array could be provided via user input, randomly generated, etc.
 		
 		@Test
 		void addUnsupported() {
 			assertThrows(UnsupportedOperationException.class, () -> List.of("foo").add("bar"));
 		}
 
-		// Probably can be done by sending the element to end already in the protocol definition
 		// I would first create a local example, and then see if you can stub List, but it might be hard
 
 		@Test
@@ -53,9 +55,6 @@
 			assertThrows(NoSuchElementException.class, () -> list.getFirst());
 		}
 
-		// I dont remember if constructors were a thing or not in protocols.
-		// If they are, then using this empty constructor, which generates an empty list, should leave the object
-		// in a state where getFirst is not allowed.
-		// Otherwise, we could also require the programmer to first use the conditional method isEmpty() 
+		// We could also require the programmer to first use the conditional method isEmpty() 
 		// to check if the list is empty before calling getFirst, which would be a valid protocol.
-	}
+}
