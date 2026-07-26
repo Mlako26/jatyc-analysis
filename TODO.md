@@ -1,10 +1,14 @@
 ## Tests
 
 - [x] Hacer test donde tenes un obj protocolado dentro de otro, y el de afuera termina su protocolo. El de adentro lo puedo seguir utilizando? Que pasa con esa referencia?
-- [ ] Escribir descripcion de unmutable list
-- [ ] Test donde supertipo tiene estados droppable, que subtype lo tenga tambien. 
+- [x] Escribir descripcion de immutable list
+- [x] Test donde supertipo tiene estados droppable, que subtype lo tenga tambien. 
 - [x] Corregir esto, el problema son los argumentos mal tipados, https://github.com/Mlako26/jatyc-analysis/blob/main/tests/examples_by_tutor/ProtocolOutputStream.java#L20
 - [ ] Revisar en mi documentación qué otros tests mencioné que estaría bueno hacer.
+  - [ ] Test de metodo constructor incluirlo al protocolo
+  - [ ] Test con linearidad de parametros
+  - [ ] Test con typestate de parametros (@ensures en parametros anda?)
+  - [ ] Test con ensures/requires con colaboradores internos
 
 ## Research
 

@@ -1589,4 +1589,80 @@ ClientCode.java:17: error: Cannot call [add] on State{ImmutableList, Immutable}
 
 #### Conclusion
 
-One way to represent immutable objects is to have all methods that mutate it into the protocol, and then return an object that's already ended the protocol. Another one is to have another method which moves the object into an immutable state, although this isnt't as clean as this method must show in the interface of the object and it might be senseless.
+One way to represent immutable objects is to have all methods that mutate it into the protocol, and then return an object that's already ended the protocol. Another one is to have another method which moves the object into an immutable state, although this isn't as clean as this method must show in the interface of the object and it might be senseless.
+
+### subtyping_with_droppables
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/subtyping_with_droppables).
+
+#### Aim
+
+On the aspect of subtyping, Jatyc makes sure that when both parent and child types are suscribed to a protocol, the subtype's protocol includes the supertype's.
+
+We wonder if this assertion it makes includes all aspects of protocols, including droppable states. If the supertype can be droped at a particular state, will it make sure the subtype can do the same?
+
+#### Implementation
+
+Have a parent `Iterator` class, with the usual `hasNext()` and `next()` methods, plus the usual protocol. This class will be able to be dropped from both `HasNext` and `Next` typestates:
+
+```
+typestate Iterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    drop: end
+  }
+  Next = {
+    int next(): HasNext,
+    drop: end
+  }
+}
+```
+
+Have a `NeverDroppableIterator` which extends it, which is the same protocol but without the drop transitions. Finally, have another class `SometimesDroppableIterator`, which includes a new method `doNothing()` and new state to call it. Eventhough its supertype class can be dropped at all times, this new class will not be droppable in this new state.
+
+```
+typestate NeverDroppableIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>
+  }
+  Next = {
+    int next(): HasNext
+  }
+}
+```
+
+```
+typestate SometimesDroppableIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    drop: end
+  }
+  Next = {
+    int next(): DoNothing,
+    drop: end
+  }
+  DoNothing = {
+    boolean hasNext(): <true: Next, false: end>,
+    void doNothing(): HasNext
+  } 
+}
+```
+
+#### Expectations
+
+Jatyc will recognize these drop statements as transitions in the typestate graph, and thus it should process them just as well as regular transitions from method calls. It will recognize that both subprotocols do not include these transitions.
+
+#### Results
+
+```
+NeverDroppableIterator.java:5: error: [drop: end] transition(s) in [HasNext] of Iterator.protocol are not included in [HasNext] of NeverDroppableIterator.protocol
+public class NeverDroppableIterator extends Iterator {
+       ^
+NeverDroppableIterator.java:5: error: [drop: end] transition(s) in [Next] of Iterator.protocol are not included in [Next] of NeverDroppableIterator.protocol
+public class NeverDroppableIterator extends Iterator {
+       ^
+SometimesDroppableIterator.java:5: error: [drop: end] transition(s) in [HasNext] of Iterator.protocol are not included in [DoNothing] of SometimesDroppableIterator.protocol
+public class SometimesDroppableIterator extends Iterator {
+```
+
+

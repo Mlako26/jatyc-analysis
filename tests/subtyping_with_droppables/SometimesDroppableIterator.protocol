@@ -1,0 +1,14 @@
+typestate SometimesDroppableIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    drop: end
+  }
+  Next = {
+    int next(): DoNothing,
+    drop: end
+  }
+  DoNothing = {
+    boolean hasNext(): <true: Next, false: end>,
+    void doNothing(): HasNext
+  } 
+}

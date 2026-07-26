@@ -310,7 +310,7 @@ Despite the paper only mentioning *immutable objects*, I wonder what would happe
 
 This is the same as many other examples we've covered before. The paper states as a potential issue the usage of the factory pattern, where a factory returns an implementor of an interface which is unknown statically, usually set via config.
 
-For Jatyc, if a method is to return an instance of the interface, then the tool only checks whether it follows the protocol of the interface and nothing else. (Actually I'm not 100% it works like this but I think it does based off of official tests, I need to re-check with a test of my own though). Even if the subclass returned actually has its own protocol, the client code should only be concerned at an abstract level and with the protocol of the more abstract interface.
+For Jatyc, if a method is to return an instance of the interface, then the tool only checks whether its usage follows the protocol of the interface and not the superclass. Even if the subclass returned actually has its own protocol, the client code should only be concerned at an abstract level and with the protocol of the more abstract interface. Also remember that the subtype's protocol should **include** the protocol of its supertype, thus following the abstract class' protocol implies following the subtype's.
 
 Whether the subclasses have a protocol **more restrictive** than the interface's and therefore is not a subprotocol is another topic already covered in previous examples.
 

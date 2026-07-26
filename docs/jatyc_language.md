@@ -43,14 +43,13 @@ typestate AutoDrivingCar {
 }
 ```
 
-- (TESTING REQUIRED) Permite suscribirse a varios protocolos? (declarar `@Typestate("...")` para una misma clase)
+- Permite suscribirse a varios protocolos? (declarar `@Typestate("...")` para una misma clase)
   - Mirando la [documentación](https://github.com/jdmota/java-typestate-checker/wiki/Documentation#introduction) a priori parecería que la múltiple herencia termina en comportamiento indefinido: `No support for interface multiple inheritance (using it is undefined behavior);`. 
 - Si hay métodos no especificados por el protocolo, o si hay una clase que no está suscrita a ningún protocolo, estos pueden llamarse en cualquier estado del mismo pero no pueden cambiar el estado interno del objeto (e.g. colaboradores internos). Estos son referenciados como **anytime methods**.
 - Trata los objetos que siguen protocolos como **lineales**, y los que no como **compartidos**. 
   - El concepto de linealidad viene de que hay una sola referencia a un objeto (es decir una variable) que permite realizarle modificaciones a su estado.
   - Una misma instancia de una clase puede tener varias referencias, pero solo una sola lineal y todas las demás compartidas.
   - Al crear una copia de una referencia, ya sea a una variable nueva o como parámetro de una llamada, la variable nueva será la lineal y la vieja pasa a ser compartida.
-    - (TESTING REQUIRED) Comprobar que hacer una llamada a un método con una referencia lineal hace que la misma pase a ser compartida.
   - En una referencia compartida, solo los **anytime methods** pueden ser llamados.
 
 
