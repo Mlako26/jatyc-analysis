@@ -1665,4 +1665,78 @@ SometimesDroppableIterator.java:5: error: [drop: end] transition(s) in [HasNext]
 public class SometimesDroppableIterator extends Iterator {
 ```
 
+#### Conclusions
+
+Jatyc does indeed consider drop: end transitions the same as regular method transitions, and thus cannot be ommited in subprotocols.
+
+### constructor_protocol
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/constructor_protocol).
+
+#### Aim
+
+Even though we are pretty sure it does not, we want to know if constructor methods can be added to protocols or not.
+
+#### Implementation
+
+Create an `Iterator` class just like the previous ones, but include in the protocol its constructor method.
+
+#### Expectations
+
+Jatyc will not allow it since it is not a public method from an instance of the class, but rather a static method from the class.
+
+#### Results
+
+Trying to create the protocol with the following implementation raises the following error:
+
+```
+typestate Iterator {
+  Initialize = {
+    Iterator Iterator(int[]): HasNext
+  }
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    drop: end
+  }
+  Next = {
+    int next(): HasNext,
+    drop: end
+  }
+}
+```
+```
+Iterator.java:5: error: Method [Iterator] is required by the typestate but not implemented
+public class Iterator {
+       ^
+1 error
+```
+
+So basically, it is claiming that it is expecting an instance method, not the actual constructor method, to be implemented in the class. Trying to write the protocol in a different way just breaks the syntax:
+
+```
+typestate Iterator {
+  Initialize = {
+    Iterator(int[]): HasNext
+  }
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    drop: end
+  }
+  Next = {
+    int next(): HasNext,
+    drop: end
+  }
+}
+```
+
+```
+Iterator.protocol:3: error: (mismatched input '(' expecting ID)
+    Iterator(int[]): HasNext
+            ^
+1 error
+```
+
+#### Conclusions
+
+Jatyc does not support adding constructor methods to protocols.
 
