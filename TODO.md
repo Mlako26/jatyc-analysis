@@ -6,8 +6,8 @@
 - [x] Corregir esto, el problema son los argumentos mal tipados, https://github.com/Mlako26/jatyc-analysis/blob/main/tests/examples_by_tutor/ProtocolOutputStream.java#L20
 - [ ] Revisar en mi documentación qué otros tests mencioné que estaría bueno hacer.
   - [x] Test de metodo constructor incluirlo al protocolo
-  - [ ] Test con linearidad de parametros
-  - [ ] Test con typestate de parametros (@ensures en parametros anda?)
+  - [x] Test con linearidad de parametros
+  - [x] Test con typestate de parametros (@ensures en parametros anda?)
   - [ ] Test con ensures/requires con colaboradores internos
 
 ## Research

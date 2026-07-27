@@ -1,6 +1,6 @@
 typestate Iterator {
   Initialize = {
-    Iterator Iterator(int[]): HasNext
+    Iterator(int[]): HasNext
   }
   HasNext = {
     boolean hasNext(): <true: Next, false: end>,

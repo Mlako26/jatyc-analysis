@@ -1221,6 +1221,89 @@ Seems like it requires for the variable to be final (that is, we cannot change t
 
 If setting the parameter as final, and then using the `@Ensures` annotation, then it seems like the control returns to the original variable.
 
+### parameter_ensures_3
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/parameter_ensures_3).
+
+#### Aim
+
+In this example, we want to follow-up previous experiments. We realized that one thing we haven't touched on was protocol completion when passing linear references as method arguments. Does Jatyc properly let the user know that the reference will be lost?
+
+Remember how in the first experiment the reference was lost when the method code finished. Since the `@Ensures` annotation is not referenced in the documentation, users would've never known how to overcome this without perhaps doing unintended fixes (such as adding droppable states or finishing the protocol within the method's body).
+
+#### Implementation
+
+Use both implementations as before but change the stack code and protocol. In particular, make the stack only complete its protocol after calling method `close()`.
+
+```
+typestate StackProtocol {
+  Init = {
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    boolean isFull(): <true: Init, false: CanPush>,
+    void close(): end
+  }
+  CanPush = {
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    boolean isFull(): <true: Init, false: CanPush>,
+    void push(int): Init,
+    void close(): end
+  }
+  CanPop = {
+    boolean isFull(): <true: Init, false: CanPush>,
+    boolean isEmpty(): <true: Init, false: CanPop>,
+    int pop(): Init,
+    void close(): end
+  }
+}
+```
+
+We will test with both client codes from previous tests.
+
+#### Expectations
+
+Jatyc will properly recognize that if the linear reference is not returned with an `@Ensures` notation, the parameter will lose its only linear reference and thus the protocol will never be completed.
+
+#### Results
+
+With the following client code, we get absolutely no errors from Jatyc when compiling:
+
+```java
+public static void main(String args[]) throws Exception {
+  Stack stack = new Stack(5);
+  pushToStack(stack, 2);
+  if (!stack.isFull()) {
+    stack.push(3);
+  }
+  stack.close();
+}
+
+public static void pushToStack(@Requires("Init") @Ensures("Init") final Stack stack, int e) {
+  if (!stack.isFull()) {
+    stack.push(e);
+  }
+}
+```
+
+This is because the linear reference is properly being returned to the stack variable after the static method call, and then further on the `close()` method is called to finish its protocol.
+
+When using the other client's code, we get:
+
+```
+Main.java:20: error: [stack] did not complete its protocol (found: State{Stack, Init})
+    public static void pushToStack(@Requires("Init") Stack stack, int e) {
+                       ^
+Main.java:8: error: Cannot call [isFull] on Shared{Stack}
+      if (!stack.isFull()) {
+                       ^
+2 errors
+```
+
+Realize how the second error is the same as the first experiment, since in main we are trying to continue using the stack variable as a linear reference when it actually is shared. The first error acknowledges how, since the static method is not returning the linear reference back, one must finish the object's protocol before finishing.
+
+#### Conclusion
+
+Jatyc properly checks each method to see if any linear reference is lost when it finishes. If that is the case, then the method must first take that object being referenced to protocol completion.
+
 ### collaborator_compound_state_4
 
 This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_state_4).
@@ -1739,4 +1822,3 @@ Iterator.protocol:3: error: (mismatched input '(' expecting ID)
 #### Conclusions
 
 Jatyc does not support adding constructor methods to protocols.
-
