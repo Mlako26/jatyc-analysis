@@ -2,12 +2,12 @@ import java.util.*;
 import jatyc.lib.Typestate;
 import jatyc.lib.Nullable;
 
-@Typestate("ResseteableIterator")
-public class ResseteableIterator {
+@Typestate("MoveToEndIterator")
+public class MoveToEndIterator {
     private String[] items;
     private int index;
 
-    public ResseteableIterator(String[] items) {
+    public MoveToEndIterator(String[] items) {
         this.items = items;
         this.index = 0;
     }
@@ -15,10 +15,7 @@ public class ResseteableIterator {
         return this.index < this.items.length;
     }
     public @Nullable String next() { return this.items[this.index++]; }
-    public void reset() {
-        this.index = 0;
-        this.items[0] = "resettedValue";
-    }
+    public void moveToEnd() {this.index = this.items.length;}
     public void print() {
         System.out.printf("%d",this.index);
     }

@@ -467,9 +467,7 @@ In this example, the collaborator modified will technically be of importance to 
 
 #### Implementation
 
-Have a `BaseIterator` class, with its very simple protocol including typestates for the methods `hasNext()` and `next()`.
-
-Have a subclass of the Iterator interface, `ResettableIterator`, which adds an *anytime* method `reset()` which resets the index of the iterator to the beginning of the collection. It will have as an internal collaborators an array/list and an integer index.
+Have an Iterator, `ResettableIterator`, with the usual `next()` and `hasNext()` methods which adds an *anytime* method `reset()`. This one resets the index of the iterator to the beginning of the collection. The protocol of the class will include both `next()` and `hasNext()` methods but not `reset()`. It will have as an internal collaborators an array of strings and an integer index.
 
 Have the client code utilize this `reset()` method after a few calls of the `hasNext()` and `next()` loop.
 
@@ -520,11 +518,9 @@ Same as previous example but showing how we can abuse this gap to cause a protoc
 
 #### Implementation
 
-Have a `BaseIterator` class, with its very simple protocol including typestates for the methods `hasNext()` and `next()`.
+Have an Iterator, `MoveToEndIterator`, which has the same protocol as a regular iterator but adds an *anytime* method `moveToEnd()` which sets the index of the iterator to the end of the collection. It will have as an internal collaborators an array and an integer index.
 
-Have a subclass of the Iterator interface, `ResettableIterator`, which adds an *anytime* method `moveToEnd()` which sets the index of the iterator to the end of the collection. It will have as an internal collaborators an array/list and an integer index.
-
-Have the client code utilize this `end()` method within an if conditional of the `hasNext()` method. This should tell Jatyc that we are in a state to call the `next()` method. Instead, before doing that, call the `moveToEnd()` method.
+Have the client code utilize this `moveToEnd()` method within an if conditional of the `hasNext()` method. This should tell Jatyc that we are in a state to call the `next()` method. Instead, before doing that, call the `moveToEnd()` method.
 
 #### Expectations
 
@@ -536,13 +532,8 @@ Compiling the test and running it indeed ends up in a `IndexOutOfBoundsException
 
 ```
 C:\Users\mlako\OneDrive\Desktop\Stuff\Facultad\tesis\jatyc-analysis\tests\state_equals_typestate_2>java ClientCode                                                        
-Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 2 out of bounds for length 2
-        at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
-        at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
-        at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
-        at java.base/java.util.Objects.checkIndex(Objects.java:374)
-        at java.base/java.util.ArrayList.get(ArrayList.java:459)
-        at ResseteableIterator.next(ResseteableIterator.java:15)
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 2 out of bounds for length 2
+        at MoveToEndIterator.next(MoveToEndIterator.java:17)
         at ClientCode.main(ClientCode.java:9)
 ```
 
@@ -551,7 +542,7 @@ This is the client code ran:
 ```java
     public static void main(String[] args) {
 		String[] array = {"hello", "world"};
-        ResseteableIterator it = new ResseteableIterator(array);
+        MoveToEndIterator it = new MoveToEndIterator(array);
         if (it.hasNext()) {
 			it.moveToEnd();
 			it.next();
@@ -1123,6 +1114,7 @@ Main.java:17: error: Cannot call [push] on State{Stack, PushFloat}
 #### Conclusion
 
 This example confirms even more that Jatyc does indeed process both of these methods as different ones despite having the same name. There are many more variables that could be tested for, such as overloading return types, or having overloaded methods lead to different protocol typestates, but I don't think it is necessary for now.
+
 #### Extra notes
 
 ### parameter_ensures
