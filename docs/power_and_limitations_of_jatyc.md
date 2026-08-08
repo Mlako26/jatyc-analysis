@@ -447,6 +447,59 @@ What this tells us is that Jatyc, just like doing pre and post conditions, is vu
 - Obviously this implementation would be anything but production ready. Despite this, I find it interesting how, since Jatyc has absolutely no way of telling what the contents of the collection could be before the `next()` method is called (to disable it), the programmer will have to modify the way he implements in order to fully utilize the Jatyc protocols. That is, perhaps adding a new `nextIsOdd()` method, which can only be called between `hasNext()` and `next()`, to make sure an instance of this class does not raise exceptions.
 - Do these examples make any sense? I'm not sure these are the kind of exceptions we want to examplify with (deliberately throwing an exception instead of something actually breaking).
 
+### underspecified_iterator
+
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/underspecified_iterator).
+
+#### Aim
+
+In this example, we simply want to show how a protocol might be underspecified and cause trouble.
+
+#### Implementation
+
+Have a class `UnderspecifiedIterator`, which iterates over arrays. The protocol will be a simple single state protocol, which allows the use of `hasNext()` and `next()` at any point. Then, have the client code reach the end of the collection with the iterator and then request the next object.
+
+#### Expectations
+
+Jatyc will compile and not raise any errors
+
+#### Results
+
+Indeed, using the following protocol and client code we get no errors when compiling, but do get errors when running.
+
+```java
+  public static void main(String[] args) {
+		int[] array = {2,3};
+    UnderspecifiedIterator it = new UnderspecifiedIterator(array);
+    while (true) {
+			it.next();
+		}
+	}
+```
+
+```
+typestate UnderspecifiedIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    int next(): HasNext,
+    drop: end
+  }
+}
+```
+
+```
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 2 out of bounds for length 2
+        at UnderspecifiedIterator.next(UnderspecifiedIterator.java:16)
+        at ClientCode.main(ClientCode.java:8)
+```
+
+#### Conclusion
+
+Indeed, Jatyc can't do anything about human error while defining protocols.
+
+#### Extra notes
+
+
 ### state_equals_typestate
 
 This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/state_equals_typestate).
