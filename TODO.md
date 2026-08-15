@@ -25,5 +25,4 @@
 - [ ] Jatyc funcionalidad
   - [ ] Explicar que si no puede probar que sos seguro, te fuerza a hacer checkeos para que estes seguro. En ese sentido, son falsos positivos, donde potencialmente el codigo esta bien pero te obliga a ser mas defensivo. 
   - [ ] Explicar que la escencia de lo que se esta testeando (tests de profe), es que no se puede hacer un next si ya llegaste al final. Esto no se puede hacer sin pila
-- [ ] En la sección de theoretical framework, hablar de cómo se usa el framework de checker jatyc, y cómo usa para checkear los typestates.
 - [ ] Explicar que el ensures/requires no se puede usar con colaboradores internos (contrado de cada metodo interno)
