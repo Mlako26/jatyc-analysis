@@ -11,10 +11,10 @@
 
 ## Research
 
-- [ ] Checkear cómo usa el checker la tool.
-  - [ ] Revisar cómo funciona el checker
-  - [ ] Qué consultas concretas usa
-  - [ ] Qué rutinas agregaron al compilador para checkear lo que tienen que checkear
+- [x] Checkear cómo usa el checker la tool.
+  - [x] Revisar cómo funciona el checker
+  - [x] Qué consultas concretas usa
+  - [x] Qué rutinas agregaron al compilador para checkear lo que tienen que checkear
 
 ## Writing
 
@@ -22,7 +22,5 @@
   - [ ] Explicar que existe una segunda versión de Jatyc en una branch que intenta taclear el problema de la linearidad
   - [ ] Explicar un poco cómo funciona
   - [ ] Explicar que Jatyc actualmente no se banca el alliasing si no es de forma lineal (solo una referencia puede modificar el estado de un objeto a la vez)
-- [ ] Jatyc funcionalidad
-  - [ ] Explicar que si no puede probar que sos seguro, te fuerza a hacer checkeos para que estes seguro. En ese sentido, son falsos positivos, donde potencialmente el codigo esta bien pero te obliga a ser mas defensivo. 
-  - [ ] Explicar que la escencia de lo que se esta testeando (tests de profe), es que no se puede hacer un next si ya llegaste al final. Esto no se puede hacer sin pila
-- [ ] Explicar que el ensures/requires no se puede usar con colaboradores internos (contrado de cada metodo interno)
+- [ ] Escribir los abstracts
+- [ ] Escribir introduccion
