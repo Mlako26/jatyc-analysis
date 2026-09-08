@@ -1,0 +1,21 @@
+\chapter{Introducción}
+
+A lo largo de los años, diversas herramientas han sido desarrolladas para detectar lo antes posible errores en programas. Ya sea desde sistemas de tipado y análisis estático de código, hasta frameworks de testing unitario y/o automático, se busca agregar robustez al software y permitirle al desarrollador tener más confianza sobre lo que produce.
+
+Estos potenciales errores en programas pueden ser agrupados en diferentes categorías. Por ejemplo, los errores aritméticos, al realizar operaciones matemáticas indebidas tales como dividir por cero, o errores de punteros, al desreferenciar punteros nulos. Un grupo particular de errores son los relacionados a los \textbf{Object Protocols} en lenguajes de programación orientados a objetos. En pocas palabras, los protocolos de los objetos son los que determinan las secuencias de métodos válidas para los mismos. Uno de los ejemplos típicos de un protocolo se encuentra en los lectores de archivos, donde antes de leer hay que abrir el descriptor del archivo, y al finalizar hay que cerrarlo. Otro ejemplo es el de los \texttt{Iterator}s en Java\cite{java-docs:iterator}, donde el método \texttt{remove()} solamente puede ser llamado una única vez luego de cada llamado a \texttt{next()}. Pensar en object protocols no es inusual, y múltiples instancias de uso y definición de estos protocolos puede encontrarse en varios projectos open source\cite{papers:protocols-in-the-wild}.
+
+De no cumplir con el protocolo de un objeto al usar sus métodos, excepciones inesperadas pueden levantarse, y en algunos casos el comportamiento de los mismos puede ser indefinido. Es por esto que cobran importancia las herramientas de detección de incumplimiento de object protocols, las cuales analizando el código estática o dinámicamente permiten avisarle lo antes posible al desarrollador de un potencial error.
+
+En este trabajo enfocaremos nuestro estudio en una de estas herramientas llamada \textbf{Java Typestate Checker}\cite{jatyc:github}. \textit{JaTyC} analiza código de Java estáticamente para determinar si el uso de un objeto por parte de algún cliente rompe el protocolo del mismo. Estos protocolos son definidos por los mismos programadores a través de \textbf{Typestates}, los diferentes estados por los que puede pasar el objeto y los métodos habilitados en cada uno. Está basada en \textbf{Mungo}\cite{mungo:website}, un conjunto de herramientas de investigación universitarias centradas en la verificación de protocolos, agregando mejoras y funcionalidades innovadoras\cite{jatyc:mungo-comparison}. A su vez, está escrita como plugin y mencionada en la documentación oficial del \textbf{Checker Framework}\cite{checker-framework}, en el que confían empresas tales como Amazon\cite{aws:crypto-policy-compliance-checker}\cite{aws:kms-compliance-checker} y utilizado en incontables publicaciones. En ese sentido, \textit{JaTyC} se posiciona como uno de los analizadores más flexibles y contemporáneos para object protocols en Java.
+
+A lo largo de esta investigación realizaremos múltiples pruebas con la herramienta, aprendiendo sobre su poder de expresión, las garantías que provee y sus limitaciones. Buscamos mejorar el entendimiento del alcance de \textit{JaTyC}, y a su vez de la verificación de object protocols a través de typestates en general.
+
+\section{Estructura de la Tesis}
+
+En el capítulo 2 se dará un poco de contexto teórico y práctico alrededor de los object protocols y typestates. Se mencionarán publicaciones relacionadas y herramientas/lenguajes predecesoras a \textit{JaTyC}.
+
+El capítulo 3 se centrará en la herramienta, explicando qué es y cómo se usa. Se mencionará además cómo funciona internamente, cuál es su algoritmo de análisis estático de código, y cómo se apoya en el \textit{Checker Framework}.
+
+El capítulo 4 recopilará los hallázgos de la experimentación sobre \textit{JaTyC}. Se dividirá en distintas secciones según los aspectos o funcionalidades de la herramienta a poner bajo la lupa.
+
+En el capítulo 5 se hará un resumen de lo aprendido, establecerán conclusiones, y se discutirá trabajo futuro. 

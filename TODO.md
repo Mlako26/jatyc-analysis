@@ -23,4 +23,7 @@
   - [ ] Explicar un poco cómo funciona
   - [ ] Explicar que Jatyc actualmente no se banca el alliasing si no es de forma lineal (solo una referencia puede modificar el estado de un objeto a la vez)
 - [ ] Escribir los abstracts
+- [ ] Escribir agradecimientos
+- [ ] Escribir dedicatoria
 - [ ] Escribir introduccion
+- [ ] Agregar referencias a los capitulos en la estructura de la tesis (hyperlinks)
