@@ -1,0 +1,50 @@
+\begin{thebibliography}{1}
+
+\bibitem{aws:crypto-policy-compliance-checker}
+{Amazon Web Services Labs}.
+\newblock {Crypto Policy Compliance Checker}.
+\newblock \url{https://github.com/awslabs/aws-crypto-policy-compliance-checker}.
+\newblock Accessed: 2026-09-07.
+
+\bibitem{aws:kms-compliance-checker}
+{Amazon Web Services Labs}.
+\newblock {KMS Compliance Checker}.
+\newblock \url{https://github.com/awslabs/aws-kms-compliance-checker}.
+\newblock Accessed: 2026-09-07.
+
+\bibitem{papers:protocols-in-the-wild}
+Nels~E. Beckman, Duri Kim, and Jonathan Aldrich.
+\newblock An empirical study of object protocols in the wild.
+\newblock In {\em Proceedings of the 25th European Conference on Object-Oriented Programming}, ECOOP'11, page 2–26, Berlin, Heidelberg, 2011. Springer-Verlag.
+
+\bibitem{checker-framework}
+Checker Framewor.
+\newblock The checker framework.
+\newblock \url{https://checkerframework.org}.
+\newblock Accessed: 2026-09-07.
+
+\bibitem{jatyc:mungo-comparison}
+João Mota and Lorenzo Bacchiani.
+\newblock Jatyc - mungo comparison.
+\newblock \url{https://github.com/jdmota/java-typestate-checker/wiki/Mungo-comparison}.
+\newblock Accessed: 2026-09-07.
+
+\bibitem{jatyc:github}
+João Mota and Lorenzo Bacchiani.
+\newblock Java typestate checker tool.
+\newblock \url{https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html}.
+\newblock Accessed: 2026-09-05.
+
+\bibitem{java-docs:iterator}
+Oracle.
+\newblock {Interface Iterator}.
+\newblock \url{https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html}.
+\newblock Accessed: 2026-09-05.
+
+\bibitem{mungo:website}
+{University of Glasgow}.
+\newblock {Mungo}.
+\newblock \url{https://www.dcs.gla.ac.uk/research/mungo/}.
+\newblock Accessed: 2026-09-07.
+
+\end{thebibliography}
