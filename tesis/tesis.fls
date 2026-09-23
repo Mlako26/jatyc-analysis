@@ -162,6 +162,9 @@ INPUT ./introduccion.tex
 INPUT ./introduccion.tex
 INPUT introduccion.tex
 INPUT d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
+INPUT ./marco_teorico.tex
+INPUT ./marco_teorico.tex
+INPUT marco_teorico.tex
 INPUT d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsl10.tfm
 INPUT ./tesis.bbl
 INPUT ./tesis.bbl

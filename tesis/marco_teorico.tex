@@ -1,0 +1,14 @@
+\chapter{Marco Teórico}
+
+La noción de \textit{typestate} fue introducida en 1986 por Strom y Yemini~\cite{typestate}. A pesar de ya en esa época existir mecanismos de prevención de errores en programas, tales como los sistemas de tipado o reglas basadas en scopes estáticos, los autores identificaron una limitación en los mismos. Específicamente, fallaban en detectar varias acciones potencialmente prohibidas en ciertos contextos, tales como desreferenciar un puntero apuntando a memoria ya liberada, o usar una variable antes de ser inicializada. Mientras que los tipos restringen las operaciones permitidas para un dato/objeto, y los scopes el acceso a variables fuera de su ciclo de vida, los typestates intentan restringir el orden en el cual las operaciones sucedían bajo un contexto particular.
+
+El funcionamiento de los mismos es de la siguiente manera. Dado un tipo, se le asocia un conjunto de typestates, y se define para cada uno un conjunto de operaciones permitidas. A su vez, se definen reglas de transición entre ellos a través de estas operaciones. En cualquier punto del programa, un objeto estará en alguno de estos typestates y podrán ser aplicadas solamente sus operaciones permitidas. Al hacerlo, el objeto potencialmente transicionará a otro typestate según las reglas definidas, cambiando el conjunto de operaciones disponibles.
+
+El paper menciona además conceptos que hoy en día \textit{JaTyC} implementa, tales como el de \textbf{completitud de protocolo}, donde se espera que los objetos lleguen a un estado final antes de que el programa termine. Según los autores, una ejecución es \textit{typestate correcta} si y solo si todas las operaciones realizadas en objetos son permitidas por su typestate, y todos los objetos completan su protocolo  .
+
+In the paper, the notion of protocol completion also makes an initial appearance, where objects are supposed to return to the initial typestate before the program terminates for it to have a *typestate-correct* execution.
+
+The formal theory for typestates and an initial algorithm to determine statically if a program is *typestate-consistent* is also presented in this paper.
+
+% - Talk bout the paper `Lightweight Object Specification with Typestates` which uses typestates to define object protocols even further.
+% - Perhaps we could add more papers here if necessary.

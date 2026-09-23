@@ -41,6 +41,11 @@ Oracle.
 \newblock \url{https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html}.
 \newblock Accessed: 2026-09-05.
 
+\bibitem{typestate}
+R~E Strom and S~Yemini.
+\newblock Typestate: A programming language concept for enhancing software reliability.
+\newblock {\em IEEE Trans. Softw. Eng.}, 12(1):157–171, January 1986.
+
 \bibitem{mungo:website}
 {University of Glasgow}.
 \newblock {Mungo}.
