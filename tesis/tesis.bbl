@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{aws:crypto-policy-compliance-checker}
 {Amazon Web Services Labs}.
@@ -16,6 +16,16 @@
 Nels~E. Beckman, Duri Kim, and Jonathan Aldrich.
 \newblock An empirical study of object protocols in the wild.
 \newblock In {\em Proceedings of the 25th European Conference on Object-Oriented Programming}, ECOOP'11, page 2–26, Berlin, Heidelberg, 2011. Springer-Verlag.
+
+\bibitem{empirical}
+Nels~E. Beckman, Duri Kim, and Jonathan Aldrich.
+\newblock An empirical study of object protocols in the wild.
+\newblock In {\em Proceedings of the 25th European Conference on Object-Oriented Programming}, ECOOP'11, page 2–26, Berlin, Heidelberg, 2011. Springer-Verlag.
+
+\bibitem{Lightweight}
+Kevin Bierhoff and Jonathan Aldrich.
+\newblock Lightweight object specification with typestates.
+\newblock {\em SIGSOFT Softw. Eng. Notes}, 30(5):217–226, September 2005.
 
 \bibitem{checker-framework}
 Checker Framewor.
