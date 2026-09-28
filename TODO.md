@@ -25,5 +25,6 @@
 - [ ] Escribir los abstracts
 - [ ] Escribir agradecimientos
 - [ ] Escribir dedicatoria
-- [ ] Escribir introduccion
+- [x] Escribir introduccion
 - [ ] Agregar referencias a los capitulos en la estructura de la tesis (hyperlinks)
+- [ ] Revisar si queres hablar de Foundations of Typestate-Oriented Programming

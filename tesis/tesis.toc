@@ -1,4 +1,7 @@
 \babel@toc {spanish}{}\relax 
 \contentsline {chapter}{\numberline {1.}Introducción}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Estructura de la Tesis}{1}{section.1.1}%
-\contentsline {chapter}{\numberline {2.}Marco Teórico}{3}{chapter.2}%
+\contentsline {chapter}{\numberline {2.}Trabajos Relacionados}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Typestates y Object Protocols}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Plaid}{4}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Mungo}{4}{section.2.3}%
