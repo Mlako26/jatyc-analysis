@@ -1,19 +1,20 @@
 # Fdb version 4
-["bibtex tesis"] 1790601865.45984 "tesis.aux" "tesis.bbl" "tesis" 1790601867.8705 0
-  "./tesis.bib" 1790549126.36603 4787 ee8101fb6ccbad4473e29a3b271c0119 ""
+["bibtex tesis"] 1790724349.44773 "tesis.aux" "tesis.bbl" "tesis" 1790724601.91056 0
+  "./tesis.bib" 1790724240.08484 6858 de8154a7205c0aabbd2f5de8e89da46f ""
   "d:/texlive/2026/texmf-dist/bibtex/bst/base/plain.bst" 1788543082.26116 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "tesis.aux" 1790601866.87791 2175 1fe1bc3e29210cf6f28821b416c90cbd "pdflatex"
+  "tesis.aux" 1790724600.7925 2627 605f9c0bc21a0542286c1992c0c944ae "pdflatex"
   (generated)
   "tesis.bbl"
   "tesis.blg"
   (rewritten before read)
-["pdflatex"] 1790601865.89847 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1790601867.8712 0
+["pdflatex"] 1790724599.69901 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1790724601.91134 0
   "abs_en.tex" 1312501726 2019 3a17316dcc8346efa212c9db57626f71 ""
   "abs_esp.tex" 1788614362.72794 917 f15c42d36a21c5505573702827584dea ""
   "agradecimientos.tex" 1458096991 1356 64bc1b20247e3c57335be885f8af796b ""
-  "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" 1790562445.92539 2331 955c08312db9c6280fa97cc246b490a4 ""
+  "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" 1790721103.12646 2673 5219a2eed47ed15f2f1bfb4ef50e8ce4 ""
   "caratula.tex" 1788613547.29524 791 4bb3bc104a5e76a7619c16846e7acea1 ""
   "code/capitulo2/iterator_example.java" 1790538330.51317 143 8fe3b2830bd09863fd51d24ecc6e775a ""
+  "code/capitulo2/plaid_example.plaid" 1790720598.15444 271 fc35b258502afec31c34d9a5638aa37e ""
   "d:/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1788544803.50222 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1788543463.08449 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1788543463.08449 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -21,6 +22,7 @@
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1788543463.089 1528 abec98dbc43e172678c11b3b9031252a ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm" 1788543463.089 1512 f21f83efb36853c0b70002322c1ab3ad ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm" 1788543463.09001 1520 eccf95517727cb11801f4f1aee3a21b4 ""
+  "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm" 1788543463.09001 1524 d89e2d087a9828407a196f428428ef4a ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1788543463.091 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1788543463.091 1288 655e228510b4c2a1abe905c368440826 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr17.tfm" 1788543463.091 1292 296a67155bdbfc32aa9c636f21e91433 ""
@@ -31,6 +33,7 @@
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1788543463.09633 1124 6c73e740cf17375f03eec0ee63599741 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1788543463.09784 1116 933a60c408fc0a863a92debe84b2d294 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1788543463.09784 1120 8b7d695260f3cff42e636090a8002094 ""
+  "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm" 1788543463.09884 1116 25a7bf822c58caf309a702ef79f4afbb ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1788543463.09985 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm" 1788543463.10085 768 1321e9409b4137d6fb428ac9dc956269 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmtt9.tfm" 1788543463.10085 764 c98a2af25c99b73a368cf7336e255190 ""
@@ -43,6 +46,7 @@
   "d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1788542569.48244 32734 69e00a6b65cedb993666e42eedb3d48f ""
   "d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb" 1788542569.48768 35022 e40946b20bfdcd1099eafb2bcd9f25dd ""
   "d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1788542569.51099 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb" 1788542569.5185 32442 c975af247b6702f7ca0c299af3616b80 ""
   "d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1788542569.52648 37944 359e864bd06cde3b1cf57bb20757fb06 ""
   "d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1788542569.53148 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
   "d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb" 1788542569.53298 29078 718ea4567ceff944262b0f5b0800e1d9 ""
@@ -105,12 +109,12 @@
   "dedicatoria.tex" 1458095999 39 fc8211744c92236ca9e35da83e7cb61a ""
   "introduccion.tex" 1788993856.35044 4233 e5e8dfd0a2777e090bf9bf442c915c7b ""
   "logofcen.pdf" 1280949812 39758 9bdae1f60233e50ba5e4e659fa2e6078 ""
-  "marco_teorico.tex" 1790601862.71578 6326 b169b199d1765ca8280063c4c7de19d6 ""
-  "tesis.aux" 1790601866.87791 2175 1fe1bc3e29210cf6f28821b416c90cbd "pdflatex"
-  "tesis.bbl" 1790601865.88481 2436 126444c169dd64cc3f90396f15883232 "bibtex tesis"
+  "marco_teorico.tex" 1790724598.86357 8664 21857c07898e0c9a2710c2991d934eab ""
+  "tesis.aux" 1790724600.7925 2627 605f9c0bc21a0542286c1992c0c944ae "pdflatex"
+  "tesis.bbl" 1790724349.93795 3371 d8dc2b9f88a19ec944da4afdf22b20fd "bibtex tesis"
   "tesis.cls" 1312502354 36659 469a5b174f6a5f4de348ff19f86a677d ""
-  "tesis.out" 1790601866.87791 796 01364425ae2e0e632ad2c8f44564f8d0 "pdflatex"
-  "tesis.toc" 1790601866.88315 479 e35d1f998a1f5fc39b690d405619322b "pdflatex"
+  "tesis.out" 1790724600.7945 796 01364425ae2e0e632ad2c8f44564f8d0 "pdflatex"
+  "tesis.toc" 1790724600.79601 479 c8bf117bde1a3cc3ad72ff1b3677ec09 "pdflatex"
   (generated)
   "tesis.aux"
   "tesis.log"

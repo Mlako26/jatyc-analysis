@@ -1,0 +1,13 @@
+state File {
+    val String filename;
+}
+
+state ClosedFile = File with {
+    method void open() [ClosedFile>>OpenFile];
+}
+state OpenFile = File with {
+    private val CFile fileResource;
+
+    method int read();
+    method void close() [OpenFile>>ClosedFile];
+}

@@ -35,6 +35,17 @@
     tabsize=2
 }
 
+\lstdefinelanguage{Plaid}{
+  sensitive=true,
+  morekeywords={state, val, var, method, with, private, public, new,
+                match, case, if, else, return, this, fun,
+                int, void, boolean, String, CFile, unit},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  literate={>>}{{$\gg$}}{2},
+}
+
 \lstset{style=mystyle}
 \renewcommand{\lstlistingname}{Figura}
 

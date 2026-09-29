@@ -33,7 +33,22 @@ Finalmente, en el trabajo de Beckam et al.~\cite{empirical} se realizó un estud
 
 \section{Plaid}
 
+A raiz del surgimiento del concepto de typestates un nuevo paradigma de programación fue ideado, la \textbf{Programación Orientada a Typestates (TSOP)}\cite{tsop}. Bajo este paradigma, el código no solo es modelado alrededor de clases sino también sus typestates y protocolos. En otras palabras, pasan a ser \textit{first-class citizens} (entidades de primer orden).
 
+\textbf{Plaid}\cite{plaid}\cite{plaid:paper} es uno de los primeros lenguajes de programación orientada a typestates, desarrollado por la Universidad de Carnegie Mellon. En Plaid, los objetos siempre se encuentran en un typestate particular, los cuales se definen en forma similar a las clases tradicionales (con métodos, variables, subestados, etc). Estos pueden transicionar durante la ejecución del programa entre un typestate y otro, modificando su interfaz y comportamiento.
+% It also touches on the matter of alliasing, where to mitigate the issue it defines different types of access permissions, granting variables read and/or write permissions to the objects they refer to.
+
+   
+Un ejemplo del mismo puede observarse en la Figura \ref{teorico:plaid}. En ella, se define la interfaz \texttt{File} a través de los dos typestates \texttt{ClosedFile} y \texttt{OpenFile}. Mientras que la variable \texttt{filename} está disponible en todos los estados, hay métodos exclusivos para cuando los objetos de tipo \texttt{File} estén abiertos o cerrados. A su vez, se definen en los métodos las transiciones entre typestates, como por ejemplo en \texttt{[ClosedFile$\gg$OpenFile]}, transicionando un objeto en el estado cerrado al abierto. Esto puede hacerse tanto para el objeto receptor del método, al igual que para los argumentos.
+
+\needspace{16\baselineskip}
+\lstinputlisting[
+    language=plaid,
+    caption=Ejemplo de definición de clase y typestates con Plaid,
+    label={teorico:plaid}
+]{./code/capitulo2/plaid_example.plaid}
+
+Entre otras funcionalidades, Plaid cuenta con un sistema de permisos de acceso\cite{plaid:permissions} para intentar dar solución al problema de la verificación de protocolos en la presencia de \textit{alliasing}. Finlamente, similar a \textit{JaTyC}, Plaid cuenta con un analizador estático que permite verificar el uso correcto de los typestates y los protocolos de los objetos en tiempo de compilado.
 
 \section{Mungo}
 
