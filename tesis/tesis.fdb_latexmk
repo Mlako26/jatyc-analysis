@@ -1,19 +1,20 @@
 # Fdb version 4
-["bibtex tesis"] 1790724349.44773 "tesis.aux" "tesis.bbl" "tesis" 1790724601.91056 0
-  "./tesis.bib" 1790724240.08484 6858 de8154a7205c0aabbd2f5de8e89da46f ""
+["bibtex tesis"] 1790880488.58384 "tesis.aux" "tesis.bbl" "tesis" 1790880555.99276 0
+  "./tesis.bib" 1790880468.55269 8238 ad2065d8a4e524dec89e31fb2249c8d4 ""
   "d:/texlive/2026/texmf-dist/bibtex/bst/base/plain.bst" 1788543082.26116 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "tesis.aux" 1790724600.7925 2627 605f9c0bc21a0542286c1992c0c944ae "pdflatex"
+  "tesis.aux" 1790880554.88037 4228 0045b46c3272af98c7dc0f9bee501dac "pdflatex"
   (generated)
   "tesis.bbl"
   "tesis.blg"
   (rewritten before read)
-["pdflatex"] 1790724599.69901 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1790724601.91134 0
+["pdflatex"] 1790880553.78717 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1790880555.99357 0
   "abs_en.tex" 1312501726 2019 3a17316dcc8346efa212c9db57626f71 ""
   "abs_esp.tex" 1788614362.72794 917 f15c42d36a21c5505573702827584dea ""
   "agradecimientos.tex" 1458096991 1356 64bc1b20247e3c57335be885f8af796b ""
   "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" 1790721103.12646 2673 5219a2eed47ed15f2f1bfb4ef50e8ce4 ""
   "caratula.tex" 1788613547.29524 791 4bb3bc104a5e76a7619c16846e7acea1 ""
   "code/capitulo2/iterator_example.java" 1790538330.51317 143 8fe3b2830bd09863fd51d24ecc6e775a ""
+  "code/capitulo2/mungo_protocol.protocol" 1790870912.57027 325 7636eb23fbbfbd55ca741d782f289696 ""
   "code/capitulo2/plaid_example.plaid" 1790720598.15444 271 fc35b258502afec31c34d9a5638aa37e ""
   "d:/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1788544803.50222 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1788543463.08449 1328 c834bbb027764024c09d3d2bf908b5f0 ""
@@ -35,6 +36,9 @@
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1788543463.09784 1120 8b7d695260f3cff42e636090a8002094 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm" 1788543463.09884 1116 25a7bf822c58caf309a702ef79f4afbb ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1788543463.09985 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmti7.tfm" 1788543463.09985 1492 86331993fe614793f5e7e755835c31c5 ""
+  "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmti8.tfm" 1788543463.09985 1504 1747189e0441d1c18f3ea56fafc1c480 ""
+  "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmti9.tfm" 1788543463.09985 1476 cccc6cc4935c18ec3d5623b77ecb8b74 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm" 1788543463.10085 768 1321e9409b4137d6fb428ac9dc956269 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmtt9.tfm" 1788543463.10085 764 c98a2af25c99b73a368cf7336e255190 ""
   "d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1788542569.4634 34811 78b52f49e893bcba91bd7581cdc144c0 ""
@@ -109,12 +113,12 @@
   "dedicatoria.tex" 1458095999 39 fc8211744c92236ca9e35da83e7cb61a ""
   "introduccion.tex" 1788993856.35044 4233 e5e8dfd0a2777e090bf9bf442c915c7b ""
   "logofcen.pdf" 1280949812 39758 9bdae1f60233e50ba5e4e659fa2e6078 ""
-  "marco_teorico.tex" 1790724598.86357 8664 21857c07898e0c9a2710c2991d934eab ""
-  "tesis.aux" 1790724600.7925 2627 605f9c0bc21a0542286c1992c0c944ae "pdflatex"
-  "tesis.bbl" 1790724349.93795 3371 d8dc2b9f88a19ec944da4afdf22b20fd "bibtex tesis"
+  "marco_teorico.tex" 1790880552.9897 14104 2800a352318656453b34e62477f4711f ""
+  "tesis.aux" 1790880554.88037 4228 0045b46c3272af98c7dc0f9bee501dac "pdflatex"
+  "tesis.bbl" 1790880489.05872 4491 5c18e7f932dbc37c54f6c5fd4b2c9284 "bibtex tesis"
   "tesis.cls" 1312502354 36659 469a5b174f6a5f4de348ff19f86a677d ""
-  "tesis.out" 1790724600.7945 796 01364425ae2e0e632ad2c8f44564f8d0 "pdflatex"
-  "tesis.toc" 1790724600.79601 479 c8bf117bde1a3cc3ad72ff1b3677ec09 "pdflatex"
+  "tesis.out" 1790880554.88343 1763 1e447fa3d366883f050e00ef4d1a1e54 "pdflatex"
+  "tesis.toc" 1790880554.88442 1014 f9ddd3b3571d3b6603a26bf2c1b15688 "pdflatex"
   (generated)
   "tesis.aux"
   "tesis.log"

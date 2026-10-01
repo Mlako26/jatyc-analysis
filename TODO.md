@@ -28,3 +28,5 @@
 - [x] Escribir introduccion
 - [ ] Agregar referencias a los capitulos en la estructura de la tesis (hyperlinks)
 - [ ] Revisar si queres hablar de Foundations of Typestate-Oriented Programming
+- [ ] Agregar referencia de mungo https://www.dcs.gla.ac.uk/research/mungo/publication/pub3/ que no me carga ahora mismo
+- [ ] Agregar referencia del capitulo de la teoria, hay un comentario ahi mismo

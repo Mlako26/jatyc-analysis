@@ -48,6 +48,30 @@ Ronald Garcia, {\'E}ric Tanter, Roger Wolff, and Jonathan Aldrich.
 \newblock Foundations of typestate-oriented programming.
 \newblock {\em ACM Trans. Program. Lang. Syst.}, 36(4), October 2014.
 
+\bibitem{jastadd:website}
+{JastAdd}.
+\newblock {JastAdd}.
+\newblock \url{https://jastadd.cs.lth.se/web/}.
+\newblock Accessed: 2026-09-29.
+
+\bibitem{jastadd:applications}
+{JastAdd}.
+\newblock {JastAdd - Applications}.
+\newblock \url{https://jastadd.cs.lth.se/web/applications.php}.
+\newblock Accessed: 2026-09-29.
+
+\bibitem{Kotlin}
+JetBrains.
+\newblock Kotlin language.
+\newblock \url{https://kotlinlang.org}.
+\newblock Accessed: 2026-09-29.
+
+\bibitem{jatyc:msc-thesis}
+João Mota.
+\newblock Coping with the reality: adding crucial features to a typestate-oriented language.
+\newblock \url{https://github.com/jdmota/java-typestate-checker/blob/master/docs/msc-thesis.pdf}.
+\newblock Accessed: 2026-10-01.
+
 \bibitem{jatyc:mungo-comparison}
 João Mota and Lorenzo Bacchiani.
 \newblock Jatyc - mungo comparison.
@@ -57,8 +81,14 @@ João Mota and Lorenzo Bacchiani.
 \bibitem{jatyc:github}
 João Mota and Lorenzo Bacchiani.
 \newblock Java typestate checker tool.
-\newblock \url{https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html}.
+\newblock \url{https://github.com/jdmota/java-typestate-checker}.
 \newblock Accessed: 2026-09-05.
+
+\bibitem{jatyc:documentation}
+João Mota and Lorenzo Bacchiani.
+\newblock Java typestate checker tool - documentation.
+\newblock \url{https://github.com/jdmota/java-typestate-checker/wiki/Documentation}.
+\newblock Accessed: 2026-09-29.
 
 \bibitem{java-docs:iterator}
 Oracle.
@@ -82,5 +112,11 @@ Carnegie~Mellon University.
 \newblock {Mungo}.
 \newblock \url{https://www.dcs.gla.ac.uk/research/mungo/}.
 \newblock Accessed: 2026-09-07.
+
+\bibitem{mungo:repo}
+{University of Glasgow}.
+\newblock {Mungo - Oficial Repository}.
+\newblock \url{https://bitbucket.org/abcd-glasgow/mungo-tools/src/master/}.
+\newblock Accessed: 2026-10-01.
 
 \end{thebibliography}
