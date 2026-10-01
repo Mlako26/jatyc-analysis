@@ -1,0 +1,85 @@
+\chapter{Trabajos Relacionados}
+
+\section{Typestates y Object Protocols}
+
+\subsection{Inicios}
+
+La noción de \textbf{typestate} fue introducida en 1986 por Strom y Yemini~\cite{typestate}. A pesar de que ya en esa época existían mecanismos de prevención de errores en programas, tales como los sistemas de tipado o reglas basadas en scopes estáticos, los autores identificaron una limitación en los mismos. Específicamente, no estaban diseñados para detectar ciertas operaciones prohibidas en algunos contextos, tales como desreferenciar un puntero apuntando a memoria ya liberada, o utilizar una variable antes de ser inicializada. Para cubrir esa necesidad definieron los \textbf{typestates}, los cuales intentan modelar el estado en el que se encuentra un objeto a la hora de realizar una operación. Mientras que los tipos restringen las operaciones permitidas para un dato/objeto, y los scopes el acceso a variables fuera de su ciclo de vida, los typestates intentan restringir el orden en el cual las operaciones suceden bajo un contexto particular.
+
+El funcionamiento de los typestates es el siguiente. Dado un tipo, se le asocia un conjunto de typestates, y se define para cada uno un conjunto de operaciones permitidas. A su vez, se definen reglas de transición entre ellos a través de estas operaciones. En cualquier punto del programa, un objeto estará en alguno de estos typestates y podrán ser aplicadas solamente sus operaciones permitidas. Al interactuar con él, podrá transicionar a otro typestate según las reglas definidas, cambiando el conjunto de operaciones disponibles.
+
+El paper menciona además conceptos que herramientas contemporáneas como \textit{JaTyC} implementan, tales como el de \textbf{completitud de protocolo}, donde se espera que los objetos lleguen a un estado final antes de que el programa termine. Según los autores, una ejecución es \textit{typestate-correcta} si y solo si todas las operaciones realizadas en objetos son permitidas por el typestate que las acompaña, y todos los objetos completan su protocolo.
+
+Finalmente, el trabajo establece las definiciones formales alrededor de los typestates para trabajar con ellos. Con las mismas, presenta un algoritmo para analizar estáticamente el cumplimiento de protocolos en programas.
+
+\subsection{Programación Orientada a Objetos}
+
+Estas ideas fueron posteriormente extendidas por Bierhoff y Aldrich~\cite{Lightweight}, llevándolas hacia el mundo de la programación orientada a objetos.
+
+Por un lado, introducen y formalizan la noción de \textit{refinamiento de estados}, utilizada cuando se quiere hacer herencia de un tipo ya protocolado. Si el subtipo quiere agregar nuevos typestates a su protocolo, debe asegurarse necesariamente que se sigan cumpliendo las restricciones del protocolo del supertipo que extiende. En otras palabras, toda secuencia de llamadas de métodos válidas en el tipo padre debe mantenerse en el protocolo del tipo hijo. El refinamiento de estados habla sobre cómo un subconjunto de estados en el subtipo son ``subcasos'' de un solo estado en el supertipo, los cuales pueden agregar nuevas secuencias de métodos válidas al protocolo, pero no quitar las preexistentes. En cierto sentido, si modelamos el protocolo de un objeto como una máquina de estados finita, el autómata del subtipo debe preservar el comportamiento del autómata del supertipo.
+
+Por otro lado, introducen la idea de \textit{dimensiones de estados}. Esta noción busca dar respuesta a situaciones en las que conceptualmente se considera que un objeto está en varios typestates a la vez, atados a variables completamente independientes. Estos subconjuntos de estados son referidos en el trabajo como \textit{ortogonales}. Por ejemplo, observemos la interfaz de la figura \ref{teorico:ortogonal}:
+
+\needspace{8\baselineskip}
+\lstinputlisting[
+    language=Java,
+    caption=Ejemplo de tipo con typestates ortogonales,
+    label={teorico:ortogonal}
+]{./code/capitulo2/iterator_example.java}
+
+Puede observarse que el comportamiento de la interfaz depende de si se puede seguir iterando sobre la colección y de si actualmente se puede imprimir. Asumiendo que ambas condiciones son independientes entre sí, definir un protocolo que correctamente especifique las cadenas de métodos válidas puede resultar tedioso y conceptualmente incorrecto. Esto es porque, para modelar el protocolo lo más detallado posible, se necesitaría un typestate por cada elemento del producto cartesiano entre los conjuntos $\{\mathit{PuedoImprimir}, \mathit{NoPuedoImprimir}\}$ y $\{\mathit{TengoSiguiente}, \mathit{NoTengoSiguiente}\}$. Puede verse fácilmente que, con un tipo que tenga un gran número de variables ortogonales de las cuales dependen los typestates, la definición del protocolo puede dispararse en tamaño. A su vez, puede que tener un estado como $\mathit{TengoSiguienteImprimible}$ no tenga mucho sentido.
+
+Para solventar esto, el paper define que el objeto está en varias \textit{dimensiones de estados} ortogonales a la vez, las cuales permiten distintas secuencias de llamadas de métodos. Para nuestro ejemplo, la interfaz puede encontrarse en el estado ($\mathit{PuedoImprimir}$, $\mathit{TengoSiguiente}$), permitiéndole acceso a los métodos \texttt{print()} y \texttt{next()}. Esto evita la explosión de cantidad de estados, mejora la legibilidad y claridad del protocolo, y también permite acercarnos a utilizar typestates para herencia múltiple (definiendo los protocolos heredados como ortogonales).
+
+\subsection{Uso de Protocolos}
+
+Finalmente, en el trabajo de Beckman et al.~\cite{empirical} se realizó un estudio sobre el uso de \textit{object protocols} en proyectos open source y la librería estándar de Java. En él se intenta describir qué tanto se suelen definir protocolos, cuánto se utilizan y se respetan por código cliente, y qué estructura suelen tener. Se descubrió que, a lo largo del código analizado, aproximadamente 7\% de todos los tipos definían protocolos, y más del 10\% de las clases eran clientes de tipos protocolados. Dado que la muestra de código analizada fue significativa, esto nos indica que las herramientas de verificación de protocolos tales como \textit{JaTyC} son potencialmente aplicables a numerosos proyectos.
+
+% Potencialmente hablar del paper Foundations of Typestate-Oriented Programming
+
+\section{Plaid}
+
+A raíz del surgimiento del concepto de typestates, se ideó un nuevo paradigma de programación: la Programación Orientada a Typestates (TSOP)\cite{tsop}. Bajo este paradigma, el código no solo es modelado alrededor de clases sino también sus typestates y protocolos. En otras palabras, pasan a ser \textit{first-class citizens} (entidades de primer orden).
+
+\textbf{Plaid}\cite{plaid}\cite{plaid:paper} es uno de los primeros lenguajes de programación orientada a typestates, desarrollado por la Universidad Carnegie Mellon. En Plaid, los objetos siempre se encuentran en un typestate particular, los cuales se definen en forma similar a las clases tradicionales (con métodos, variables, subestados, etc). Estos pueden transicionar durante la ejecución del programa entre un typestate y otro, modificando su interfaz y comportamiento.
+   
+Un ejemplo puede observarse en la Figura \ref{teorico:plaid}. En ella, se define la interfaz \texttt{File} a través de los dos typestates \texttt{ClosedFile} y \texttt{OpenFile}. Mientras que la variable \texttt{filename} está disponible en todos los estados, hay métodos exclusivos para cuando los objetos de tipo \texttt{File} estén abiertos o cerrados. A su vez, se definen en los métodos las transiciones entre typestates, como por ejemplo en \texttt{[ClosedFile$\gg$OpenFile]}, transicionando un objeto en el estado cerrado al abierto. Esto puede hacerse tanto para el objeto receptor del método como para sus argumentos.
+
+\needspace{16\baselineskip}
+\lstinputlisting[
+    language=plaid,
+    caption=Ejemplo de definición de clase y typestates con Plaid,
+    label={teorico:plaid}
+]{./code/capitulo2/plaid_example.plaid}
+
+Entre otras funcionalidades, Plaid cuenta con un sistema de permisos de acceso\cite{plaid:permissions} para intentar solucionar el problema de la verificación de protocolos en la presencia de \textit{aliasing}. Finalmente, similar a \textit{JaTyC}, Plaid cuenta con un analizador estático que permite verificar el uso correcto de los typestates y los protocolos de los objetos en tiempo de compilación.
+
+\section{Mungo}
+
+\textbf{Mungo}\cite{mungo:website} es una herramienta predecesora de \textit{JaTyC} para Java que, similarmente, verifica estáticamente que se sigan los protocolos de objetos. Esto lo consigue a través de la abstracción de typestates, modelando los diferentes estados por los que pasa una clase, y reporta errores cuando código cliente no respeta el protocolo de las mismas. En la documentación oficial de \textit{JaTyC}\cite{jatyc:documentation}\cite{jatyc:msc-thesis}, los autores hacen hincapié en que Mungo es la herramienta principal en la que se basaron para su desarrollo, incluso mencionando que el plan inicial era simplemente extenderla con nuevas funcionalidades. En cambio, \textit{JaTyC} terminó siendo una herramienta independiente, y es de interés notar las diferencias entre ambas\cite{jatyc:mungo-comparison}.
+
+\subsection{Sintaxis y funcionalidad}
+
+Comenzando por la funcionalidad y sintaxis, las dos herramientas son bastante similares. Las definiciones de los protocolos y sus typestates son escritas en archivos separados con extensión \textit{.protocol} (ver Figura \ref{teorico:mungo}). Luego, para referenciar un protocolo desde una clase se la anota con ``\texttt{@Typestate(<protocolo>)}''. Cuando el código fuente de Java es compilado, primero es analizado estáticamente por el mismo sistema de tipado del lenguaje, y luego por el de Mungo. Si una clase está asociada a un protocolo, sus clientes deben respetar el correcto orden de llamados de sus métodos. De lo contrario, la herramienta reporta un error.
+
+\needspace{16\baselineskip}
+\lstinputlisting[
+    caption=Ejemplo de definición de protocolo para un Stack en Mungo,
+    label={teorico:mungo}
+]{./code/capitulo2/mungo_protocol.protocol}
+
+Los protocolos se escriben con una sintaxis muy similar a la de \textit{JaTyC}, e incluso idéntica en muchos casos. En la Figura \ref{teorico:mungo} puede observarse un ejemplo oficial de cómo se vería un protocolo para una clase \texttt{Stack}, que permite apilar infinitamente y solo permite desapilar si no está vacío. Cuenta con tres typestates, uno para cuando la pila está vacía \texttt{Empty}, uno para cuando la pila tiene algún elemento \texttt{NonEmpty}, y otro para cuando no se sabe el estado actual de la misma \texttt{Unknown}. Cada typestate describe la signatura de los métodos permitidos en cada uno, y el (o los) typestate al que pasaría el objeto de llamarlos. Al ser instanciada, la pila comienza siempre en el primer typestate definido en el protocolo, en este caso \texttt{Empty}, y finaliza su protocolo al transicionar al typestate reservado \texttt{end} llamando al método \texttt{deallocate()}.
+
+Un aspecto en el que \textit{JaTyC} mejora con respecto a su antecesor es la funcionalidad. Información detallada puede encontrarse en el cuadro comparativo oficial de la herramienta\cite{jatyc:mungo-comparison}, pero las principales utilidades que agrega son los estados \textit{droppable}, el subtipado, y verificación de typestates en argumentos y valores de retorno de métodos. A su vez, los autores recalcan que Mungo falla al manejar ciertos casos borde, relacionados con valores nulos, linealidad de las variables y corroborar la finalización de los protocolos. Profundizaremos más en todos estos conceptos en el próximo capítulo. % AGREGAR REFERENCIA
+
+\subsection{Implementación}
+
+Con respecto a la implementación de ambas herramientas, Mungo está creada sobre el framework \textbf{JastAdd}\cite{jastadd:website}. Este es un sistema de meta-compilación fácilmente extensible, que le permite a sus usuarios crear herramientas de análisis estático customizables. A pesar de haber sido utilizado para múltiples proyectos\cite{jastadd:applications}, JastAdd no se mantiene activamente, con solamente 3 releases desde 2020.
+
+En comparación, \textit{JaTyC} está implementada en el \textbf{Checker Framework}\cite{checker-framework}, que extiende el sistema de tipado de Java. El framework le permite a los desarrolladores incluir numerosos plug-ins, o checkers, a sus proyectos, los cuales realizan diferentes tipos de verificaciones en tiempo de compilación. Uno de los checkers más conocidos del framework es el \textit{Nullness Checker}, el cual verifica que no pueda suceder ninguna excepción de \texttt{null pointers} durante ejecuciones. Cuenta con varios otros plug-ins útiles, tales como el \textit{SQL Quotes Checker} o el \textit{Regex Checker}. Es un framework mantenido activamente, y es utilizado en la industria, por ejemplo por Amazon con sus checkers propios \textit{KMS Compliance Checker}\cite{aws:kms-compliance-checker} y \textit{Crypto Policy Compliance Checker}\cite{aws:crypto-policy-compliance-checker}.
+
+Por otro lado, Mungo está desarrollada en Java. Parte de la razón por la que los autores de \textit{JaTyC} decidieron hacerla una herramienta independiente, y no una extensión de Mungo, fue poder escribirla en Kotlin\cite{Kotlin}. Ellos destacan que la interoperabilidad entre ambos lenguajes (que permite reutilizar librerías de Java), junto con la sintaxis más concisa de Kotlin y sus funcionalidades de seguridad, hicieron más productivo el desarrollo.
+
+\subsection{Estado del proyecto}
+
+Finalmente, el repositorio de Mungo\cite{mungo:repo} muestra que el último commit se realizó en 2020, por lo que podemos asumir que el desarrollo de la herramienta está inactivo. Por otro lado, \textit{JaTyC} estuvo siendo actualizada hasta recientemente, con su último commit subido en 2025.

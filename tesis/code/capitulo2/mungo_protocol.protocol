@@ -1,0 +1,14 @@
+typestate StackProtocol {
+    Empty = {
+        void push(int): NonEmpty,
+        void deallocate(): end
+    }
+    NonEmpty = {
+        void push(int): NonEmpty,
+        int pop(): Unknown
+    }
+    Unknown = {
+        void push(int): NonEmpty,
+        Check isEmpty(): <EMPTY: Empty, NONEMPTY: NonEmpty>
+    }
+}

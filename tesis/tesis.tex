@@ -7,6 +7,47 @@
 \usepackage[spanish]{babel}
 \usepackage[left=3cm,right=3cm,bottom=3.5cm,top=3.5cm]{geometry}
 \usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{needspace}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstdefinelanguage{Plaid}{
+  sensitive=true,
+  morekeywords={state, val, var, method, with, private, public, new,
+                match, case, if, else, return, this, fun,
+                int, void, boolean, String, CFile, unit},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  literate={>>}{{$\gg$}}{2},
+}
+
+\lstset{style=mystyle}
+\renewcommand{\lstlistingname}{Figura}
 
 \begin{document}
 
@@ -44,9 +85,7 @@
 
 \input{introduccion.tex}
 
-%% ...
-\chapter{El imperio contraataca}
-\chapter{El regreso del Jedi}
+\input{marco_teorico.tex}
 
 %%%% BIBLIOGRAFIA
 \backmatter

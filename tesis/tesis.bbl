@@ -1,4 +1,9 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{plaid:paper}
+Jonathan Aldrich, Joshua Sunshine, Darpan Saini, and Zachary Sparks.
+\newblock Typestate-oriented programming.
+\newblock In {\em Proceedings of the 24th ACM SIGPLAN Conference Companion on Object Oriented Programming Systems Languages and Applications}, OOPSLA '09, page 1015–1022, New York, NY, USA, 2009. Association for Computing Machinery.
 
 \bibitem{aws:crypto-policy-compliance-checker}
 {Amazon Web Services Labs}.
@@ -17,11 +22,55 @@ Nels~E. Beckman, Duri Kim, and Jonathan Aldrich.
 \newblock An empirical study of object protocols in the wild.
 \newblock In {\em Proceedings of the 25th European Conference on Object-Oriented Programming}, ECOOP'11, page 2–26, Berlin, Heidelberg, 2011. Springer-Verlag.
 
+\bibitem{empirical}
+Nels~E. Beckman, Duri Kim, and Jonathan Aldrich.
+\newblock An empirical study of object protocols in the wild.
+\newblock In {\em Proceedings of the 25th European Conference on Object-Oriented Programming}, ECOOP'11, page 2–26, Berlin, Heidelberg, 2011. Springer-Verlag.
+
+\bibitem{Lightweight}
+Kevin Bierhoff and Jonathan Aldrich.
+\newblock Lightweight object specification with typestates.
+\newblock {\em SIGSOFT Softw. Eng. Notes}, 30(5):217–226, September 2005.
+
+\bibitem{plaid:permissions}
+Kevin Bierhoff and Jonathan Aldrich.
+\newblock Modular typestate checking of aliased objects.
+\newblock {\em SIGPLAN Not.}, 42(10):301–320, October 2007.
+
 \bibitem{checker-framework}
 Checker Framewor.
 \newblock The checker framework.
 \newblock \url{https://checkerframework.org}.
 \newblock Accessed: 2026-09-07.
+
+\bibitem{tsop}
+Ronald Garcia, {\'E}ric Tanter, Roger Wolff, and Jonathan Aldrich.
+\newblock Foundations of typestate-oriented programming.
+\newblock {\em ACM Trans. Program. Lang. Syst.}, 36(4), October 2014.
+
+\bibitem{jastadd:website}
+{JastAdd}.
+\newblock {JastAdd}.
+\newblock \url{https://jastadd.cs.lth.se/web/}.
+\newblock Accessed: 2026-09-29.
+
+\bibitem{jastadd:applications}
+{JastAdd}.
+\newblock {JastAdd - Applications}.
+\newblock \url{https://jastadd.cs.lth.se/web/applications.php}.
+\newblock Accessed: 2026-09-29.
+
+\bibitem{Kotlin}
+JetBrains.
+\newblock Kotlin language.
+\newblock \url{https://kotlinlang.org}.
+\newblock Accessed: 2026-09-29.
+
+\bibitem{jatyc:msc-thesis}
+João Mota.
+\newblock Coping with the reality: adding crucial features to a typestate-oriented language.
+\newblock \url{https://github.com/jdmota/java-typestate-checker/blob/master/docs/msc-thesis.pdf}.
+\newblock Accessed: 2026-10-01.
 
 \bibitem{jatyc:mungo-comparison}
 João Mota and Lorenzo Bacchiani.
@@ -32,8 +81,14 @@ João Mota and Lorenzo Bacchiani.
 \bibitem{jatyc:github}
 João Mota and Lorenzo Bacchiani.
 \newblock Java typestate checker tool.
-\newblock \url{https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html}.
+\newblock \url{https://github.com/jdmota/java-typestate-checker}.
 \newblock Accessed: 2026-09-05.
+
+\bibitem{jatyc:documentation}
+João Mota and Lorenzo Bacchiani.
+\newblock Java typestate checker tool - documentation.
+\newblock \url{https://github.com/jdmota/java-typestate-checker/wiki/Documentation}.
+\newblock Accessed: 2026-09-29.
 
 \bibitem{java-docs:iterator}
 Oracle.
@@ -41,10 +96,27 @@ Oracle.
 \newblock \url{https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html}.
 \newblock Accessed: 2026-09-05.
 
+\bibitem{typestate}
+R~E Strom and S~Yemini.
+\newblock Typestate: A programming language concept for enhancing software reliability.
+\newblock {\em IEEE Trans. Softw. Eng.}, 12(1):157–171, January 1986.
+
+\bibitem{plaid}
+Carnegie~Mellon University.
+\newblock Plaid programming language.
+\newblock \url{https://www.cs.cmu.edu/~aldrich/plaid/}.
+\newblock Accessed: 2026-09-29.
+
 \bibitem{mungo:website}
 {University of Glasgow}.
 \newblock {Mungo}.
 \newblock \url{https://www.dcs.gla.ac.uk/research/mungo/}.
 \newblock Accessed: 2026-09-07.
+
+\bibitem{mungo:repo}
+{University of Glasgow}.
+\newblock {Mungo - Oficial Repository}.
+\newblock \url{https://bitbucket.org/abcd-glasgow/mungo-tools/src/master/}.
+\newblock Accessed: 2026-10-01.
 
 \end{thebibliography}
