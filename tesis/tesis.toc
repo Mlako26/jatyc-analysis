@@ -11,3 +11,5 @@
 \contentsline {subsection}{\numberline {2.3.1}Sintaxis y funcionalidad}{5}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}Implementación}{6}{subsection.2.3.2}%
 \contentsline {subsection}{\numberline {2.3.3}Estado del proyecto}{7}{subsection.2.3.3}%
+\contentsline {chapter}{\numberline {3.}Java Typestate Checker}{8}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Typestates y Object Protocols}{8}{section.3.1}%

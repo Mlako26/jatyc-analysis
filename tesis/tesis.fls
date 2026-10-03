@@ -183,9 +183,9 @@ INPUT ./introduccion.tex
 INPUT ./introduccion.tex
 INPUT introduccion.tex
 INPUT d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
-INPUT ./marco_teorico.tex
-INPUT ./marco_teorico.tex
-INPUT marco_teorico.tex
+INPUT ./trabajos_relacionados.tex
+INPUT ./trabajos_relacionados.tex
+INPUT trabajos_relacionados.tex
 INPUT d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsl10.tfm
 INPUT d:/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT d:/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -208,6 +208,9 @@ INPUT d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmti7.tfm
 INPUT ./code/capitulo2/mungo_protocol.protocol
 INPUT ./code/capitulo2/mungo_protocol.protocol
 INPUT ./code/capitulo2/mungo_protocol.protocol
+INPUT ./jatyc.tex
+INPUT ./jatyc.tex
+INPUT jatyc.tex
 INPUT ./tesis.bbl
 INPUT ./tesis.bbl
 INPUT tesis.bbl
