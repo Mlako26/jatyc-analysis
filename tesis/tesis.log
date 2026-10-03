@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  3 OCT 2026 16:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  3 OCT 2026 16:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -242,12 +242,7 @@ Package: needspace 2025/03/13 v1.3e reserve vertical space
 ) (d:/texlive/2026/texmf-dist/tex/latex/l3kernel/l3backend-pdftex.def
 File: l3backend-pdftex.def 2026-08-10 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count313
-) (./tesis.aux
-LaTeX Info: Redefining \. on input line 11.
-LaTeX Info: Redefining \% on input line 11.
-Package babel Info: 'spanish' activates 'spanish' shorthands.
-(babel)             Reported on input line 11.
-)
+) (./tesis.aux)
 \openout1 = `tesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
@@ -289,6 +284,8 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 LaTeX Info: Redefining \. on input line 52.
 LaTeX Info: Redefining \% on input line 52.
+Package babel Info: 'spanish' activates 'spanish' shorthands.
+(babel)             Reported on input line 52.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -325,20 +322,19 @@ LaTeX Info: Redefining \% on input line 52.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package hyperref Info: Link coloring OFF on input line 52.
-(./tesis.out) (./tesis.out)
 \@outlinefile=\write3
 \openout3 = `tesis.out'.
 
 \c@lstlisting=\count320
 Package babel Info: Main language set to 'spanish'.
- (./caratula.tex
+(./caratula.tex
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 9.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 9.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 9.
-<logofcen.pdf, id=60, 108.405pt x 108.405pt>
+<logofcen.pdf, id=4, 108.405pt x 108.405pt>
 File: logofcen.pdf Graphic file (type pdf)
 <use logofcen.pdf>
 Package pdftex.def Info: logofcen.pdf  used on input line 10.
@@ -356,18 +352,40 @@ Package pdftex.def Info: logofcen.pdf  used on input line 10.
 
 ] (./dedicatoria.tex) [4
 
-] (./tesis.toc
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
-)
+]
+No file tesis.toc.
 \tf@toc=\write4
 \openout4 = `tesis.toc'.
 
- [5
+[5
 
 
 ] (./introduccion.tex
 Cap\'{\i }tulo 1.
+
+LaTeX Warning: Citation `java-docs:iterator' on page 1 undefined on input line 5.
+
+
+LaTeX Warning: Citation `papers:protocols-in-the-wild' on page 1 undefined on input line 5.
+
+
+LaTeX Warning: Citation `jatyc:github' on page 1 undefined on input line 9.
+
+
+LaTeX Warning: Citation `mungo:website' on page 1 undefined on input line 11.
+
+
+LaTeX Warning: Citation `jatyc:mungo-comparison' on page 1 undefined on input line 11.
+
+
+LaTeX Warning: Citation `checker-framework' on page 1 undefined on input line 11.
+
+
+LaTeX Warning: Citation `aws:crypto-policy-compliance-checker' on page 1 undefined on input line 11.
+
+
+LaTeX Warning: Citation `aws:kms-compliance-checker' on page 1 undefined on input line 11.
+
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
@@ -383,6 +401,15 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 (babel)             Reported on input line 1.
  [2]
 Cap\'{\i }tulo 2.
+
+LaTeX Warning: Citation `typestate' on page 3 undefined on input line 7.
+
+
+LaTeX Warning: Citation `Lightweight' on page 3 undefined on input line 17.
+
+
+LaTeX Warning: Reference `teorico:ortogonal' on page 3 undefined on input line 21.
+
 [3
 
 ] (d:/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -390,24 +417,95 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 28.
  (./code/capitulo2/iterator_example.java)
+
+LaTeX Warning: Citation `empirical' on page 4 undefined on input line 36.
+
+
+LaTeX Warning: Citation `tsop' on page 4 undefined on input line 42.
+
+
+LaTeX Warning: Citation `plaid' on page 4 undefined on input line 44.
+
+
+LaTeX Warning: Citation `plaid:paper' on page 4 undefined on input line 44.
+
 LaTeX Info: Redefining \. on input line 45.
 LaTeX Info: Redefining \% on input line 45.
- [4] (./code/capitulo2/plaid_example.plaid
+[4]
+
+LaTeX Warning: Reference `teorico:plaid' on page 5 undefined on input line 46.
+
+(./code/capitulo2/plaid_example.plaid
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <9> on input line 6.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 6.
 )
+
+LaTeX Warning: Citation `plaid:permissions' on page 5 undefined on input line 55.
+
+
+LaTeX Warning: Citation `mungo:website' on page 5 undefined on input line 59.
+
+
+LaTeX Warning: Citation `jatyc:documentation' on page 5 undefined on input line 59.
+
+
+LaTeX Warning: Citation `jatyc:msc-thesis' on page 5 undefined on input line 59.
+
+
+LaTeX Warning: Citation `jatyc:mungo-comparison' on page 5 undefined on input line 59.
+
+
+LaTeX Warning: Reference `teorico:mungo' on page 5 undefined on input line 63.
+
 LaTeX Info: Redefining \. on input line 64.
 LaTeX Info: Redefining \% on input line 64.
- [5] (./code/capitulo2/mungo_protocol.protocol)
+[5] (./code/capitulo2/mungo_protocol.protocol)
+
+LaTeX Warning: Reference `teorico:mungo' on page 6 undefined on input line 71.
+
+
+LaTeX Warning: Citation `jatyc:mungo-comparison' on page 6 undefined on input line 73.
+
+
+LaTeX Warning: Citation `jastadd:website' on page 6 undefined on input line 77.
+
+
+LaTeX Warning: Citation `jastadd:applications' on page 6 undefined on input line 77.
+
+
+LaTeX Warning: Citation `checker-framework' on page 6 undefined on input line 79.
+
+
+LaTeX Warning: Citation `aws:kms-compliance-checker' on page 6 undefined on input line 79.
+
+
+LaTeX Warning: Citation `aws:crypto-policy-compliance-checker' on page 6 undefined on input line 79.
+
 LaTeX Info: Redefining \. on input line 80.
 LaTeX Info: Redefining \% on input line 80.
- [6]) (./jatyc.tex
+[6]
+
+LaTeX Warning: Citation `Kotlin' on page 7 undefined on input line 81.
+
+
+LaTeX Warning: Citation `mungo:repo' on page 7 undefined on input line 85.
+
+) (./jatyc.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
  [7]
 Cap\'{\i }tulo 3.
+
+LaTeX Warning: Citation `jatyc:github' on page 8 undefined on input line 3.
+
+
+LaTeX Warning: Citation `kotlin' on page 8 undefined on input line 3.
+
+
+LaTeX Warning: Citation `checker-framework' on page 8 undefined on input line 3.
+
 ) [8
 
 ] (./tesis.bbl
@@ -434,22 +532,35 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
  ***********
-Package rerunfilecheck Info: File `tesis.out' has not changed.
-(rerunfilecheck)             Checksum: 7BDC48B69E4853C10908795A79313799;2132.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `tesis.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `tesis.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  551F83A0032329F39261F30F85AFE680;2043.
  ) 
 Here is how much of TeX's memory you used:
- 13288 strings out of 467099
- 207357 string characters out of 5412503
- 907856 words of memory out of 5000000
- 42362 multiletter control sequences out of 15000+600000
+ 13259 strings out of 467099
+ 206967 string characters out of 5412503
+ 905720 words of memory out of 5000000
+ 42339 multiletter control sequences out of 15000+600000
  636573 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  74i,9n,79p,1988b,1363s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (16 pages, 262616 bytes).
+Output written on tesis.pdf (16 pages, 259540 bytes).
 PDF statistics:
- 353 PDF objects out of 1000 (max. 8388607)
- 304 compressed objects within 4 object streams
+ 264 PDF objects out of 1000 (max. 8388607)
+ 216 compressed objects within 3 object streams
  92 named destinations out of 1000 (max. 500000)
- 118 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

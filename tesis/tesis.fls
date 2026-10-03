@@ -127,14 +127,8 @@ INPUT d:/texlive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 INPUT d:/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 INPUT d:/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 INPUT d:/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-INPUT ./tesis.out
-INPUT ./tesis.out
-INPUT tesis.out
-INPUT tesis.out
-OUTPUT tesis.pdf
-INPUT ./tesis.out
-INPUT ./tesis.out
 OUTPUT tesis.out
+OUTPUT tesis.pdf
 INPUT ./caratula.tex
 INPUT ./caratula.tex
 INPUT ./caratula.tex
@@ -175,9 +169,6 @@ INPUT ./dedicatoria.tex
 INPUT ./dedicatoria.tex
 INPUT dedicatoria.tex
 INPUT d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
-INPUT ./tesis.toc
-INPUT ./tesis.toc
-INPUT tesis.toc
 OUTPUT tesis.toc
 INPUT ./introduccion.tex
 INPUT ./introduccion.tex
