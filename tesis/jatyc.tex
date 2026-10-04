@@ -1,8 +1,90 @@
 \chapter{Java Typestate Checker}
 
-\textbf{Java Typestate Checker}\cite{jatyc:github} es una herramienta de verificación de código Java para protocolos de objetos. Analizando el programa en forma estática, detecta errores relacionados al orden de las llamadas a métodos, consumo debido de los recursos y herencia de protocolos, entre otras cosas. La herramienta está escrita en Kotlin\cite{kotlin} como plug-in del Checker Framework\cite{checker-framework}, y se destaca por ser una de las herramientas de verificación de object protocols más flexibles y actualizadas para Java.
+\textbf{Java Typestate Checker}\cite{jatyc:github} es una herramienta de verificación de código Java para protocolos de objetos. Analizando el programa en forma estática, detecta errores relacionados al orden de las llamadas a métodos, consumo debido de los recursos y herencia de protocolos, entre otras cosas. La herramienta está escrita en Kotlin\cite{kotlin} como plug-in del Checker Framework\cite{checker-framework}, y se destaca por ser una de las herramientas de verificación de object protocols más flexibles y actualizadas para Java. Son estas las razones por las cuales seleccionamos esta herramienta para analizar el poder de expresión y limitaciones de la verificación de object protocols.
+
+\section{Definición de Protocolos}
+
+\textit{JaTyC} permite a sus usuarios definir protocolos para sus clases a través de \textbf{typestates}. Dentro de cada uno de ellos, se establece la interfaz para los objetos que estén en ese estado, definiendo los métodos disponibles y las transiciones resultantes de llamarlos.
+
+\needspace{16\baselineskip}
+\lstinputlisting[
+    caption=Ejemplo de definición de protocolo para un Iterador simple,
+    label={jatyc:iterator}
+]{./code/capitulo3/Iterator.protocol}
+
+\needspace{16\baselineskip}
+\lstinputlisting[
+    caption=Ejemplo de suscripción de protocolo,
+    label={jatyc:typestate-notation}
+]{./code/capitulo3/Iterator.java}
+
+Un ejemplo simple de un protocolo puede observarse en la Figura \ref{jatyc:iterador}. En el mismo, se definen dos typestates para una clase \texttt{Iterator}: \texttt{HasNext} y \texttt{Next}. Al ser el primer estado definido, \texttt{HasNext} es el inicial para cualquier instancia de la clase, y cuenta solamente con el método \texttt{hasNext()} disponible. Al ser llamado, el objeto puede transicionar a diferentes estados según el resultado booleano retornado: al estado \texttt{Next} de ser verdadero o al estado reservado \texttt{end} de ser falso, que señala la terminación del protocolo. De finalizar el protocolo, no se podrán llamar más ninguno de sus métodos (con la excepción de los métodos \textit{anytime}, de los cuales hablaremos en la seccion \ref{una seccion que todavia no hice}). De transicionar a \texttt{Next}, el iterador podrá llamar a ambos métodos \texttt{hasNext()} y \texttt{next()}, donde el último devuelve el siguiente elemento en la colección y regresa a la instancia al estado inicial. En resumen, el protocolo indica que el objeto solamente puede pedir el siguiente elemento de estar seguro que exista, y de no haber más elementos termina su ciclo de vida. Los clientes del mismo deberán de respetar este comportamiento, y de no hacerlo \textit{JaTyC} alertará un error.
+
+Para adherir una clase a un protocolo, basta con anotarla con ``\texttt{@Typestate(<protocolo>)}'', como muestra la figura \ref{jatyc:typestate-notation}.
+
+\subsection{Métodos Anytime}
+
+Los \textbf{Anytime Methods}, o ``métodos de cualquier momento'', son todos los métodos definidos por una clase que no están mencionados por el protocolo. Estos pueden ser llamados para una objeto en cualquier punto de la ejecución del programa, sin importar el estado en el que el mismo se encuentre.
+
+Dado que estos métodos se asumen no relevantes para el protocolo, los mismos no pueden modificar los valores de los colaboradores internos de la instancia, ni hacerlos transicionar a otro typestate de ser también objetos protocolados.
+
+Por último, estos métodos son los únicos que pueden llamar las \textit{shared references}, o referencias compartidas, de un objeto. Más de esto va a ser explicado en la sección de \textbf{Aliasing}\ref{referencia uqe todavia no hice}.
+
+\subsection{Estados Descartables}
+
+Los \textbf{Droppable States}, o ``estados descartables'', son parte de la funcionalidad nueva introducida por la herramientaA.protoc en comparación a su predecesora Mungo. Los mismos proveen una alternativa para el programador a la hora de indicar la finalización del protocolo de un objeto.
+
+\needspace{16\baselineskip}
+\lstinputlisting[
+    caption=Ejemplo de protocolo con estados descartables,
+    label={jatyc:droppable}
+]{./code/capitulo3/Animal.protocolo}
+
+En la Figura \ref{jatyc:droppable} puede observarse cómo funcionan. El estado inicial \texttt{Init} tiene declarado un único método llamable, \texttt{move()}, y a su vez que es descartable, con la notación \texttt{drop: end}. La misma indica que a la hora de finalizar el ciclo de vida del objeto, de encontrarse en el estado \texttt{Init}, transicionará automáticamente a \texttt{end}, finalizando su protocolo.
+
+Lo que permiten los estados descartables es máx flexibilidad a la hora de definir protocolos, sobre todo cuando no hay un método claro que debería de transicionar al objeto a \texttt{end}. Cualquier estado puede ser descartable, y varios estados pueden ser descartables a la vez.
+
+\subsection{Múltiples Destinos}
+
+A la hora de definir un protocolo, hay situaciones en las que podría ser deseable expresar, para un mismo método, transiciones a typestates diferentes según el resultado de la llamada.
+
+\textit{JaTyC} permite definir múltiples destinos para resultados booleanos o enumeraciones. Por ejemplo, en la Figura \ref{jatyc:iterator.protocol}, podemos observar cómo para el método \texttt{hasNext()} se define que el objeto pasará al estado \texttt{Next} o \texttt{end} según si el resulta booleano devuelve verdadero o falso. Por otro lado, en la Figura \ref{jatyc:enumerations} se aprecia un protocolo para un lector de archivos. En él, el estado inicila \texttt{Init} define un métdod \texttt{open()} el cual devuelve una enumeración de tipo \texttt{FileStatus}, con potenciales valores \texttt{OK} y \texttt{ERROR}. Según el resultado devuelto, el objeto pasará a estar habilitado a leer el archivo abierto o finalizará su protocolo.
+
+\needspace{16\baselineskip}
+\lstinputlisting[
+    caption=Ejemplo de protocolo con múltiples destinos a través de enumeraciones,
+    label={jatyc:enumerations}
+]{./code/capitulo3/FileProtocol.protocolo}
+
+\section{Anotaciones Adicionales}
+
+Además de la introducción de los protocolos, con la definición en los archivos \textit{.protocol} y la suscripción con la anotación \texttt{@Typestate}, \textit{JaTyC} provee otras anotaciones útiles para definir comportamiento esperado en los programas.
+
+\subsection{Nullable}
 
 
-\section{Funcionalidad}
+
+\subsection{Requires}
 
 
+
+\subsection{Ensures}
+
+
+
+\section{Aliasing}
+
+
+
+alliasing
+anotaciones de ensures/requires/etc.
+garantías estáticas
+subtyping y casting
+
+\subsection{Verificación Estática}
+\subsection{Alliasing}
+\subsection{}
+\subsection{Ejemplo Práctico}
+\section{Implementación}
+\subsection{Algoritmo}
+\subsection{Checker Framework}
