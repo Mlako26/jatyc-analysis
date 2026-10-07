@@ -1,4 +1,3 @@
-
 public void moveRight(@Requires("TopLeft") Robot robot) {
   robot.moveRight();
 }

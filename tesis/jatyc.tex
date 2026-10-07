@@ -79,7 +79,9 @@ Esta anotación puede utilizarse en la definición de variables y colaboradores 
 
 \subsection{Requires}
 
-La anotación \texttt{@Requires} puede ser utilizada en los parámetros de un método para indicar en qué typestate (o conjunto de typestates) se espera que el objeto proveído se encuentre. Un ejemplo de esto puede observarse en la Figura \ref{jatyc:requires}. De no proveer esta anotación, \textit{JaTyC} asume que el objeto recibido por el método es una referencia compartida.
+La anotación \texttt{@Requires} puede ser utilizada en los parámetros de un método para indicar en qué typestate (o conjunto de typestates) se espera que el objeto proveído se encuentre. Un ejemplo de esto puede observarse en la Figura \ref{jatyc:requires}, donde se muestran un par de métodos para un controlador de un robot. En ellos, requiren que el robot pasado por parámetro esté en determinados estados obligatoriamente.
+
+De no proveer esta anotación, \textit{JaTyC} asume que el objeto recibido por el método es una referencia compartida, y permitirá solamente utilizar sus métodos \textit{Anytime}. A su vez, de sí proveerla, se debe de tener en cuenta la finalización de protocolo del objeto. Es decir, cuando se salga del scope del método se perderá la única referencia lineal del mismo, y por ende su protocolo debe de completarse antes (a no ser de utilizar la anotación \texttt{@Ensures}, de la que hablaremos en la próxima sección).
 
 \needspace{8\baselineskip}
 \lstinputlisting[
@@ -89,13 +91,32 @@ La anotación \texttt{@Requires} puede ser utilizada en los parámetros de un m�
 
 \subsection{Ensures}
 
-garantías estáticas
-subtyping y casting
+La herramienta provee por último la anotación \texttt{@Ensures} cuando se quiere indicar el typestate (o conjunto de typestates) en el que se encuentra el valor de retorno de un método. Un ejemplo del mismo puede observarse en la Figura \ref{jatyc:ensures}, donde se ve un método getter de un controlador de robots. En el mismo, se observa cómo define que el robot devuelto estará exáctamente en el estado \texttt{TopLeft}, permitiéndole al código cliente acceder a sus métodos protocolados.
 
-\subsection{Verificación Estática}
-\subsection{Alliasing}
-\subsection{}
-\subsection{Ejemplo Práctico}
+De no utilizar esta notación, se asume que la referencia devuelta será compartida, y solo sus métodos \textit{Anytime} estarán disponibles. A su vez, de no utilizarla y devolver un objeto que tiene protocolo, se requiere que el mismo lo finalice antes de retornar del método (ya sea a través de una tranicisión a \texttt{end} o un estado descartable). De no ser asi, se perdería la única referencia lineal al salir del scope, y nunca llegaría el objeto a completar su protocolo. Por ejemplo, de retornar un lector de archivos, se espera que el método finalize con el archivo ya cerrado.
+
+\needspace{8\baselineskip}
+\lstinputlisting[
+    caption=Ejemplo de uso de anotación \texttt{@Ensures}\ en el valor de retorno de un método,
+    label={jatyc:ensures}
+]{./code/capitulo3/Ensures.java}
+
+\needspace{8\baselineskip}
+\lstinputlisting[
+    caption=Ejemplos de uso de anotación \texttt{@Ensures} en un parámetro de entrada de un método,
+    label={jatyc:ensures_param}
+]{./code/capitulo3/Ensures_2.java}
+
+Durante nuestra experimentación, notamos que la anotación puede ser también utilizada en los parámetros de entrada de un método. Esto no es mencionado por la documentación oficial de la herramienta, con lo cual no podemos afirmar que es comportamiento esperado. De todos modos, sentimos que es relevante mencionarlo dado que permite mucha más flexibilidad a la hora de utilizar los objetos protocolados. Esto es porque, de utilizarlo en parámetros también anotados con \texttt{@Requires}, es posible devolver la referencia lineal del objeto proveido por el cliente, y no una compartida. De esta forma, se consigue evitar tener que obligatoriamente completar su protocolo dentro del scope del método.
+
+Un ejemplo de uso de ambas anotaciones puede observarse en la Figura \ref{jatyc:ensures_param}, donde se opera con un \texttt{Stack}. El método declara que el stack debe entrar en el typestate \texttt{Init}, y que lo devolverá en el mismo estado. Para que funcione, \textit{JaTyC} requiere que el parámetro sea \texttt{final}, es decir, que el objeto al que referencia no cambie durante la ejecución del método.
+
+\section{Subtipado}
+
+\section{Garantías}
+
+\section{Ejemplo Práctico}
+
 \section{Implementación}
 \subsection{Algoritmo}
 \subsection{Checker Framework}
