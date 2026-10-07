@@ -18,17 +18,18 @@
     label={jatyc:typestate-notation}
 ]{./code/capitulo3/Iterator.java}
 
-Un ejemplo simple de un protocolo puede observarse en la Figura \ref{jatyc:iterador}. En el mismo, se definen dos typestates para una clase \texttt{Iterator}: \texttt{HasNext} y \texttt{Next}. Al ser el primer estado definido, \texttt{HasNext} es el inicial para cualquier instancia de la clase, y cuenta solamente con el método \texttt{hasNext()} disponible. Al ser llamado, el objeto puede transicionar a diferentes estados según el resultado booleano retornado: al estado \texttt{Next} de ser verdadero o al estado reservado \texttt{end} de ser falso, que señala la terminación del protocolo. De finalizar el protocolo, no se podrán llamar más ninguno de sus métodos (con la excepción de los métodos \textit{anytime}, de los cuales hablaremos en la seccion \ref{una seccion que todavia no hice}). De transicionar a \texttt{Next}, el iterador podrá llamar a ambos métodos \texttt{hasNext()} y \texttt{next()}, donde el último devuelve el siguiente elemento en la colección y regresa a la instancia al estado inicial. En resumen, el protocolo indica que el objeto solamente puede pedir el siguiente elemento de estar seguro que exista, y de no haber más elementos termina su ciclo de vida. Los clientes del mismo deberán de respetar este comportamiento, y de no hacerlo \textit{JaTyC} alertará un error.
+Un ejemplo simple de un protocolo puede observarse en la Figura \ref{jatyc:iterator}. En el mismo, se definen dos typestates para una clase \texttt{Iterator}: \texttt{HasNext} y \texttt{Next}. Al ser el primer estado definido, \texttt{HasNext} es el inicial para cualquier instancia de la clase, y cuenta solamente con el método \texttt{hasNext()} disponible. Al ser llamado, el objeto puede transicionar a diferentes estados según el resultado booleano retornado: al estado \texttt{Next} de ser verdadero o al estado reservado \texttt{end} de ser falso, que señala la terminación del protocolo. De finalizar el protocolo, no se podrán llamar más ninguno de sus métodos (con la excepción de los métodos \textit{anytime}, de los cuales hablaremos en la seccion \ref{anytime}). De transicionar a \texttt{Next}, el iterador podrá llamar a ambos métodos \texttt{hasNext()} y \texttt{next()}, donde el último devuelve el siguiente elemento en la colección y regresa a la instancia al estado inicial. En resumen, el protocolo indica que el objeto solamente puede pedir el siguiente elemento de estar seguro que exista, y de no haber más elementos termina su ciclo de vida. Los clientes del mismo deberán de respetar este comportamiento, y de no hacerlo \textit{JaTyC} alertará un error.
 
-Para adherir una clase a un protocolo, basta con anotarla con ``\texttt{@Typestate(<protocolo>)}'', como muestra la figura \ref{jatyc:typestate-notation}.
+Anotando una clase con \texttt{@Typestate(<protocolo>)} se la suscribe al protocolo, como muestra la figura \ref{jatyc:typestate-notation}.
 
 \subsection{Métodos Anytime}
+\label{anytime}
 
 Los \textbf{Anytime Methods}, o ``métodos de cualquier momento'', son todos los métodos definidos por una clase que no están mencionados por el protocolo. Estos pueden ser llamados para una objeto en cualquier punto de la ejecución del programa, sin importar el estado en el que el mismo se encuentre.
 
 Dado que estos métodos se asumen no relevantes para el protocolo, los mismos no pueden modificar los valores de los colaboradores internos de la instancia, ni hacerlos transicionar a otro typestate de ser también objetos protocolados.
 
-Por último, estos métodos son los únicos que pueden llamar las \textit{shared references}, o referencias compartidas, de un objeto. Más de esto va a ser explicado en la sección de \textbf{Aliasing}\ref{referencia uqe todavia no hice}.
+Por último, estos métodos son los únicos que pueden llamar las \textit{shared references}, o referencias compartidas, de un objeto. Más de esto va a ser explicado en la sección de \textbf{Aliasing}\ref{aliasing}.
 
 \subsection{Estados Descartables}
 
@@ -38,7 +39,7 @@ Los \textbf{Droppable States}, o ``estados descartables'', son parte de la funci
 \lstinputlisting[
     caption=Ejemplo de protocolo con estados descartables,
     label={jatyc:droppable}
-]{./code/capitulo3/Animal.protocolo}
+]{./code/capitulo3/Animal.protocol}
 
 En la Figura \ref{jatyc:droppable} puede observarse cómo funcionan. El estado inicial \texttt{Init} tiene declarado un único método llamable, \texttt{move()}, y a su vez que es descartable, con la notación \texttt{drop: end}. La misma indica que a la hora de finalizar el ciclo de vida del objeto, de encontrarse en el estado \texttt{Init}, transicionará automáticamente a \texttt{end}, finalizando su protocolo.
 
@@ -48,36 +49,46 @@ Lo que permiten los estados descartables es máx flexibilidad a la hora de defin
 
 A la hora de definir un protocolo, hay situaciones en las que podría ser deseable expresar, para un mismo método, transiciones a typestates diferentes según el resultado de la llamada.
 
-\textit{JaTyC} permite definir múltiples destinos para resultados booleanos o enumeraciones. Por ejemplo, en la Figura \ref{jatyc:iterator.protocol}, podemos observar cómo para el método \texttt{hasNext()} se define que el objeto pasará al estado \texttt{Next} o \texttt{end} según si el resulta booleano devuelve verdadero o falso. Por otro lado, en la Figura \ref{jatyc:enumerations} se aprecia un protocolo para un lector de archivos. En él, el estado inicila \texttt{Init} define un métdod \texttt{open()} el cual devuelve una enumeración de tipo \texttt{FileStatus}, con potenciales valores \texttt{OK} y \texttt{ERROR}. Según el resultado devuelto, el objeto pasará a estar habilitado a leer el archivo abierto o finalizará su protocolo.
+\textit{JaTyC} permite definir múltiples destinos para resultados booleanos o enumeraciones. Por ejemplo, en la Figura \ref{jatyc:iterator}, podemos observar cómo para el método \texttt{hasNext()} se define que el objeto pasará al estado \texttt{Next} o \texttt{end} según si el resulta booleano devuelve verdadero o falso. Por otro lado, en la Figura \ref{jatyc:enumerations} se aprecia un protocolo para un lector de archivos. En él, el estado inicila \texttt{Init} define un métdod \texttt{open()} el cual devuelve una enumeración de tipo \texttt{FileStatus}, con potenciales valores \texttt{OK} y \texttt{ERROR}. Según el resultado devuelto, el objeto pasará a estar habilitado a leer el archivo abierto o finalizará su protocolo.
 
 \needspace{16\baselineskip}
 \lstinputlisting[
     caption=Ejemplo de protocolo con múltiples destinos a través de enumeraciones,
     label={jatyc:enumerations}
-]{./code/capitulo3/FileProtocol.protocolo}
+]{./code/capitulo3/FileProtocol.protocol}
+
+\section{Aliasing}
+\label{aliasing}
+
 
 \section{Anotaciones Adicionales}
 
-Además de la introducción de los protocolos, con la definición en los archivos \textit{.protocol} y la suscripción con la anotación \texttt{@Typestate}, \textit{JaTyC} provee otras anotaciones útiles para definir comportamiento esperado en los programas.
+Además de la introducción de los protocolos, tanto con la definición en los archivos \textit{.protocol} como con la anotación \texttt{@Typestate} para suscribirse, \textit{JaTyC} provee otras anotaciones útiles para definir comportamiento esperado en los programas.
 
 \subsection{Nullable}
 
+Por defecto, \textit{JaTyC} considera a todas las variables de un programa como no anulables, a diferencia del sistema de tipos por defecto de Java. Para definir que la variable puede tomar el valor de \texttt{null}, se utiliza la notación \texttt{@nullable}, como se muestra en la Figura \ref{jatyc:nullable}. De no utilizar la anotación y asignar \texttt{null} a una variable no anulable, la herramienta reportará un error. A través de este mecanismo, el checker previene errores típicos en código de Java tales como los de \textit{Null Pointer}.
 
+Esta anotación puede utilizarse en la definición de variables y colaboradores internos, argumentos de funciones y valores de retorno.
+
+\needspace{8\baselineskip}
+\lstinputlisting[
+    caption=Ejemplo de uso de anotación \texttt{@Nullable} para el método \texttt{next()} de un iterador,
+    label={jatyc:nullable}
+]{./code/capitulo3/Nullable.java}
 
 \subsection{Requires}
 
+La anotación \texttt{@Requires} puede ser utilizada en los parámetros de un método para indicar en qué typestate (o conjunto de typestates) se espera que el objeto proveído se encuentre. Un ejemplo de esto puede observarse en la Figura \ref{jatyc:requires}. De no proveer esta anotación, \textit{JaTyC} asume que el objeto recibido por el método es una referencia compartida.
 
+\needspace{8\baselineskip}
+\lstinputlisting[
+    caption=Ejemplos de uso de anotación \texttt{@Requires}\, para un solo typestate y para un conjunto de typestates,
+    label={jatyc:requires}
+]{./code/capitulo3/Requires.java}
 
 \subsection{Ensures}
 
-
-
-\section{Aliasing}
-
-
-
-alliasing
-anotaciones de ensures/requires/etc.
 garantías estáticas
 subtyping y casting
 
