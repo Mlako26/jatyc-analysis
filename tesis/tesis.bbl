@@ -66,6 +66,11 @@ JetBrains.
 \newblock \url{https://kotlinlang.org}.
 \newblock Accessed: 2026-09-29.
 
+\bibitem{mungo:paper}
+Dimitrios Kouzapas, Ornela Dardha, Roly Perera, and Simon~J. Gay.
+\newblock Typechecking protocols with mungo and stmungo.
+\newblock In {\em Proceedings of the 18th International Symposium on Principles and Practice of Declarative Programming}, PPDP '16, page 146–159, New York, NY, USA, 2016. Association for Computing Machinery.
+
 \bibitem{jatyc:msc-thesis}
 João Mota.
 \newblock Coping with the reality: adding crucial features to a typestate-oriented language.

@@ -6,19 +6,17 @@
 
 \textit{JaTyC} permite a sus usuarios definir protocolos para sus clases a través de \textbf{typestates}. Dentro de cada uno de ellos, se establece la interfaz para los objetos que estén en ese estado, definiendo los métodos disponibles y las transiciones resultantes de llamarlos.
 
-% TODO: REEMPLAZAR LAS LISTINGS POR FIGURAS ASI
-
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo3/Iterator.protocol}
-    \caption{Ejemplo de definición de protocolo simple para un Iterador}
+    \caption{Definición de protocolo simple para un Iterador}
     \label{jatyc:iterator}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo3/Iterator.java}
-    \caption{Ejemplo de suscripción de protocolo}
+    \caption{Suscripción de protocolo a través de la anotación \texttt{@Typestate}}
     \label{jatyc:typestate-notation}
 \end{figure}
 
@@ -33,7 +31,7 @@ Los \textbf{Droppable States}, o ``estados descartables'', son parte de la funci
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo3/Animal.protocol}
-    \caption{Ejemplo de protocolo con estados descartables}
+    \caption{Protocolo con estados descartables}
     \label{jatyc:droppable}
 \end{figure}
 
@@ -50,7 +48,7 @@ A la hora de definir un protocolo, hay situaciones en las que podría ser deseab
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo3/FileProtocol.protocol}
-    \caption{Ejemplo de protocolo con múltiples destinos a través de enumeraciones}
+    \caption{Protocolo con múltiples destinos a través de enumeraciones}
     \label{jatyc:enumerations}
 \end{figure}
 
@@ -65,6 +63,17 @@ Los \textbf{Anytime Methods}, o ``métodos de cualquier momento'', son todos los
 
 Las variables pierden la referencia lineal a su objeto, de tenerla, cuando se asigna a otra variable, parámetro, o colaborador interno. Es decir, asignar una referencia lineal a una variable nueva ``transmite la linealidad'' de la vieja a la nueva, mientras que la vieja pasa a ser compartida.
 
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Aliasing.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo3/Aliasing_error.txt}
+    \caption{\textit{JaTyC} reportando un error al llamar métodos protocolados en referencia compartida}
+    \label{jatyc:aliasing}
+\end{figure}
+
+En la Figura \ref{jatyc:aliasing} puede observarse un ejemplo de código cliente utilizando un objeto de tipo \texttt{Stack} que está protocolado. El mismo tiene un protocolo muy simple, similar al de la Figura \ref{teorico:mungo}, el cuál incluye al método \texttt{push()} (en otras palabras, no es un método \textit{anytime}). El código cliente comienza definiendo una variable \texttt{s1}, y asignándole una nueva instancia de \texttt{Stack}, transformándola en una referencia lineal. Acto seguido, se define una nueva variable \texttt{s2} y se la hace apuntar al mismo objeto. Esto transfiere la linealidad de \texttt{s1} a \texttt{s2}, y \texttt{s1} pasa a ser una referencia compartida, sin acceso a los métodos protocolados. Notemos que al correr la herramienta, la misma reporta como un error la llamada al método \texttt{push()} desde la referencia compartida \texttt{s1} y no la lineal \texttt{s2}.
+
 \section{Anotaciones Adicionales}
 
 Además de la introducción de los protocolos, tanto con la definición en los archivos \textit{.protocol} como con la anotación \texttt{@Typestate} para suscribirse, \textit{JaTyC} provee otras anotaciones útiles para definir comportamiento esperado en los programas.
@@ -78,7 +87,7 @@ Esta anotación puede utilizarse en la definición de variables y colaboradores 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo3/Nullable.java}
-    \caption{Ejemplo de uso de anotación \texttt{@Nullable} para el método \texttt{next()} de un iterador}
+    \caption{Uso de anotación \texttt{@Nullable} para el método \texttt{next()} de un iterador}
     \label{jatyc:nullable}
 \end{figure}
 
@@ -91,7 +100,7 @@ De no proveer esta anotación, \textit{JaTyC} asume que el objeto recibido por e
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo3/Requires.java}
-    \caption{Ejemplos de uso de anotación \texttt{@Requires}\, para un solo typestate y para un conjunto de typestates}
+    \caption{Uso de anotación \texttt{@Requires}\, para un solo typestate y para un conjunto de typestates}
     \label{jatyc:requires}
 \end{figure}
 
@@ -104,14 +113,14 @@ De no utilizar esta anotación, se asume que la referencia devuelta será compar
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo3/Ensures.java}
-    \caption{Ejemplo de uso de anotación \texttt{@Ensures}\ en el valor de retorno de un método}
+    \caption{Uso de anotación \texttt{@Ensures}\ en el valor de retorno de un método}
     \label{jatyc:ensures}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo3/Ensures_2.java}
-    \caption{Ejemplos de uso de anotación \texttt{@Ensures} en un parámetro de entrada de un método}
+    \caption{Uso de anotación \texttt{@Ensures} en un parámetro de entrada de un método}
     \label{jatyc:ensures_param}
 \end{figure}
 
@@ -120,6 +129,8 @@ Durante nuestra experimentación, notamos que la anotación también puede ser u
 Un ejemplo de uso de ambas anotaciones puede observarse en la Figura \ref{jatyc:ensures_param}, donde se opera con un \texttt{Stack}. El método declara que el stack proveído deberá encontrarse en el typestate \texttt{Init}, y que lo devolverá en el mismo estado. Para que funcione, \textit{JaTyC} requiere que el parámetro sea \texttt{final}, es decir, que el objeto al que referencia no cambie durante la ejecución del método.
 
 \section{Subtipado}
+
+
 
 \subsection{Casting}
 

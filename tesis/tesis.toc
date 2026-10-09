@@ -16,10 +16,10 @@
 \contentsline {subsection}{\numberline {3.1.1}Estados Descartables}{9}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Múltiples Destinos}{9}{subsection.3.1.2}%
 \contentsline {section}{\numberline {3.2}Aliasing}{10}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Anotaciones Adicionales}{10}{section.3.3}%
+\contentsline {section}{\numberline {3.3}Anotaciones Adicionales}{11}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Nullable}{11}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Requires}{11}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Ensures}{11}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.3}Ensures}{12}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}Subtipado}{13}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}Casting}{13}{subsection.3.4.1}%
 \contentsline {section}{\numberline {3.5}Garantías}{13}{section.3.5}%
