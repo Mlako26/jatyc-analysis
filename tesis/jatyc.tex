@@ -6,6 +6,14 @@
 
 \textit{JaTyC} permite a sus usuarios definir protocolos para sus clases a través de \textbf{typestates}. Dentro de cada uno de ellos, se establece la interfaz para los objetos que estén en ese estado, definiendo los métodos disponibles y las transiciones resultantes de llamarlos.
 
+% TODO: REEMPLAZAR LAS LISTINGS POR FIGURAS ASI
+
+% \begin{figure}[htbp]
+% \centering
+% \lstinputlisting{./code/capitulo3/FileProtocol.protocol}
+% \caption{Ejemplo de protocolo con múltiples destinos a través de enumeraciones}
+% \label{jatyc:enumerations}
+% \end{figure}
 \needspace{16\baselineskip}
 \lstinputlisting[
     caption=Ejemplo de definición de protocolo para un Iterador simple,
@@ -18,18 +26,9 @@
     label={jatyc:typestate-notation}
 ]{./code/capitulo3/Iterator.java}
 
-Un ejemplo simple de un protocolo puede observarse en la Figura \ref{jatyc:iterator}. En el mismo, se definen dos typestates para una clase \texttt{Iterator}: \texttt{HasNext} y \texttt{Next}. Al ser el primer estado definido, \texttt{HasNext} es el inicial para cualquier instancia de la clase, y cuenta solamente con el método \texttt{hasNext()} disponible. Al ser llamado, el objeto puede transicionar a diferentes estados según el resultado booleano retornado: al estado \texttt{Next} de ser verdadero o al estado reservado \texttt{end} de ser falso, que señala la terminación del protocolo. De finalizar el protocolo, no se podrán llamar más ninguno de sus métodos (con la excepción de los métodos \textit{anytime}, de los cuales hablaremos en la seccion \ref{anytime}). De transicionar a \texttt{Next}, el iterador podrá llamar a ambos métodos \texttt{hasNext()} y \texttt{next()}, donde el último devuelve el siguiente elemento en la colección y regresa a la instancia al estado inicial. En resumen, el protocolo indica que el objeto solamente puede pedir el siguiente elemento de estar seguro que exista, y de no haber más elementos termina su ciclo de vida. Los clientes del mismo deberán de respetar este comportamiento, y de no hacerlo \textit{JaTyC} alertará un error.
+Un ejemplo simple de un protocolo puede observarse en la Figura \ref{jatyc:iterator}. En el mismo, se definen dos typestates para una clase \texttt{Iterator}: \texttt{HasNext} y \texttt{Next}. Al ser el primer estado definido, \texttt{HasNext} es el inicial para cualquier instancia de la clase, y cuenta solamente con el método \texttt{hasNext()} disponible. Al ser llamado, el objeto puede transicionar a diferentes estados según el resultado booleano retornado: al estado \texttt{Next} de ser verdadero o al estado reservado \texttt{end} de ser falso, que señala la terminación del protocolo. De finalizar el protocolo, no se podrán llamar más ninguno de sus métodos (con la excepción de los métodos \textit{anytime}, de los cuales hablaremos en la seccion \ref{aliasing}). De transicionar a \texttt{Next}, el iterador podrá llamar a ambos métodos \texttt{hasNext()} y \texttt{next()}, donde el último devuelve el siguiente elemento en la colección y regresa a la instancia al estado inicial. En resumen, el protocolo indica que el objeto solamente puede pedir el siguiente elemento de estar seguro que exista, y de no haber más elementos termina su ciclo de vida. Los clientes del mismo deberán de respetar este comportamiento, y de no hacerlo \textit{JaTyC} alertará un error.
 
 Anotando una clase con \texttt{@Typestate(<protocolo>)} se la suscribe al protocolo, como muestra la figura \ref{jatyc:typestate-notation}.
-
-\subsection{Métodos Anytime}
-\label{anytime}
-
-Los \textbf{Anytime Methods}, o ``métodos de cualquier momento'', son todos los métodos definidos por una clase que no están mencionados por el protocolo. Estos pueden ser llamados para una objeto en cualquier punto de la ejecución del programa, sin importar el estado en el que el mismo se encuentre.
-
-Dado que estos métodos se asumen no relevantes para el protocolo, los mismos no pueden modificar los valores de los colaboradores internos de la instancia, ni hacerlos transicionar a otro typestate de ser también objetos protocolados.
-
-Por último, estos métodos son los únicos que pueden llamar las \textit{shared references}, o referencias compartidas, de un objeto. Más de esto va a ser explicado en la sección de \textbf{Aliasing}\ref{aliasing}.
 
 \subsection{Estados Descartables}
 
@@ -60,6 +59,13 @@ A la hora de definir un protocolo, hay situaciones en las que podría ser deseab
 \section{Aliasing}
 \label{aliasing}
 
+Una de las situaciones problemáticas a la hora de analizar código estáticamente es cuando hay varias referencias vivas del mismo objeto, también conocido como \textbf{Aliasing}. En particular, dificulta (y a veces imposibilita) asegurarse que una referencia en otra parte del código no haya modificado el estado del objeto, invalidando lo que el analizador asume como correcto, y potencialmente estropeando el resultado del mismo.
+
+Para solventarlo, \textit{JaTyC} impone una restricción dura sobre el aliasing, obligando a los programadores a usar objetos protocolados \textbf{linealmente}. Esto significa que, para un objeto protocolado, una única referencia va a ser capaz de modificar su typestate, llamada \textit{referencia lineal}. Esto genera una limitación en el poder de expresión para los desarrolladores, pero permite a la herramienta verificar que los objetos sigan y completen su protocolo. Las demás referencias, denominadas \textit{referencias compartidas}, tendrán acceso solamente a sus métodos \textit{anytime}.
+
+Los \textbf{Anytime Methods}, o ``métodos de cualquier momento'', son todos los métodos definidos por una clase que no están mencionados por su protocolo, o todos los métodos de una clase en caso de no tener protocolo. Estos pueden ser llamados para una objeto en cualquier punto de la ejecución del programa, sin importar el estado en el que el mismo se encuentre. Dado que estos métodos se asumen no relevantes para el protocolo, y para preservar la linealidad, los mismos no pueden modificar los valores de los colaboradores internos de la instancia, ni hacerlos transicionar a otro typestate.
+
+Las variables pierden la referencia lineal a su objeto, de tenerla, cuando se asigna a otra variable, parámetro, o colaborador interno. Es decir, asignar una referencia lineal a una variable nueva ``transmite la linealidad'' de la vieja a la nueva, mientras que la vieja pasa a ser compartida.
 
 \section{Anotaciones Adicionales}
 
@@ -91,9 +97,9 @@ De no proveer esta anotación, \textit{JaTyC} asume que el objeto recibido por e
 
 \subsection{Ensures}
 
-La herramienta provee por último la anotación \texttt{@Ensures} cuando se quiere indicar el typestate (o conjunto de typestates) en el que se encuentra el valor de retorno de un método. Un ejemplo del mismo puede observarse en la Figura \ref{jatyc:ensures}, donde se ve un método getter de un controlador de robots. En el mismo, se observa cómo define que el robot devuelto estará exáctamente en el estado \texttt{TopLeft}, permitiéndole al código cliente acceder a sus métodos protocolados.
+Por último, la herramienta provee la anotación \texttt{@Ensures}, utilizada cuando se quiere indicar el typestate (o conjunto de typestates) en el que se encuentra el valor de retorno de un método. Un ejemplo puede observarse en la Figura \ref{jatyc:ensures}, donde se ve un método \textit{getter} de un controlador de robots. En él, se define que el valor devuelto será una referencia lineal a un robot que se encuentra exáctamente en el estado \texttt{TopLeft}. Al retornar, el código cliente podrá acceder a los métodos protocolados del robot.
 
-De no utilizar esta notación, se asume que la referencia devuelta será compartida, y solo sus métodos \textit{Anytime} estarán disponibles. A su vez, de no utilizarla y devolver un objeto que tiene protocolo, se requiere que el mismo lo finalice antes de retornar del método (ya sea a través de una tranicisión a \texttt{end} o un estado descartable). De no ser asi, se perdería la única referencia lineal al salir del scope, y nunca llegaría el objeto a completar su protocolo. Por ejemplo, de retornar un lector de archivos, se espera que el método finalize con el archivo ya cerrado.
+De no utilizar esta anotación, se asume que la referencia devuelta será compartida, y solamente sus métodos \textit{Anytime} estarán disponibles. A su vez, de no utilizarla y devolver un objeto que tiene protocolo (tal como el Robot de la Figura \ref{jatyc:ensures}), se requiere que el mismo lo finalice antes de retornar del método (ya sea a través de una tranicisión a \texttt{end} o un estado descartable). De no ser asi, se perdería la única referencia lineal al salir del scope, y nunca llegaría el objeto a completar su protocolo. Por ejemplo, de retornar un lector de archivos, se espera que el método finalize luego de haber cerrado el archivo.
 
 \needspace{8\baselineskip}
 \lstinputlisting[
@@ -101,17 +107,18 @@ De no utilizar esta notación, se asume que la referencia devuelta será compart
     label={jatyc:ensures}
 ]{./code/capitulo3/Ensures.java}
 
-\needspace{8\baselineskip}
 \lstinputlisting[
     caption=Ejemplos de uso de anotación \texttt{@Ensures} en un parámetro de entrada de un método,
     label={jatyc:ensures_param}
 ]{./code/capitulo3/Ensures_2.java}
 
-Durante nuestra experimentación, notamos que la anotación puede ser también utilizada en los parámetros de entrada de un método. Esto no es mencionado por la documentación oficial de la herramienta, con lo cual no podemos afirmar que es comportamiento esperado. De todos modos, sentimos que es relevante mencionarlo dado que permite mucha más flexibilidad a la hora de utilizar los objetos protocolados. Esto es porque, de utilizarlo en parámetros también anotados con \texttt{@Requires}, es posible devolver la referencia lineal del objeto proveido por el cliente, y no una compartida. De esta forma, se consigue evitar tener que obligatoriamente completar su protocolo dentro del scope del método.
+Durante nuestra experimentación, notamos que la anotación también puede ser utilizada en los parámetros de entrada de un método. Esto no es mencionado por la documentación oficial de la herramienta, con lo cual no podemos afirmar que es comportamiento esperado. De todos modos, sentimos que es relevante mencionarlo dado que permite más flexibilidad a la hora de utilizar los objetos protocolados. Esto es porque, de combinarlo con la anotación \texttt{@Requires} en un parámetro de entrada, es posible devolver la referencia lineal del objeto proveido por el cliente, y no una compartida. De esta forma, se consigue evitar tener que obligatoriamente completar el protocolo del parámetro dentro del scope del método.
 
-Un ejemplo de uso de ambas anotaciones puede observarse en la Figura \ref{jatyc:ensures_param}, donde se opera con un \texttt{Stack}. El método declara que el stack debe entrar en el typestate \texttt{Init}, y que lo devolverá en el mismo estado. Para que funcione, \textit{JaTyC} requiere que el parámetro sea \texttt{final}, es decir, que el objeto al que referencia no cambie durante la ejecución del método.
+Un ejemplo de uso de ambas anotaciones puede observarse en la Figura \ref{jatyc:ensures_param}, donde se opera con un \texttt{Stack}. El método declara que el stack proveído deberá encontrarse en el typestate \texttt{Init}, y que lo devolverá en el mismo estado. Para que funcione, \textit{JaTyC} requiere que el parámetro sea \texttt{final}, es decir, que el objeto al que referencia no cambie durante la ejecución del método.
 
 \section{Subtipado}
+
+\subsection{Casting}
 
 \section{Garantías}
 

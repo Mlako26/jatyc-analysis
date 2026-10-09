@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  7 OCT 2026 00:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  9 OCT 2026 00:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -338,7 +338,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 9.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 9.
-<logofcen.pdf, id=120, 108.405pt x 108.405pt>
+<logofcen.pdf, id=116, 108.405pt x 108.405pt>
 File: logofcen.pdf Graphic file (type pdf)
 <use logofcen.pdf>
 Package pdftex.def Info: logofcen.pdf  used on input line 10.
@@ -413,18 +413,21 @@ Cap\'{\i }tulo 3.
 ] (./code/capitulo3/Animal.protocol)
 LaTeX Info: Redefining \. on input line 53.
 LaTeX Info: Redefining \% on input line 53.
- [9] (./code/capitulo3/FileProtocol.protocol) (./code/capitulo3/Nullable.java)
-LaTeX Info: Redefining \. on input line 84.
-LaTeX Info: Redefining \% on input line 84.
- [10] (./code/capitulo3/Requires.java))
+ [9] (./code/capitulo3/FileProtocol.protocol)
+LaTeX Info: Redefining \. on input line 77.
+LaTeX Info: Redefining \% on input line 77.
+ [10] (./code/capitulo3/Nullable.java) (./code/capitulo3/Requires.java)
+LaTeX Info: Redefining \. on input line 104.
+LaTeX Info: Redefining \% on input line 104.
+ [11] (./code/capitulo3/Ensures.java) (./code/capitulo3/Ensures_2.java))
 LaTeX Info: Redefining \. on input line 91.
 LaTeX Info: Redefining \% on input line 91.
- [11] (./tesis.bbl
+ [12] (./tesis.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 58--62
 []\OT1/cmr/m/n/10.95 JastAdd.  Jas-tAdd - Ap-pli-ca-tions.  []$\OT1/cmtt/m/n/10.95 https : / / jastadd . cs . lth . se / web /
  []
 
-[12
+[13
 
 
 ]
@@ -435,7 +438,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 88--92
 )
 LaTeX Info: Redefining \. on input line 95.
 LaTeX Info: Redefining \% on input line 95.
- [13] (./tesis.aux
+ [14] (./tesis.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -444,21 +447,21 @@ LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
  ***********
 Package rerunfilecheck Info: File `tesis.out' has not changed.
-(rerunfilecheck)             Checksum: 1EC70ED4AD45B486ADF4B13111C91EE5;4012.
+(rerunfilecheck)             Checksum: 8F1F3848C0215866C753A7E704C4680B;3825.
  ) 
 Here is how much of TeX's memory you used:
- 13449 strings out of 467099
- 210309 string characters out of 5412503
- 908527 words of memory out of 5000000
- 42434 multiletter control sequences out of 15000+600000
+ 13480 strings out of 467099
+ 210902 string characters out of 5412503
+ 907702 words of memory out of 5000000
+ 42447 multiletter control sequences out of 15000+600000
  636741 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  74i,9n,79p,1988b,1363s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (19 pages, 281746 bytes).
+Output written on tesis.pdf (20 pages, 286992 bytes).
 PDF statistics:
- 521 PDF objects out of 1000 (max. 8388607)
- 468 compressed objects within 5 object streams
- 163 named destinations out of 1000 (max. 500000)
- 238 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 536 PDF objects out of 1000 (max. 8388607)
+ 482 compressed objects within 5 object streams
+ 175 named destinations out of 1000 (max. 500000)
+ 230 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,27 +1,29 @@
 # Fdb version 4
-["bibtex tesis"] 1791343350.44734 "tesis.aux" "tesis.bbl" "tesis" 1791343353.05873 0
+["bibtex tesis"] 0 "tesis.aux" "tesis.bbl" "tesis" 1791515043.0439 -1
   "./tesis.bib" 1791324658.15322 8236 284f3afed13524f2e24c291388c7a65a ""
   "d:/texlive/2026/texmf-dist/bibtex/bst/base/plain.bst" 1788543082.26116 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "tesis.aux" 1791343351.98955 8418 a430a522a2b800f88e985bc4ba291a4b "pdflatex"
+  "tesis.aux" 1791515041.88015 8872 30fa2d71ad163f4d0b2a7d0cfd15dbf4 "pdflatex"
   (generated)
   "tesis.bbl"
   "tesis.blg"
   (rewritten before read)
-["pdflatex"] 1791343350.90644 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1791343353.05978 0
+["pdflatex"] 1791515040.57603 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1791515043.04463 0
   "abs_en.tex" 1312501726 2019 3a17316dcc8346efa212c9db57626f71 ""
   "abs_esp.tex" 1788614362.72794 917 f15c42d36a21c5505573702827584dea ""
   "agradecimientos.tex" 1458096991 1356 64bc1b20247e3c57335be885f8af796b ""
-  "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" 1791324728.3195 2699 772ad11fbc91367e3a6722aec8db77ba ""
+  "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" 1791515036.47424 2699 772ad11fbc91367e3a6722aec8db77ba ""
   "caratula.tex" 1788613547.29524 791 4bb3bc104a5e76a7619c16846e7acea1 ""
   "code/capitulo2/iterator_example.java" 1790538330.51317 143 8fe3b2830bd09863fd51d24ecc6e775a ""
   "code/capitulo2/mungo_protocol.protocol" 1790870912.57027 325 7636eb23fbbfbd55ca741d782f289696 ""
   "code/capitulo2/plaid_example.plaid" 1790720598.15444 271 fc35b258502afec31c34d9a5638aa37e ""
   "code/capitulo3/Animal.protocol" 1791140432.51621 118 195a713abd5b1051ceef98e212f5e389 ""
+  "code/capitulo3/Ensures.java" 1791411334.22117 70 4efd03237affc215949c80d45c4f4ff6 ""
+  "code/capitulo3/Ensures_2.java" 1791411941.66 158 24c6e3d047f618002438886f3cb2be40 ""
   "code/capitulo3/FileProtocol.protocol" 1791140432.51724 175 1e1fa07303daf335b8e2f654fdc436fc ""
   "code/capitulo3/Iterator.java" 1791140432.51724 138 8a58bccdf695ed3c66ef22919b27aa47 ""
   "code/capitulo3/Iterator.protocol" 1791140432.51825 187 36ef7a897d89ecaab53fbd8184c4900b ""
   "code/capitulo3/Nullable.java" 1791342413.06806 70 5c548cb63d28db23ae8f47b329252f5c ""
-  "code/capitulo3/Requires.java" 1791343285.57486 190 71ecfd7a0db268c5eb632441e51048f6 ""
+  "code/capitulo3/Requires.java" 1791411334.22217 188 f39059e5df5cff7332f3fdab1f14df67 ""
   "d:/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1788544803.50222 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1788543463.08449 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1788543463.08449 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -118,13 +120,13 @@
   "d:/texlive/2026/texmf.cnf" 1788571889.79398 713 baa45e065482d44c4cd81b98ef72c63b ""
   "dedicatoria.tex" 1458095999 39 fc8211744c92236ca9e35da83e7cb61a ""
   "introduccion.tex" 1788993856.35044 4233 e5e8dfd0a2777e090bf9bf442c915c7b ""
-  "jatyc.tex" 1791343347.47562 8172 ea763aa30437ad162d7fe9cc0501003f ""
+  "jatyc.tex" 1791428105.33699 13058 c8f0891f5b2771983b01674123cf8501 ""
   "logofcen.pdf" 1280949812 39758 9bdae1f60233e50ba5e4e659fa2e6078 ""
-  "tesis.aux" 1791343351.98955 8418 a430a522a2b800f88e985bc4ba291a4b "pdflatex"
-  "tesis.bbl" 1791343350.8881 4491 d1aba1dc4859d9663d3d015eefee9a0b "bibtex tesis"
+  "tesis.aux" 1791515041.88015 8872 30fa2d71ad163f4d0b2a7d0cfd15dbf4 "pdflatex"
+  "tesis.bbl" 1791426988.83184 4491 d1aba1dc4859d9663d3d015eefee9a0b "bibtex tesis"
   "tesis.cls" 1312502354 36659 469a5b174f6a5f4de348ff19f86a677d ""
-  "tesis.out" 1791343351.99655 4012 1ec70ed4ad45b486adf4b13111c91ee5 "pdflatex"
-  "tesis.toc" 1791343351.99855 2409 60bfdf919939874cf28e4352b890f315 "pdflatex"
+  "tesis.out" 1791515041.89015 3825 8f1f3848c0215866c753a7e704c4680b "pdflatex"
+  "tesis.toc" 1791515041.89703 2287 98fc8bcef4bc0ca27a21c0d0e041057d "pdflatex"
   "trabajos_relacionados.tex" 1791324764.27719 14102 d67e4bdc92352aca57accc12c3753393 ""
   (generated)
   "tesis.aux"
