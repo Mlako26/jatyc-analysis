@@ -8,23 +8,19 @@
 
 % TODO: REEMPLAZAR LAS LISTINGS POR FIGURAS ASI
 
-% \begin{figure}[htbp]
-% \centering
-% \lstinputlisting{./code/capitulo3/FileProtocol.protocol}
-% \caption{Ejemplo de protocolo con múltiples destinos a través de enumeraciones}
-% \label{jatyc:enumerations}
-% \end{figure}
-\needspace{16\baselineskip}
-\lstinputlisting[
-    caption=Ejemplo de definición de protocolo para un Iterador simple,
-    label={jatyc:iterator}
-]{./code/capitulo3/Iterator.protocol}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Iterator.protocol}
+    \caption{Ejemplo de definición de protocolo simple para un Iterador}
+    \label{jatyc:iterator}
+\end{figure}
 
-\needspace{16\baselineskip}
-\lstinputlisting[
-    caption=Ejemplo de suscripción de protocolo,
-    label={jatyc:typestate-notation}
-]{./code/capitulo3/Iterator.java}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Iterator.java}
+    \caption{Ejemplo de suscripción de protocolo}
+    \label{jatyc:typestate-notation}
+\end{figure}
 
 Un ejemplo simple de un protocolo puede observarse en la Figura \ref{jatyc:iterator}. En el mismo, se definen dos typestates para una clase \texttt{Iterator}: \texttt{HasNext} y \texttt{Next}. Al ser el primer estado definido, \texttt{HasNext} es el inicial para cualquier instancia de la clase, y cuenta solamente con el método \texttt{hasNext()} disponible. Al ser llamado, el objeto puede transicionar a diferentes estados según el resultado booleano retornado: al estado \texttt{Next} de ser verdadero o al estado reservado \texttt{end} de ser falso, que señala la terminación del protocolo. De finalizar el protocolo, no se podrán llamar más ninguno de sus métodos (con la excepción de los métodos \textit{anytime}, de los cuales hablaremos en la seccion \ref{aliasing}). De transicionar a \texttt{Next}, el iterador podrá llamar a ambos métodos \texttt{hasNext()} y \texttt{next()}, donde el último devuelve el siguiente elemento en la colección y regresa a la instancia al estado inicial. En resumen, el protocolo indica que el objeto solamente puede pedir el siguiente elemento de estar seguro que exista, y de no haber más elementos termina su ciclo de vida. Los clientes del mismo deberán de respetar este comportamiento, y de no hacerlo \textit{JaTyC} alertará un error.
 
@@ -34,11 +30,12 @@ Anotando una clase con \texttt{@Typestate(<protocolo>)} se la suscribe al protoc
 
 Los \textbf{Droppable States}, o ``estados descartables'', son parte de la funcionalidad nueva introducida por la herramientaA.protoc en comparación a su predecesora Mungo. Los mismos proveen una alternativa para el programador a la hora de indicar la finalización del protocolo de un objeto.
 
-\needspace{16\baselineskip}
-\lstinputlisting[
-    caption=Ejemplo de protocolo con estados descartables,
-    label={jatyc:droppable}
-]{./code/capitulo3/Animal.protocol}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Animal.protocol}
+    \caption{Ejemplo de protocolo con estados descartables}
+    \label{jatyc:droppable}
+\end{figure}
 
 En la Figura \ref{jatyc:droppable} puede observarse cómo funcionan. El estado inicial \texttt{Init} tiene declarado un único método llamable, \texttt{move()}, y a su vez que es descartable, con la notación \texttt{drop: end}. La misma indica que a la hora de finalizar el ciclo de vida del objeto, de encontrarse en el estado \texttt{Init}, transicionará automáticamente a \texttt{end}, finalizando su protocolo.
 
@@ -50,11 +47,12 @@ A la hora de definir un protocolo, hay situaciones en las que podría ser deseab
 
 \textit{JaTyC} permite definir múltiples destinos para resultados booleanos o enumeraciones. Por ejemplo, en la Figura \ref{jatyc:iterator}, podemos observar cómo para el método \texttt{hasNext()} se define que el objeto pasará al estado \texttt{Next} o \texttt{end} según si el resulta booleano devuelve verdadero o falso. Por otro lado, en la Figura \ref{jatyc:enumerations} se aprecia un protocolo para un lector de archivos. En él, el estado inicila \texttt{Init} define un métdod \texttt{open()} el cual devuelve una enumeración de tipo \texttt{FileStatus}, con potenciales valores \texttt{OK} y \texttt{ERROR}. Según el resultado devuelto, el objeto pasará a estar habilitado a leer el archivo abierto o finalizará su protocolo.
 
-\needspace{16\baselineskip}
-\lstinputlisting[
-    caption=Ejemplo de protocolo con múltiples destinos a través de enumeraciones,
-    label={jatyc:enumerations}
-]{./code/capitulo3/FileProtocol.protocol}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/FileProtocol.protocol}
+    \caption{Ejemplo de protocolo con múltiples destinos a través de enumeraciones}
+    \label{jatyc:enumerations}
+\end{figure}
 
 \section{Aliasing}
 \label{aliasing}
@@ -77,11 +75,12 @@ Por defecto, \textit{JaTyC} considera a todas las variables de un programa como 
 
 Esta anotación puede utilizarse en la definición de variables y colaboradores internos, argumentos de funciones y valores de retorno.
 
-\needspace{8\baselineskip}
-\lstinputlisting[
-    caption=Ejemplo de uso de anotación \texttt{@Nullable} para el método \texttt{next()} de un iterador,
-    label={jatyc:nullable}
-]{./code/capitulo3/Nullable.java}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Nullable.java}
+    \caption{Ejemplo de uso de anotación \texttt{@Nullable} para el método \texttt{next()} de un iterador}
+    \label{jatyc:nullable}
+\end{figure}
 
 \subsection{Requires}
 
@@ -89,11 +88,12 @@ La anotación \texttt{@Requires} puede ser utilizada en los parámetros de un m�
 
 De no proveer esta anotación, \textit{JaTyC} asume que el objeto recibido por el método es una referencia compartida, y permitirá solamente utilizar sus métodos \textit{Anytime}. A su vez, de sí proveerla, se debe de tener en cuenta la finalización de protocolo del objeto. Es decir, cuando se salga del scope del método se perderá la única referencia lineal del mismo, y por ende su protocolo debe de completarse antes (a no ser de utilizar la anotación \texttt{@Ensures}, de la que hablaremos en la próxima sección).
 
-\needspace{8\baselineskip}
-\lstinputlisting[
-    caption=Ejemplos de uso de anotación \texttt{@Requires}\, para un solo typestate y para un conjunto de typestates,
-    label={jatyc:requires}
-]{./code/capitulo3/Requires.java}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Requires.java}
+    \caption{Ejemplos de uso de anotación \texttt{@Requires}\, para un solo typestate y para un conjunto de typestates}
+    \label{jatyc:requires}
+\end{figure}
 
 \subsection{Ensures}
 
@@ -101,16 +101,19 @@ Por último, la herramienta provee la anotación \texttt{@Ensures}, utilizada cu
 
 De no utilizar esta anotación, se asume que la referencia devuelta será compartida, y solamente sus métodos \textit{Anytime} estarán disponibles. A su vez, de no utilizarla y devolver un objeto que tiene protocolo (tal como el Robot de la Figura \ref{jatyc:ensures}), se requiere que el mismo lo finalice antes de retornar del método (ya sea a través de una tranicisión a \texttt{end} o un estado descartable). De no ser asi, se perdería la única referencia lineal al salir del scope, y nunca llegaría el objeto a completar su protocolo. Por ejemplo, de retornar un lector de archivos, se espera que el método finalize luego de haber cerrado el archivo.
 
-\needspace{8\baselineskip}
-\lstinputlisting[
-    caption=Ejemplo de uso de anotación \texttt{@Ensures}\ en el valor de retorno de un método,
-    label={jatyc:ensures}
-]{./code/capitulo3/Ensures.java}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Ensures.java}
+    \caption{Ejemplo de uso de anotación \texttt{@Ensures}\ en el valor de retorno de un método}
+    \label{jatyc:ensures}
+\end{figure}
 
-\lstinputlisting[
-    caption=Ejemplos de uso de anotación \texttt{@Ensures} en un parámetro de entrada de un método,
-    label={jatyc:ensures_param}
-]{./code/capitulo3/Ensures_2.java}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Ensures_2.java}
+    \caption{Ejemplos de uso de anotación \texttt{@Ensures} en un parámetro de entrada de un método}
+    \label{jatyc:ensures_param}
+\end{figure}
 
 Durante nuestra experimentación, notamos que la anotación también puede ser utilizada en los parámetros de entrada de un método. Esto no es mencionado por la documentación oficial de la herramienta, con lo cual no podemos afirmar que es comportamiento esperado. De todos modos, sentimos que es relevante mencionarlo dado que permite más flexibilidad a la hora de utilizar los objetos protocolados. Esto es porque, de combinarlo con la anotación \texttt{@Requires} en un parámetro de entrada, es posible devolver la referencia lineal del objeto proveido por el cliente, y no una compartida. De esta forma, se consigue evitar tener que obligatoriamente completar el protocolo del parámetro dentro del scope del método.
 

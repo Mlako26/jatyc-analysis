@@ -20,12 +20,12 @@ Por un lado, introducen y formalizan la noción de \textit{refinamiento de estad
 
 Por otro lado, introducen la idea de \textit{dimensiones de estados}. Esta noción busca dar respuesta a situaciones en las que conceptualmente se considera que un objeto está en varios typestates a la vez, atados a variables completamente independientes. Estos subconjuntos de estados son referidos en el trabajo como \textit{ortogonales}. Por ejemplo, observemos la interfaz de la figura \ref{teorico:ortogonal}:
 
-\needspace{8\baselineskip}
-\lstinputlisting[
-    language=Java,
-    caption=Ejemplo de tipo con typestates ortogonales,
-    label={teorico:ortogonal}
-]{./code/capitulo2/iterator_example.java}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo2/iterator_example.java}
+    \caption{Ejemplo de tipo con typestates ortogonales}
+    \label{teorico:ortogonal}
+\end{figure}
 
 Puede observarse que el comportamiento de la interfaz depende de si se puede seguir iterando sobre la colección y de si actualmente se puede imprimir. Asumiendo que ambas condiciones son independientes entre sí, definir un protocolo que correctamente especifique las cadenas de métodos válidas puede resultar tedioso y conceptualmente incorrecto. Esto es porque, para modelar el protocolo lo más detallado posible, se necesitaría un typestate por cada elemento del producto cartesiano entre los conjuntos $\{\mathit{PuedoImprimir}, \mathit{NoPuedoImprimir}\}$ y $\{\mathit{TengoSiguiente}, \mathit{NoTengoSiguiente}\}$. Puede verse fácilmente que, con un tipo que tenga un gran número de variables ortogonales de las cuales dependen los typestates, la definición del protocolo puede dispararse en tamaño. A su vez, puede que tener un estado como $\mathit{TengoSiguienteImprimible}$ no tenga mucho sentido.
 
@@ -45,12 +45,12 @@ A raíz del surgimiento del concepto de typestates, se ideó un nuevo paradigma 
    
 Un ejemplo puede observarse en la Figura \ref{teorico:plaid}. En ella, se define la interfaz \texttt{File} a través de los dos typestates \texttt{ClosedFile} y \texttt{OpenFile}. Mientras que la variable \texttt{filename} está disponible en todos los estados, hay métodos exclusivos para cuando los objetos de tipo \texttt{File} estén abiertos o cerrados. A su vez, se definen en los métodos las transiciones entre typestates, como por ejemplo en \texttt{[ClosedFile$\gg$OpenFile]}, transicionando un objeto en el estado cerrado al abierto. Esto puede hacerse tanto para el objeto receptor del método como para sus argumentos.
 
-\needspace{16\baselineskip}
-\lstinputlisting[
-    language=plaid,
-    caption=Ejemplo de definición de clase y typestates con Plaid,
-    label={teorico:plaid}
-]{./code/capitulo2/plaid_example.plaid}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Plaid]{./code/capitulo2/plaid_example.plaid}
+    \caption{Ejemplo de definición de clase y typestates con Plaid}
+    \label{teorico:plaid}
+\end{figure}
 
 Entre otras funcionalidades, Plaid cuenta con un sistema de permisos de acceso\cite{plaid:permissions} para intentar solucionar el problema de la verificación de protocolos en la presencia de \textit{aliasing}. Finalmente, similar a \textit{JaTyC}, Plaid cuenta con un analizador estático que permite verificar el uso correcto de los typestates y los protocolos de los objetos en tiempo de compilación.
 
@@ -62,11 +62,12 @@ Entre otras funcionalidades, Plaid cuenta con un sistema de permisos de acceso\c
 
 Comenzando por la funcionalidad y sintaxis, las dos herramientas son bastante similares. Las definiciones de los protocolos y sus typestates son escritas en archivos separados con extensión \textit{.protocol} (ver Figura \ref{teorico:mungo}). Luego, para referenciar un protocolo desde una clase se la anota con ``\texttt{@Typestate(<protocolo>)}''. Cuando el código fuente de Java es compilado, primero es analizado estáticamente por el mismo sistema de tipado del lenguaje, y luego por el de Mungo. Si una clase está asociada a un protocolo, sus clientes deben respetar el correcto orden de llamados de sus métodos. De lo contrario, la herramienta reporta un error.
 
-\needspace{16\baselineskip}
-\lstinputlisting[
-    caption=Ejemplo de definición de protocolo para un Stack en Mungo,
-    label={teorico:mungo}
-]{./code/capitulo2/mungo_protocol.protocol}
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo2/mungo_protocol.protocol}
+    \caption{Ejemplo de definición de protocolo para un Stack en Mungo}
+    \label{teorico:mungo}
+\end{figure}
 
 Los protocolos se escriben con una sintaxis muy similar a la de \textit{JaTyC}, e incluso idéntica en muchos casos. En la Figura \ref{teorico:mungo} puede observarse un ejemplo oficial de cómo se vería un protocolo para una clase \texttt{Stack}, que permite apilar infinitamente y solo permite desapilar si no está vacío. Cuenta con tres typestates, uno para cuando la pila está vacía \texttt{Empty}, uno para cuando la pila tiene algún elemento \texttt{NonEmpty}, y otro para cuando no se sabe el estado actual de la misma \texttt{Unknown}. Cada typestate describe la signatura de los métodos permitidos en cada uno, y el (o los) typestate al que pasaría el objeto de llamarlos. Al ser instanciada, la pila comienza siempre en el primer typestate definido en el protocolo, en este caso \texttt{Empty}, y finaliza su protocolo al transicionar al typestate reservado \texttt{end} llamando al método \texttt{deallocate()}.
 
