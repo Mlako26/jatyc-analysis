@@ -994,7 +994,7 @@ Have a `TiredIterator` class that has an additional method, `rest()`, which is t
 ```
 typestate TiredIterator {
   HasNext = {
-    boolean hasNext(): <true: Verify, false: end>
+    boolean hasNext(): <true: Rest, false: end>
   }
   Next = {
     int next(): HasNext
@@ -1035,7 +1035,7 @@ SuperSafeIterator.java:6: error: [next] transition(s) in [Next] of BaseIterator.
 public class SuperSafeIterator extends BaseIterator {
        ^
 TiredIterator.java:6: error: [hasNext] transition(s) in [HasNext] of BaseIterator.protocol are not included in [Rest] of TiredIterator.protocol
-public class TiredIterator extends BaseIterator {
+public class TiredIterator implements Iterator {
        ^
 2 errors
 ```

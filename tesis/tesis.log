@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  9 OCT 2026 19:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  13 OCT 2026 12:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -338,7 +338,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 9.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 9.
-<logofcen.pdf, id=116, 108.405pt x 108.405pt>
+<logofcen.pdf, id=112, 108.405pt x 108.405pt>
 File: logofcen.pdf Graphic file (type pdf)
 <use logofcen.pdf>
 Package pdftex.def Info: logofcen.pdf  used on input line 10.
@@ -386,21 +386,21 @@ Cap\'{\i }tulo 2.
 [3
 
 ]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 25.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 26.
  (./code/capitulo2/iterator_example.java)
-LaTeX Info: Redefining \. on input line 43.
-LaTeX Info: Redefining \% on input line 43.
+LaTeX Info: Redefining \. on input line 44.
+LaTeX Info: Redefining \% on input line 44.
  [4] (./code/capitulo2/plaid_example.plaid
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <9> on input line 6.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 6.
 )
-LaTeX Info: Redefining \. on input line 64.
-LaTeX Info: Redefining \% on input line 64.
+LaTeX Info: Redefining \. on input line 65.
+LaTeX Info: Redefining \% on input line 65.
  [5] (./code/capitulo2/mungo_protocol.protocol)
-LaTeX Info: Redefining \. on input line 79.
-LaTeX Info: Redefining \% on input line 79.
+LaTeX Info: Redefining \. on input line 80.
+LaTeX Info: Redefining \% on input line 80.
  [6]) (./jatyc.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
@@ -420,15 +420,21 @@ LaTeX Info: Redefining \% on input line 99.
  [11] (./code/capitulo3/Requires.java) (./code/capitulo3/Ensures.java) (./code/capitulo3/Ensures_2.java)
 LaTeX Info: Redefining \. on input line 128.
 LaTeX Info: Redefining \% on input line 128.
- [12])
+ [12] (./code/capitulo3/loop_iterator/Iterator.protocol) (./code/capitulo3/loop_iterator/LoopIterator.protocol) (./code/capitulo3/tired_iterator/TiredIterator.protocol) (./code/capitulo3/tired_iterator/Tired_error.txt))
 LaTeX Info: Redefining \. on input line 91.
 LaTeX Info: Redefining \% on input line 91.
- [13] (./tesis.bbl
+ [13]
+LaTeX Info: Redefining \. on input line 91.
+LaTeX Info: Redefining \% on input line 91.
+ [14]
+LaTeX Info: Redefining \. on input line 91.
+LaTeX Info: Redefining \% on input line 91.
+ [15] (./tesis.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 58--62
 []\OT1/cmr/m/n/10.95 JastAdd.  Jas-tAdd - Ap-pli-ca-tions.  []$\OT1/cmtt/m/n/10.95 https : / / jastadd . cs . lth . se / web /
  []
 
-[14
+[16
 
 
 ]
@@ -439,7 +445,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 93--97
 )
 LaTeX Info: Redefining \. on input line 95.
 LaTeX Info: Redefining \% on input line 95.
- [15] (./tesis.aux
+ [17] (./tesis.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -448,21 +454,21 @@ LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
  ***********
 Package rerunfilecheck Info: File `tesis.out' has not changed.
-(rerunfilecheck)             Checksum: 8F1F3848C0215866C753A7E704C4680B;3825.
+(rerunfilecheck)             Checksum: E194254B3607CD717F5EE4D3FC35CF7C;3728.
  ) 
 Here is how much of TeX's memory you used:
- 13489 strings out of 467099
- 211121 string characters out of 5412503
- 728685 words of memory out of 5000000
- 42427 multiletter control sequences out of 15000+600000
+ 13566 strings out of 467099
+ 213058 string characters out of 5412503
+ 796937 words of memory out of 5000000
+ 42454 multiletter control sequences out of 15000+600000
  637087 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  74i,9n,79p,1988b,1389s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (21 pages, 291087 bytes).
+Output written on tesis.pdf (23 pages, 296052 bytes).
 PDF statistics:
- 574 PDF objects out of 1000 (max. 8388607)
- 518 compressed objects within 6 object streams
- 201 named destinations out of 1000 (max. 500000)
- 230 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 624 PDF objects out of 1000 (max. 8388607)
+ 566 compressed objects within 6 object streams
+ 238 named destinations out of 1000 (max. 500000)
+ 222 words of extra memory for PDF output out of 10000 (max. 10000000)
 

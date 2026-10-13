@@ -130,11 +130,41 @@ Un ejemplo de uso de ambas anotaciones puede observarse en la Figura \ref{jatyc:
 
 \section{Subtipado}
 
+Una de las características más interesantes de la herramienta, similar a lo mencionado en el capítulo \ref{teorico:objetos}, es el soporte para \textbf{subtipado}. Es una de las funcionalidades distinctivas de \textit{JaTyC} comparada a su predecesora Mungo, y crucial dentro del paradigma de los objetos.
 
+De tener una clase protocolada extendiendo a otra también protocolada, \textit{JaTyC} se asegura que el protocolo del subtipo incluya el del supertipo. En otras palabras, toda secuencia válida de llamadas de métodos para el tipo padre deben de seguir siéndolo para el tipo hijo. El subtipo tiene solamente la capacidad de \textbf{agregar} nuevas secuencias de llamadas de métodos. En cierto sentido, modelando el protocolo de un objeto como una máquina de estados finita, el autómata del subtipo debe preservar el comportamiento del autómata del supertipo.
 
-\subsection{Casting}
+Esto es asi dado que se pretende que el subtipo se ``comporte como'' el supertipo. Como ilustración, observemos las Figuras \ref{jatyc:subtyping_correct}. Supongamos que tenemos una interfaz \texttt{Iterator} con un protocolo, y luego una clase \texttt{BidirectionalIterator} que la implementa, también con protocolo. La implementación es capaz de recorrer la colección en ambas direcciones, mientras que la interfaz solo hacia adelante. De tener un objeto de tipo \texttt{Iterator}, uno espera que se comporte como uno, y que por ende siga su protocolo. Si el de \texttt{BidirectionalIterator} no permitiese \textit{al menos} todas las secuencias de llamadas de métodos de su interfaz, cualquier código cliente puede levantar una excepción al utilizar la interfaz \texttt{Iterator}. Esto es porque, incluso siguiendo el contrato de uso de la interfaz, se podría estar rompiendo con el de la implementación.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/loop_iterator/Iterator.protocol}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo3/loop_iterator/LoopIterator.protocol}
+    \caption{Interfaz e implementación para Iteradores con dos protocolos compatibles}
+    \label{jatyc:subtyping_correct}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/tired_iterator/TiredIterator.protocol}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo3/tired_iterator/Tired_error.txt}
+    \caption{Protocolo no compatible con el de la interfaz \texttt{Iterator}}
+    \label{jatyc:subtyping_incorrect}
+\end{figure}
+
+Por otro lado, \textit{JaTyC} también permite que una clase no protocolada extienda a otra con protocolo. En este caso, el subtipo sigue el protocolo del supertipo, y todos sus nuevos métodos son considerados \textit{anytime}. Finalmente, se puede tener una clase protocolada extendiendo a una sin protocolo. En esta situación, se asumen todos los métodos de la clase padre como \textit{anytime}, y la clase hijo funciona como una protocolada regular.
+
+% Agregar otro ejemplo acá?
+
+Como parte de esta funcionalidad, \textit{JaTyC} también introduce lógica para manejar correctamente la conversión de tipos, o \textit{casting}, tanto implícitos como explícitos.
 
 \section{Garantías}
+
+J\textit{JaTyC} 
+
+% Deberiamos de hablar de las limitaciones? EN la documentacion ya menciona ciertas limitaciones oficiales, quizás valga la pena hacerlo para luego no reportarlas en la experimentacion sin precedentes.
 
 \section{Ejemplo Práctico}
 

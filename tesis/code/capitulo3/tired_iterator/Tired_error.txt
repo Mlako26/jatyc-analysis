@@ -1,0 +1,2 @@
+TiredIterator.java:6: error: [hasNext] transition(s) in [HasNext] of Iterator.protocol are not included in [Rest] of TiredIterator.protocol
+public class TiredIterator implements Iterator {

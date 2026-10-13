@@ -1,0 +1,16 @@
+typestate BidirectionalIterator {
+  Init = {
+    boolean hasNext(): <true: Next, false: end>,
+    boolean hasPrev(): <true: Prev, false: end>
+  }
+  Next = {
+    boolean hasNext(): <true: Next, false: end>,
+    boolean hasPrev(): <true: Prev, false: end>,
+    Object next(): Init
+  }
+  Prev = {
+    boolean hasNext(): <true: Next, false: end>,
+    boolean hasPrev(): <true: Prev, false: end>,
+    Object prev(): Init
+  }
+}
