@@ -1,0 +1,12 @@
+typestate TiredIterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>
+  }
+  Next = {
+    boolean hasNext(): <true: Next, false: end>,
+    Object next(): Rest
+  }
+  Rest = {
+    void rest(): HasNext
+  }
+}

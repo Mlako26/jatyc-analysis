@@ -1,0 +1,233 @@
+\chapter{Java Typestate Checker}
+
+\textbf{Java Typestate Checker}~\cite{jatyc:github} es una herramienta de verificación de código Java para protocolos de objetos. Mediante el análisis estático del programa, detecta errores relacionados con el orden de las llamadas a métodos, el consumo debido de los recursos y la herencia de protocolos, entre otros aspectos. La herramienta está escrita en Kotlin~\cite{kotlin} como plug-in del Checker Framework~\cite{checker-framework}, y se destaca por ser una de las herramientas de análisis de \textit{object protocols} más flexibles y actualizadas para Java. Por estas razones la seleccionamos para analizar el poder de expresión y las limitaciones de la verificación de protocolos. A lo largo de este capítulo repasaremos las principales características de \textit{JaTyC} con ejemplos, y detallaremos su arquitectura e implementación.
+
+\section{Definición de Protocolos}
+
+\textit{JaTyC} permite a sus usuarios definir protocolos para sus clases a través de \textbf{typestates}, los diferentes estados en los cuales una instancia puede encontrarse durante su ciclo de vida. Dentro de cada typestate se establece la interfaz de las instancias que se encuentran en él, definiendo los métodos disponibles y las transiciones resultantes de llamarlos.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Iterator.protocol}
+    \caption{Definición de protocolo simple para un Iterador}
+    \label{jatyc:iterator}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Iterator.java}
+    \caption{Suscripción de protocolo a través de la anotación \texttt{@Typestate}}
+    \label{jatyc:typestate-notation}
+\end{figure}
+
+Un ejemplo simple de un protocolo puede observarse en la Figura~\ref{jatyc:iterator}. En él se definen dos typestates para una clase \texttt{Iterator}: \texttt{HasNext} y \texttt{Next}. Al ser el primer estado definido, \texttt{HasNext} es el inicial para cualquier nueva instancia de la clase, y cuenta solamente con el método \texttt{hasNext()} disponible. Al ser llamado, el objeto puede transicionar a diferentes estados según el resultado booleano retornado: al estado \texttt{Next} de ser verdadero, o al estado reservado \texttt{end} de ser falso, que señala la terminación del protocolo. Una vez finalizado el protocolo, no se podrá llamar a ninguno de sus métodos (con la excepción de los métodos \textit{anytime}, que trataremos en la sección~\ref{aliasing}).
+
+De transicionar a \texttt{Next}, el iterador podrá llamar a ambos métodos, \texttt{hasNext()} y \texttt{next()}, donde el último devuelve el siguiente elemento de la colección y lleva a la instancia de vuelta al estado inicial. En resumen, el protocolo indica que el cliente solamente puede pedir el siguiente elemento si tiene la certeza de que existe, y que de no haber más elementos el objeto termina su ciclo de vida. Los clientes del protocolo deberán respetar este comportamiento; de lo contrario, \textit{JaTyC} alertará un error.
+
+Anotando una clase con \texttt{@Typestate(<protocolo>)} se la suscribe al protocolo, como muestra la Figura~\ref{jatyc:typestate-notation}.
+
+\subsection{Estados Descartables}
+
+Los \textbf{Droppable States}, o ``estados descartables'', son una funcionalidad nueva introducida por la herramienta en comparación con Mungo. Estos ofrecen al programador una alternativa a la hora de indicar la finalización del protocolo de un objeto.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Animal.protocol}
+    \caption{Protocolo con estados descartables}
+    \label{jatyc:droppable}
+\end{figure}
+
+En la Figura~\ref{jatyc:droppable} puede observarse cómo funcionan. El estado inicial \texttt{Init} tiene declarado un único método llamable, \texttt{move()}, y además es descartable, lo cual se indica con la notación \texttt{drop: end}. La misma indica que, cuando finalice el ciclo de vida del objeto, si este se encuentra en el estado \texttt{Init} transicionará automáticamente a \texttt{end}, finalizando su protocolo.
+
+Los estados descartables permiten mayor flexibilidad al definir protocolos, sobre todo cuando no existe un método o condición clara que lleve al objeto a \texttt{end}. Cualquier estado puede ser descartable, y varios estados pueden serlo a la vez.
+
+\subsection{Múltiples Destinos}
+
+Al definir un protocolo, hay situaciones en las que podría ser deseable expresar, para un mismo método, transiciones a typestates diferentes según el resultado de la llamada.
+
+\textit{JaTyC} permite definir múltiples destinos para resultados booleanos o enumeraciones. Por ejemplo, en la Figura~\ref{jatyc:iterator} podemos observar cómo para el método \texttt{hasNext()} se define que el objeto pasará al estado \texttt{Next} o a \texttt{end} según si el método devuelve verdadero o falso. Por otro lado, en la Figura~\ref{jatyc:enumerations} se aprecia un protocolo para un lector de archivos. En él, el estado inicial \texttt{Init} define un método \texttt{open()} que devuelve una enumeración de tipo \texttt{FileStatus}, con los valores posibles \texttt{OK} y \texttt{ERROR}. Según el resultado devuelto, el objeto podrá leer el archivo abierto o finalizará su protocolo.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/FileProtocol.protocol}
+    \caption{Protocolo con múltiples destinos a través de enumeraciones}
+    \label{jatyc:enumerations}
+\end{figure}
+
+\section{Aliasing}
+\label{aliasing}
+
+Una de las situaciones problemáticas al analizar código estáticamente es la existencia de varias referencias vivas a un mismo objeto, conocido como \textbf{aliasing}. En particular, dificulta (y a veces imposibilita) asegurarse de que una referencia en otra parte del código no haya modificado el estado del objeto, invalidando lo que el analizador asume como correcto y potencialmente arruinando su resultado.
+
+Para solventarlo, \textit{JaTyC} impone una restricción dura sobre el aliasing, obligando a los programadores a usar objetos protocolados \textbf{linealmente}. Esto significa que, para un objeto protocolado, una única referencia podrá modificar su typestate, llamada \textit{referencia lineal}. Esto limita el poder de expresión de los desarrolladores, pero permite a la herramienta verificar que los objetos sigan y completen sus protocolos. Las demás referencias, denominadas \textit{referencias compartidas}, tendrán acceso solamente a los métodos \textit{anytime}.
+
+Los \textbf{Anytime Methods}, o ``métodos de cualquier momento'', son todos los métodos definidos por una clase que no están mencionados en su protocolo, o todos los métodos de una clase en caso de no tener protocolo. Estos pueden ser llamados sobre un objeto en cualquier punto de la ejecución del programa, sin importar el estado en el que se encuentre. Dado que estos métodos se interpretan como ajenos al protocolo, y para preservar la linealidad, no pueden modificar los valores ni el typestate de los colaboradores internos de la instancia.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Aliasing.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo3/Aliasing_error.txt}
+    \caption{\textit{JaTyC} reportando un error al llamar métodos protocolados en una referencia compartida}
+    \label{jatyc:aliasing}
+\end{figure}
+
+Una variable pierde la linealidad de su referencia, de tenerla, cuando esta se asigna a otra variable, parámetro o colaborador interno. Es decir, asignar una referencia lineal a una variable nueva ``transmite la linealidad'' de la vieja a la nueva, mientras que la vieja pasa a ser compartida.
+
+En la Figura~\ref{jatyc:aliasing} puede observarse un ejemplo de código cliente que utiliza un objeto protocolado de tipo \texttt{Stack}. Este tiene un protocolo muy simple, similar al de la Figura~\ref{teorico:mungo}, el cual incluye al método \texttt{push()} (en otras palabras, no es un método \textit{anytime}). El código cliente comienza definiendo una variable \texttt{s1} y asignándole una nueva instancia de \texttt{Stack}, lo que la convierte en una referencia lineal. Acto seguido, se define una nueva variable \texttt{s2} y se la hace apuntar al mismo objeto. Esto transfiere la linealidad de \texttt{s1} a \texttt{s2}, y \texttt{s1} pasa a ser una referencia compartida, sin acceso a los métodos protocolados. Notemos que, al correr la herramienta, esta reporta como error la llamada al método \texttt{push()} desde la referencia compartida \texttt{s1}, y no desde la lineal \texttt{s2}.
+
+\section{Anotaciones Adicionales}
+
+Además de la definición de protocolos, tanto en los archivos \textit{.protocol} como con la anotación \texttt{@Typestate} para suscribirse a ellos, \textit{JaTyC} provee otras anotaciones útiles para definir el comportamiento esperado de los programas.
+
+\subsection{Nullable}
+
+Por defecto, \textit{JaTyC} considera a todas las variables de un programa como no anulables, a diferencia del sistema de tipos de Java. Para indicar que una variable puede tomar el valor \texttt{null}, se utiliza la anotación \texttt{@Nullable}, como se muestra en la Figura~\ref{jatyc:nullable}. De no utilizarla y asignar \texttt{null} a una variable no anulable, la herramienta reportará un error. A través de este mecanismo, el checker previene errores típicos de Java, como los de tipo \textit{Null Pointer}.
+
+Esta anotación puede utilizarse en la definición de variables y colaboradores internos, en argumentos de funciones y en valores de retorno.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Nullable.java}
+    \caption{Uso de la anotación \texttt{@Nullable} para el método \texttt{next()} de un iterador}
+    \label{jatyc:nullable}
+\end{figure}
+
+\subsection{Requires}
+
+La anotación \texttt{@Requires} puede utilizarse en los parámetros de un método para indicar en qué typestate (o conjunto de typestates) se espera que se encuentre el objeto provisto. Un ejemplo de esto puede observarse en la Figura~\ref{jatyc:requires}, donde se muestran un par de métodos para un controlador de un robot. En ellos se requiere que el robot pasado por parámetro esté obligatoriamente en determinados estados.
+
+De no proveer esta anotación, \textit{JaTyC} asume que el objeto recibido por el método es una referencia compartida, y permite utilizar solamente sus métodos \textit{anytime}. En cambio, de proveerla, se debe tener en cuenta la finalización del protocolo del objeto. Es decir, cuando se salga del \textit{scope} del método se perderá la única referencia lineal al objeto, y por ende su protocolo debe completarse antes (a no ser de utilizar la anotación \texttt{@Ensures}, que trataremos en la próxima sección).
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Requires.java}
+    \caption{Uso de la anotación \texttt{@Requires} para un solo typestate y para un conjunto de typestates}
+    \label{jatyc:requires}
+\end{figure}
+
+\subsection{Ensures}
+
+Por último, la herramienta provee la anotación \texttt{@Ensures}, utilizada para indicar el typestate (o conjunto de typestates) en el que se encuentra el valor de retorno de un método. Un ejemplo puede observarse en la Figura~\ref{jatyc:ensures}, donde se ve un método \textit{getter} de un controlador de robots. En él se define que el valor devuelto será una referencia lineal a un robot que se encuentra exactamente en el estado \texttt{TopLeft}. Al retornar, el código cliente podrá acceder a los métodos protocolados del robot.
+
+De no utilizar esta anotación, se asume que la referencia devuelta será compartida, y solamente sus métodos \textit{anytime} estarán disponibles. Además, de no utilizarla y devolver un objeto que tiene protocolo (como el \texttt{Robot} de la Figura~\ref{jatyc:ensures}), se requiere que el método lo finalice antes de retornar (ya sea a través de una transición a \texttt{end} o de un estado descartable). De no ser así, se perdería la única referencia lineal al salir del \textit{scope}, y el objeto nunca llegaría a completar su protocolo. Por ejemplo, para retornar un lector de archivos, se espera que antes de finalizar el método se haya cerrado el archivo.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Ensures.java}
+    \caption{Uso de la anotación \texttt{@Ensures} en el valor de retorno de un método}
+    \label{jatyc:ensures}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo3/Ensures_2.java}
+    \caption{Uso de la anotación \texttt{@Ensures} en un parámetro de entrada de un método}
+    \label{jatyc:ensures_param}
+\end{figure}
+
+Durante nuestra experimentación, notamos que la anotación también puede utilizarse en los parámetros de entrada de un método. Esto no es mencionado por la documentación oficial de la herramienta, por lo que no podemos afirmar que sea el comportamiento esperado. De todos modos, esta forma de utilizarla sí es mencionada en una de las publicaciones de \textit{JaTyC}~\cite{jatyc:msc-thesis}, y consideramos que es relevante porque permite más flexibilidad a la hora de utilizar objetos protocolados. Esto se debe a que, al combinarla con la anotación \texttt{@Requires} en un parámetro de entrada, es posible devolver la referencia lineal del objeto provisto por el cliente, y no una compartida. De esta forma, se evita tener que completar obligatoriamente el protocolo del parámetro dentro del \textit{scope} del método.
+
+Un ejemplo de uso de ambas anotaciones puede observarse en la Figura~\ref{jatyc:ensures_param}, donde se opera con un \texttt{Stack}. El método declara que el stack provisto deberá encontrarse en el typestate \texttt{Init}, y que lo devolverá en el mismo estado. Para que funcione, \textit{JaTyC} requiere que el parámetro sea \texttt{final}, es decir, que la variable no sea reasignada durante la ejecución del método.
+
+\section{Subtipado}
+
+Una de las características más interesantes de la herramienta, similar a lo mencionado en el capítulo~\ref{teorico:objetos}, es el soporte para \textbf{subtipado}. Es una de las funcionalidades distintivas de \textit{JaTyC} en comparación con su predecesora Mungo, y es crucial dentro del paradigma de los objetos.
+
+Cuando una clase protocolada extiende a otra también protocolada, \textit{JaTyC} se asegura de que el protocolo del subtipo incluya al del supertipo. En otras palabras, toda secuencia válida de llamadas a métodos para el tipo padre debe seguir siéndolo para el tipo hijo. El subtipo tiene solamente la capacidad de \textbf{agregar} nuevas secuencias de llamadas a métodos. En cierto sentido, si modelamos el protocolo de un objeto como una máquina de estados finita, el autómata del subtipo debe preservar el comportamiento del autómata del supertipo.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+    \lstinputlisting{./code/capitulo3/loop_iterator/Iterator.protocol}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial] (H) at (0,0)    {HasNext};
+\node[state]          (N) at (4.2,0)  {Next};
+\node[state, accepting] (E) at (2.1,-3) {end};
+
+\path (H) edge [bend left] node {hasNext()=true} (N)
+          edge             node [swap] {hasNext()=false} (E)
+      (N) edge [bend left] node {next()} (H)
+          edge             node {hasNext()=false} (E)
+          edge [loop above] node {hasNext()=true} (N);
+\end{tikzpicture}}
+\end{minipage}
+\caption{Protocolo \texttt{Iterator} y su autómata}
+\label{jatyc:iterator_protocol}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+    \lstinputlisting{./code/capitulo3/loop_iterator/LoopIterator.protocol}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (I) at (0,0) {Init};
+\node[state, accepting] (E) at (4,0) {end};
+
+\path (I) edge [loop above] node [align=center]
+          {hasNext()=true\\hasNext()=false\\next()} (I)
+          edge node {drop} (E);
+\end{tikzpicture}}
+\end{minipage}
+\caption{Protocolo \texttt{LoopIterator} y su autómata}
+\label{jatyc:loopiterator_protocol}
+\end{figure}
+
+Esto es así porque se pretende que el subtipo se ``comporte como'' el supertipo. En las Figuras~\ref{jatyc:iterator_protocol} y~\ref{jatyc:loopiterator_protocol} se pueden ver los protocolos para una interfaz \texttt{Iterator} y una clase \texttt{LoopIterator} que la implementa. Como indica su nombre, al llegar al final de la colección esta clase reinicia su puntero al inicio, eliminando la necesidad de consultar si hay un elemento siguiente (\texttt{hasNext()}). Notemos que las secuencias de métodos válidas para \texttt{Iterator} consisten en llamadas a \texttt{hasNext()} y una única llamada a \texttt{next()} cada vez que haya un elemento siguiente. Observemos que \texttt{LoopIterator} permite todo eso y más, dado que ambos métodos pueden llamarse sin restricciones.
+
+De tener un objeto de tipo \texttt{Iterator}, se espera que se comporte como tal y que, por ende, siga su protocolo. Si el protocolo de \texttt{LoopIterator} no permitiese \textit{al menos} todas las secuencias de llamadas a métodos de su interfaz, cualquier código cliente podría levantar una excepción al utilizar un objeto \texttt{Iterator}. Esto se debe a que, incluso siguiendo el contrato de uso de la interfaz, se podría estar incumpliendo el de la implementación.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+    \lstinputlisting{./code/capitulo3/tired_iterator/TiredIterator.protocol}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)  {HasNext};
+\node[state]            (N) at (4,0)  {Next};
+\node[state, accepting] (E) at (2,3)  {end};
+\node[state]            (R) at (2,-3) {Rest};
+
+\path (H) edge node {hasNext()=true} (N)
+          edge node {hasNext()=false} (E)
+      (N) edge node [swap] {hasNext()=false} (E)
+          edge [loop, out=60, in=20, looseness=6] node [above, yshift=+2pt, xshift=-6pt] {hasNext()=true} (N)
+          edge node {next()} (R)
+      (R) edge node {rest()} (H);
+\end{tikzpicture}}
+\end{minipage}
+\vspace{0.4cm}
+\lstinputlisting{./code/capitulo3/tired_iterator/Tired_error.txt}
+\caption{Protocolo \texttt{TiredIterator}, su autómata y el error que reporta el checker}
+\label{jatyc:tirediterator_protocol}
+\end{figure}
+
+Un ejemplo de \textit{JaTyC} previniendo esta clase de situaciones puede observarse en la Figura~\ref{jatyc:tirediterator_protocol}. La clase \texttt{TiredIterator} implementa la misma interfaz, pero su protocolo agrega un nuevo estado \texttt{Rest}, que incluye el método \texttt{rest()}. Según el protocolo, luego de cada llamada a \texttt{next()} se deberá necesariamente ``dejar descansar al iterador'' llamando a este nuevo método. Dada esta implementación, se puede ver fácilmente que no permite las mismas secuencias de llamadas que su interfaz. Por ejemplo, la secuencia \texttt{hasNext()}, \texttt{next()} y luego \texttt{hasNext()}, permitida por \texttt{Iterator}, no puede realizarse siguiendo el protocolo de \texttt{TiredIterator}, ya que antes se debe llamar a \texttt{rest()}. En la misma figura puede observarse también el error reportado por la herramienta al analizar los protocolos.
+
+Por otro lado, \textit{JaTyC} también permite que una clase no protocolada extienda a otra con protocolo. En este caso, el subtipo sigue el protocolo del supertipo y todos sus nuevos métodos son considerados \textit{anytime}. Finalmente, también es posible que una clase protocolada extienda a una sin protocolo. En esta situación, todos los métodos de la clase padre se consideran \textit{anytime}, y la clase hija funciona como una clase protocolada regular.
+
+Como parte de esta funcionalidad, \textit{JaTyC} también introduce lógica para manejar correctamente la conversión de tipos, o \textit{casting}, tanto implícita como explícita.
+
+\section{Impacto}
+
+Con todas las características mencionadas anteriormente, \textit{JaTyC} consigue determinar en tiempo de compilación que todos los objetos sigan y completen sus protocolos, de tenerlos. En otras palabras, verifica que los métodos de los objetos se llamen en el orden correcto y que los objetos se utilicen hasta el final. Además, mediante sus anotaciones permite detectar potenciales errores de punteros nulos y especificar los typestates esperados para parámetros y valores de retorno de métodos. Finalmente, da soporte al subtipado, permitiendo a los usuarios aplicar herencia entre cualquier clase y manteniendo la correcta verificación de protocolos.
+
+% Deberiamos de hablar de las limitaciones? EN la documentacion ya menciona ciertas limitaciones oficiales, quizás valga la pena hacerlo para luego no reportarlas en la experimentacion sin precedentes.
+
+\section{Implementación}
+\subsection{Algoritmo}
+\subsection{Checker Framework}
