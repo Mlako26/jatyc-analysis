@@ -134,7 +134,7 @@ Una de las características más interesantes de la herramienta, similar a lo me
 
 De tener una clase protocolada extendiendo a otra también protocolada, \textit{JaTyC} se asegura que el protocolo del subtipo incluya el del supertipo. En otras palabras, toda secuencia válida de llamadas de métodos para el tipo padre deben de seguir siéndolo para el tipo hijo. El subtipo tiene solamente la capacidad de \textbf{agregar} nuevas secuencias de llamadas de métodos. En cierto sentido, modelando el protocolo de un objeto como una máquina de estados finita, el autómata del subtipo debe preservar el comportamiento del autómata del supertipo.
 
-Esto es asi dado que se pretende que el subtipo se ``comporte como'' el supertipo. Como ilustración, observemos las Figuras \ref{jatyc:subtyping_correct}. Supongamos que tenemos una interfaz \texttt{Iterator} con un protocolo, y luego una clase \texttt{BidirectionalIterator} que la implementa, también con protocolo. La implementación es capaz de recorrer la colección en ambas direcciones, mientras que la interfaz solo hacia adelante. De tener un objeto de tipo \texttt{Iterator}, uno espera que se comporte como uno, y que por ende siga su protocolo. Si el de \texttt{BidirectionalIterator} no permitiese \textit{al menos} todas las secuencias de llamadas de métodos de su interfaz, cualquier código cliente puede levantar una excepción al utilizar la interfaz \texttt{Iterator}. Esto es porque, incluso siguiendo el contrato de uso de la interfaz, se podría estar rompiendo con el de la implementación.
+Esto es asi dado que se pretende que el subtipo se ``comporte como'' el supertipo. En la Figura \ref{jatyc:subtyping_correct} se pueden ver los protocolos para una interfaz \texttt{Iterator} y una clase \texttt{LoopIterator} que la implementa. La clase funciona de tal manera que, como indica su nombre, al llegar al final de la colección reinicia su puntero al inicio de la misma, eliminando la necesidad de consultar si hay elemento siguiente (\texttt{hasNext()}). Notemos que todas las secuencias de métodos válidas para \texttt{Iterator} son llamadas infinitas a \texttt{hasNext()} y una única llamada a \texttt{next()} cada vez que haya un elemento siguiente. Observemos que el \texttt{LoopIterator} permite todo eso y más, dado que ambos métodos pueden llamarse sin restricciones. De tener un objeto de tipo \texttt{Iterator}, uno espera que se comporte como uno, y que por ende siga su protocolo. Si el de \texttt{LoopIterator} no permitiese \textit{al menos} todas las secuencias de llamadas de métodos de su interfaz, cualquier código cliente puede levantar una excepción al utilizar la interfaz \texttt{Iterator}. Esto es porque, incluso siguiendo el contrato de uso de la interfaz, se podría estar rompiendo con el de la implementación.
 
 \begin{figure}[htbp]
     \centering
@@ -145,6 +145,8 @@ Esto es asi dado que se pretende que el subtipo se ``comporte como'' el supertip
     \label{jatyc:subtyping_correct}
 \end{figure}
 
+Un ejemplo de \textit{JaTyC} previniendo esta clase de situaciones puede observarse en la Figura \ref{jatyc:subtyping_incorrect}. La clase \textit{TiredIterator} implementa la misma interfaz, pero su protocolo agrega un nuevo estado \textit{Rest} incluyendo al método \texttt{rest()}. Siguiendo el comportamiento del protocolo, luego de cada llamada a \texttt{next()}, necesariamente se deberá de dejar al iterador descansar llamando a su nuevo método. Dada esta nueva implementación, se puede fácilmente ver que no permite las mismas secuencias de llamadas de métodos que su interfaz. Por ejemplo, la secuencia \texttt{hasNext()}, \texttt{next()} y luego \texttt{hasNext()}, permitida por \texttt{Iterator}, no se puede realizar siguiendo el protocolo de \texttt{TiredIterator}, ya que necesariamente se debe de llamar a \texttt{rest()}. En la misma Figura puede también observarse el error reportado por la herramienta al analizar los protocolos. 
+
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo3/tired_iterator/TiredIterator.protocol}
@@ -154,15 +156,15 @@ Esto es asi dado que se pretende que el subtipo se ``comporte como'' el supertip
     \label{jatyc:subtyping_incorrect}
 \end{figure}
 
-Por otro lado, \textit{JaTyC} también permite que una clase no protocolada extienda a otra con protocolo. En este caso, el subtipo sigue el protocolo del supertipo, y todos sus nuevos métodos son considerados \textit{anytime}. Finalmente, se puede tener una clase protocolada extendiendo a una sin protocolo. En esta situación, se asumen todos los métodos de la clase padre como \textit{anytime}, y la clase hijo funciona como una protocolada regular.
+% TODO: Quizas agregar los grafos de los autómatas
 
-% Agregar otro ejemplo acá?
+Por otro lado, \textit{JaTyC} también permite que una clase no protocolada extienda a otra con protocolo. En este caso, el subtipo sigue el protocolo del supertipo, y todos sus nuevos métodos son considerados \textit{anytime}. Finalmente, se puede tener una clase protocolada extendiendo a una sin protocolo. En esta situación, se asumen todos los métodos de la clase padre como \textit{anytime}, y la clase hijo funciona como una protocolada regular.
 
 Como parte de esta funcionalidad, \textit{JaTyC} también introduce lógica para manejar correctamente la conversión de tipos, o \textit{casting}, tanto implícitos como explícitos.
 
-\section{Garantías}
+\section{Impacto}
 
-J\textit{JaTyC} 
+Con todas las características mencionadas anteriormente, \textit{JaTyC} consigue determinar en tiempo de compilación que todos los objetos sigan y completen sus protocolos, de tenerlos. En otras palabras, verifica que los métodos de los objetos sean llamados en orden correcto y que los objetos sean utilizados hasta el final. A su vez, con sus anotaciones permite detectar potenciales errores de punteros nulos, y especificar en métodos los typestates esperables para parámetros y valores de retorno. Finalmente, da soporte al subtipado, permitiendo a los usuarios hacer herencia entre cualquier clase y manteniendo la correcta verificación de protocolos.
 
 % Deberiamos de hablar de las limitaciones? EN la documentacion ya menciona ciertas limitaciones oficiales, quizás valga la pena hacerlo para luego no reportarlas en la experimentacion sin precedentes.
 
