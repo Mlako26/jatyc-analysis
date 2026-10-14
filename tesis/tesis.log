@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  14 OCT 2026 17:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  14 OCT 2026 19:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -614,23 +614,23 @@ Cap\'{\i }tulo 3.
 (./code/capitulo3/Iterator.protocol) (./code/capitulo3/Iterator.java) [8
 
 ] (./code/capitulo3/Animal.protocol) (./code/capitulo3/FileProtocol.protocol)
-LaTeX Info: Redefining \. on input line 59.
-LaTeX Info: Redefining \% on input line 59.
+LaTeX Info: Redefining \. on input line 61.
+LaTeX Info: Redefining \% on input line 61.
  [9] (./code/capitulo3/Aliasing.java) (./code/capitulo3/Aliasing_error.txt)
-LaTeX Info: Redefining \. on input line 74.
-LaTeX Info: Redefining \% on input line 74.
- [10] (./code/capitulo3/Nullable.java)
-LaTeX Info: Redefining \. on input line 99.
-LaTeX Info: Redefining \% on input line 99.
- [11] (./code/capitulo3/Requires.java) (./code/capitulo3/Ensures.java) (./code/capitulo3/Ensures_2.java)
-LaTeX Info: Redefining \. on input line 128.
-LaTeX Info: Redefining \% on input line 128.
+LaTeX Info: Redefining \. on input line 76.
+LaTeX Info: Redefining \% on input line 76.
+ [10] (./code/capitulo3/Nullable.java) (./code/capitulo3/Requires.java)
+LaTeX Info: Redefining \. on input line 107.
+LaTeX Info: Redefining \% on input line 107.
+ [11] (./code/capitulo3/Ensures.java) (./code/capitulo3/Ensures_2.java)
+LaTeX Info: Redefining \. on input line 130.
+LaTeX Info: Redefining \% on input line 130.
  [12] (./code/capitulo3/loop_iterator/Iterator.protocol) (./code/capitulo3/loop_iterator/LoopIterator.protocol)
-LaTeX Info: Redefining \. on input line 185.
-LaTeX Info: Redefining \% on input line 185.
+LaTeX Info: Redefining \. on input line 188.
+LaTeX Info: Redefining \% on input line 188.
  [13] (./code/capitulo3/tired_iterator/TiredIterator.protocol) (./code/capitulo3/tired_iterator/Tired_error.txt)
-LaTeX Info: Redefining \. on input line 218.
-LaTeX Info: Redefining \% on input line 218.
+LaTeX Info: Redefining \. on input line 222.
+LaTeX Info: Redefining \% on input line 222.
  [14])
 LaTeX Info: Redefining \. on input line 100.
 LaTeX Info: Redefining \% on input line 100.
@@ -662,15 +662,15 @@ Package rerunfilecheck Info: File `tesis.out' has not changed.
 (rerunfilecheck)             Checksum: 6D554F2742B34125C30B0EA3BF506093;3574.
  ) 
 Here is how much of TeX's memory you used:
- 24499 strings out of 467099
- 462103 string characters out of 5412503
- 983635 words of memory out of 5000000
- 53170 multiletter control sequences out of 15000+600000
+ 24500 strings out of 467099
+ 462121 string characters out of 5412503
+ 983650 words of memory out of 5000000
+ 53171 multiletter control sequences out of 15000+600000
  637255 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  92i,14n,94p,1988b,1389s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (23 pages, 318125 bytes).
+Output written on tesis.pdf (23 pages, 318039 bytes).
 PDF statistics:
  636 PDF objects out of 1000 (max. 8388607)
  574 compressed objects within 6 object streams
