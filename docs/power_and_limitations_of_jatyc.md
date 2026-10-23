@@ -1349,9 +1349,9 @@ Realize how the second error is the same as the first experiment, since in main 
 
 Jatyc properly checks each method to see if any linear reference is lost when it finishes. If that is the case, then the method must first take that object being referenced to protocol completion.
 
-### collaborator_compound_state_4
+### collaborator_compound_typestate_4
 
-This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_state_4).
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_typestate_4).
 
 #### Aim
 

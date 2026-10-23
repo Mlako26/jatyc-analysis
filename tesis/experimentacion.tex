@@ -1,0 +1,60 @@
+\chapter{Experimentación}
+
+A lo largo de este capítulo se recopilará la experimentación realizada con \textit{JaTyC}. Recordemos que el propósito principal es analizar el poder y las limitaciones de la herramienta, y a su vez validar su comportamiento correcto en casos bordes. También buscamos encontrar características y limitaciones para la verificación de protocolos de objetos basados en typestates en general.
+
+Los tests fueron realizados con pequeños extractos de código, compuestos por diferentes clases, interfaces, cliente y protocolos. Luego, se analizaron con la herramienta y se anotó el comportamiento observado. Cada sección del capítulo tratará un aspecto diferente de \textit{JaTyC} o verificación de protocolos de objetos en general, e incluirá algunas de las pruebas más interesantes.
+
+\section{Protocolos Compuestos}
+
+Es de interés saber qué tanto tiene \textit{JaTyC} en consideración el estado de los colaboradores internos de un objeto protocolado. En particular, \textit{JaTyC} parecería interpretar un typestate como un conjunto de métodos habilitados para una instancia y sus transiciones hacia otros typestates. Pero podría el typestate de un objeto ser dictado también por el estado de un colaborador interno? Es decir, podría el typestate de un objeto padre ser uno compuesto donde, dependiendo del typestate de un colaborador, llamadas a un mismo método resulten en distintos resultados (tal como excepciones en ocasiones)? Buscamos entender como la herramienta analiza estos casos, donde la complejidad de determinar el comportamiento correcto de un objeto sobresale del scope del mismo.
+
+\section{Incumplimiento de Protocolo}
+
+Nuestro primeros tests realizados buscaban romper el protocolo de un colaborador interno, mientras se respetaba el del objeto padre. Como mencionamos, era de interés saber si, según el punto de vista de un cliente, se podían provocar comportamientos inesperados en un objeto a pesar de utilizarlo correctamente, causados por su estado interno. En particular, estos tests se basan en pequeñas variaciones de una misma clase \texttt{Robot} y otra \texttt{RobotController}. 
+
+En una versión inicial, el robot se mueve en un mapa de tamaño $2x2$, una unidad de distancia a la vez con métodos \texttt{moveLeft()}, \texttt{moveRight()}, \texttt{moveUp()} y \texttt{moveDown()}. Comienza en la posición inicial arriba a la izquierda y de moverse a una posición afuera del mapa levantará una excepción, simulando ``caerse del mapa''. Su protocolo refleja este comportamiento, con un typestate para cada posición posible del robot y sus movimientos permitidos en tal que nunca se caiga. El \texttt{RobotController} cuenta con un \texttt{Robot} de colaborador interno, y simplemente toma instrucciones de un cliente para moverlo. Su protocolo es pequeño, donde inicalmente solamente el método \texttt{canMoveRobot()} puede ser llamado, el cual retorna un booleano decidiendo si el robot puede moverse o no. De devolver verdadero, puede llamarse al método \texttt{move(string direction)} el cual mueve al robot en la dirección indicada por el usuario. Finalmente, un pequeño código cliente intenta seguir el protocolo del controlador pero romper el del robot, haciéndolo caer del mapa.
+
+Observando el error devuelto por la herramienta, claramente detecta que se está rompiendo el protocolo del robot, pero no por el código cliente. \textit{JaTyC} reporta que el mismísimo método \texttt{move(string direction)} del \texttt{RobotController} puede potencialmente mover al robot por fuera del mapa, de moverlo hacia arriba o a la izquierda estando en la posición inicial. Es decir, dado que el cliente del robot es el controlador mismo, es este último el que debe de respetar su protocolo, no solo el código cliente en \texttt{main}.
+
+Una variación del test que demuestra el mismo comportamiento se puede ver en la Figura . Mientras que el \texttt{Robot} no tiene cambios, el \texttt{RobotController} ahora cuenta con un método \texttt{run()}, que hace el robot de una vuelta al mapa en el sentido del reloj, y \texttt{moveRight()} que mueve el robot hacia la derecha una posición.
+
+\textit{JaTyC} analizó el código con dos clientes diferentes. El primero solamente realizaba una llamada a \texttt{canMoveRobot()} y \texttt{run()}, repetando todos los protocolos. El segundo llama a \texttt{run()}, luego a \texttt{moveRight()} y finalmente a \texttt{run()}, todas precedidas por llamdas a \textt{canMoveRobot()}. Comenzando en la posición inicial del mapa $2x2$ arriba a la izquierda, la primera llamada a \texttt{run()} deja al robot en la misma posición. Al llamar a \textt{moveRight()} el robot pasa a estar en la posición arriba derecha. Finalmente, la última llamada a \texttt{run()}, al comenzar también con un movimiento hacia la derecha, provoca que el robot se caiga del mapa y rompa su protocolo.
+
+En ambos casos, la herramienta reporta los mismos errores de la Figura . Los mismos reportan sólamente sobre el uso indebido del robot por parte del controlador, donde diferentes combinaciones de llamadas de métodos provocan que caiga del mapa. Esto nuevamente confirma que para \textit{JaTyC} los protocolos no son compuestos, y se analiza por separado el uso del controlador por el código cliente, y del robot por parte del controlador. Esto es respaldado por lo visto en la sección TODO, donde el algoritmo de análisis de clases repasa todas las posibles combinaciones de llamadas de métodos para una clase particular, realizando un seguimiento de los posibles estados para parámentros, valores de retorno y sus colaboradores internos.
+
+\subsection{Finalización de Protocolo}
+
+Por otro lado, realizamos experimentaciones enfocadas en la finalización de protocolos compuestos. Es decir, cómo maneja la herramienta que uno de los dos protocolos termine antes que el otro. En el caso del objeto padre terminando su protocolo primero, sabrá \texttt{JaTyC} que el colaborador interno no podrá finalizar el suyo? Y de ser al revéz, sabrá que el objeto padre no puede utilizar los métodos protocolados del colaborador?
+
+El primero de los casos puede observarse en la Figura . Las clases son muy similares a las mencionados anteriormente, con algunas diferencias. El \texttt{Robot} ahora tiene un método \textit{anytime}, \texttt{dance()}, y la única forma de finalizar su protocolo es a través del nuevo método \texttt{rest()}. El \texttt{RobotController} cuenta con un nuevo método \texttt{turnOff()}, que representa la única forma de transicionar a \texttt{end}, y desde ningún método llama a \texttt{rest()} del robot (en otras palabras, no sabe finalizar su protocolo).
+
+En la Figura se puede ver el código cliente analizado. En el mismo, se instancia un conto
+% TODO me falta corregir un poco estos tests.
+\section{Correctitud Vs Orden de Métodos}
+
+El análisis de los object protocols en general se limita a verificar el orden correcto de las llamadas a métodos. Mientras que \textit{JaTyC} puede hacer mucho más que eso, como detectar posibles errores de puntero nulo o especificar typestates esperados para parámetos o valores de retorno, no tiene conocimiento sobre el contenido de los méotodos por sobre los que predica. En otras palabras, no juzga la \textbf{correctitud} de los métodos de un objeto protocolado, y por ende pueden suceder excepciones inesperadas incluso aunque se siga su contrato. En ese sentido, es interesante indagar cómo la herramienta está limitada en este aspecto, y cómo podemos utilizarla para hacer que nuestro código se alinee con lo su especificación de correcto.
+
+En la Figura puede verse uno de los tests que realizamos, con una clase \texttt{Stack} desarrollada incorrectamente. Observando su protocolo, se puede apilar y desapilar elementos mientras no esté llena ni vacía, respectivamente. Por ejemplo, solamente se puede llamar a \texttt{push()} si \texttt{isFull()} retorna falso. Para esta implementación, el método \texttt{isFull()} siempre devuelve falso, con lo cual permite que se apile hasta sobrepasar el tamaño del stack y levantar una excepción. El código cliente usa la pila siguiendo su protocolo, pero apilando más elementos que su capacidad.
+
+Al correr \textit{JaTyC}, efectivamente no reporta ningún error, pero al ejecutar el código cliente termina con una excepción. Esto muestra que, incluso respetando el protocolo de un objeto y utilizando sus métodos de control (como \texttt{isFull()}) antes de sus métodos críticos (como \textt{push()}), \textit{JaTyC} no nos asegura que esté implementado de forma correcta.
+
+Por otro lado, de cambiar el método \texttt{isFull()} para que correctamente controle cuándo se puede apilar, el \texttt{Stack} y su protocolo es un ejemplo de cómo podemos apoyarnos en la herramienta para facilitar que el código sea más correcto.
+
+
+%   - faulty_stack 
+%     - Un stack que su implementación tiene fallas y larga excepciones, pero su protocolo lo cumple bien.
+%   - normal_stack
+%     - Esto es un stack normal, donde para hacer que cumpla un protocolo hay que agregarle métodos booleanos de control. Sirve para explicar que la tool no puede trackear cantidad de llamadas a métodos o secuencias de métodos, a no ser que hagamos un estado por llamada. Es decir, en escencia lo que se testea es querer determinar cuándo estoy por ejemplo haciendo un push cuando la pila ya está llena. En ese sentido, la herramienta al no tener una pila interna es incapaz de asegurarse que el código sea seguro, y te obliga a usar métodos booleanos de control.
+%     - Explicar que si no puede probar que tu código es seguro, te fuerza a hacer checkeos (por medio de métodos de control) para que lo sea. En ese sentido, son falsos positivos, donde potencialmente el codigo esta bien pero te obliga a ser mas defensivo.
+
+\section{Intervención Humana}
+
+\section{Subtipado}
+
+\section{Estado Vs Typestate}
+
+\section{Casos Bordes} % o \section{Capacidad de Modelado}
+
+\section{Aliasing}
+
+\section{Excepciones}
