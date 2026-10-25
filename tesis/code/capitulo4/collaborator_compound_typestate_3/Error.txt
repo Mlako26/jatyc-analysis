@@ -3,3 +3,5 @@ RobotController.java:23: error: Cannot call [moveRight] on State{Robot, TopLeft}
                                     ^
 RobotController.java:16: error: Cannot call [moveRight] on State{Robot, TopLeft} | State{Robot, TopRight}
                 this.robot.moveRight();
+                                    ^
+2 errors

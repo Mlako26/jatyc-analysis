@@ -1,0 +1,4 @@
+RobotController.java:4: error: [this.robot] did not complete its protocol (found: State{Robot, Init})
+public class RobotController {
+       ^
+1 error

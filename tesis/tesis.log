@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  25 OCT 2026 18:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  25 OCT 2026 19:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -678,13 +678,16 @@ LaTeX Info: Redefining \% on input line 71.
  [18]
 LaTeX Info: Redefining \. on input line 71.
 LaTeX Info: Redefining \% on input line 71.
- [19] (./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol)
-LaTeX Info: Redefining \. on input line 84.
-LaTeX Info: Redefining \% on input line 84.
+ [19] (./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol) (./code/capitulo4/collaborator_compound_typestate_3/Main.java) (./code/capitulo4/collaborator_compound_typestate_3/Error.txt)
+LaTeX Info: Redefining \. on input line 92.
+LaTeX Info: Redefining \% on input line 92.
  [20]
+
+LaTeX Warning: Reference `' on page 21 undefined on input line 101.
+
 LaTeX Info: Redefining \. on input line 110.
 LaTeX Info: Redefining \% on input line 110.
- [21])
+[21])
 LaTeX Info: Redefining \. on input line 103.
 LaTeX Info: Redefining \% on input line 103.
  [22] (./tesis.bbl
@@ -711,22 +714,26 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `tesis.out' has not changed.
 (rerunfilecheck)             Checksum: F2F81FDC382950A23B1E6D71805FAB22;4833.
  ) 
 Here is how much of TeX's memory you used:
- 26219 strings out of 467099
- 496852 string characters out of 5412503
- 1305882 words of memory out of 5000000
- 54685 multiletter control sequences out of 15000+600000
+ 26253 strings out of 467099
+ 497856 string characters out of 5412503
+ 1314111 words of memory out of 5000000
+ 54694 multiletter control sequences out of 15000+600000
  637255 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  92i,14n,94p,1988b,1425s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (30 pages, 343486 bytes).
+Output written on tesis.pdf (30 pages, 346035 bytes).
 PDF statistics:
- 896 PDF objects out of 1000 (max. 8388607)
- 823 compressed objects within 9 object streams
- 400 named destinations out of 1000 (max. 500000)
+ 925 PDF objects out of 1000 (max. 8388607)
+ 851 compressed objects within 9 object streams
+ 421 named destinations out of 1000 (max. 500000)
  290 words of extra memory for PDF output out of 10000 (max. 10000000)
 
