@@ -61,9 +61,24 @@ Observando el error devuelto por la herramienta, claramente detecta que se incum
 
 Una conclusión que puede sacarse de esto es que el verdadero cliente del robot no es el código en \texttt{Main}, sino el controlador mismo. \textit{JaTyC} reportó el posible incumplimiento del protocolo desde el \texttt{RobotController} porque es allí donde el robot se utiliza. Por ende, no analiza ambos protocolos como uno compuesto desde \texttt{Main}, sino que verifica a cada cliente de un objeto protocolado por separado.
 
-Una variación del test que demuestra el mismo comportamiento se puede ver en la Figura . Mientras que el \texttt{Robot} no tiene cambios, el \texttt{RobotController} ahora cuenta con un método \texttt{run()}, que hace el robot de una vuelta al mapa en el sentido del reloj, y \texttt{moveRight()} que mueve el robot hacia la derecha una posición.
+Una variación del test que demuestra el mismo comportamiento se puede ver en las Figuras \ref{exp:compound-3:controller} y \ref{exp:compound-3:controller-p}. Mientras que el \texttt{Robot} no tiene cambios, el \texttt{RobotController} ahora cuenta con un método \texttt{run()}, que hace el robot de una vuelta al mapa en el sentido del reloj, y \texttt{moveRight()} que mueve el robot hacia la derecha una posición. Notemos que la única posición del robot segura desde la cual puede llamarse a \texttt{run()} es la inicial.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_3/RobotController.java}
+    \caption{Código de la clase \texttt{RobotController}.}
+    \label{exp:compound-3:controller}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol}
+    \caption{Protocolo de la clase \texttt{RobotController}.}
+    \label{exp:compound-3:controller-p}
+\end{figure}
 
 \textit{JaTyC} analizó el código con dos clientes diferentes. El primero solamente realizaba una llamada a \texttt{canMoveRobot()} y \texttt{run()}, repetando todos los protocolos. El segundo llama a \texttt{run()}, luego a \texttt{moveRight()} y finalmente a \texttt{run()}, todas precedidas por llamdas a \texttt{canMoveRobot()}. Comenzando en la posición inicial del mapa $2x2$ arriba a la izquierda, la primera llamada a \texttt{run()} deja al robot en la misma posición. Al llamar a \texttt{moveRight()} el robot pasa a estar en la posición arriba derecha. Finalmente, la última llamada a \texttt{run()}, al comenzar también con un movimiento hacia la derecha, provoca que el robot se caiga del mapa y rompa su protocolo.
+
 
 En ambos casos, la herramienta reporta los mismos errores de la Figura . Los mismos reportan sólamente sobre el uso indebido del robot por parte del controlador, donde diferentes combinaciones de llamadas de métodos provocan que caiga del mapa. Esto nuevamente confirma que para \textit{JaTyC} los protocolos no son compuestos, y se analiza por separado el uso del controlador por el código cliente, y del robot por parte del controlador. Esto es respaldado por lo visto en la sección TODO, donde el algoritmo de análisis de clases repasa todas las posibles combinaciones de llamadas de métodos para una clase particular, realizando un seguimiento de los posibles estados para parámentros, valores de retorno y sus colaboradores internos.
 

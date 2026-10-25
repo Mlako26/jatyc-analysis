@@ -15,17 +15,13 @@ public class RobotController {
   public void move(String direction) {
     switch (direction) {
       case "up":
-        this.robot.moveUp();
-        break;
+        this.robot.moveUp(); break;
       case "down":
-        this.robot.moveDown();
-        break;
+        this.robot.moveDown(); break;
       case "left":
-        this.robot.moveLeft();
-        break;
+        this.robot.moveLeft(); break;
       case "right":
-        this.robot.moveRight();
-        break;
+        this.robot.moveRight(); break;
       default:
         throw new RuntimeException("Invalid movement direction");
     }

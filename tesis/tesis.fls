@@ -476,6 +476,12 @@ INPUT ./code/capitulo4/collaborator_compound_typestate/Main.java
 INPUT ./code/capitulo4/collaborator_compound_typestate/Error.txt
 INPUT ./code/capitulo4/collaborator_compound_typestate/Error.txt
 INPUT ./code/capitulo4/collaborator_compound_typestate/Error.txt
+INPUT ./code/capitulo4/collaborator_compound_typestate_3/RobotController.java
+INPUT ./code/capitulo4/collaborator_compound_typestate_3/RobotController.java
+INPUT ./code/capitulo4/collaborator_compound_typestate_3/RobotController.java
+INPUT ./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol
+INPUT ./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol
+INPUT ./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol
 INPUT ./tesis.bbl
 INPUT ./tesis.bbl
 INPUT tesis.bbl
