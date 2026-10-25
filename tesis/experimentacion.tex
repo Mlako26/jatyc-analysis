@@ -96,13 +96,44 @@ Para ambos códigos clientes, la herramienta reporta los mismos errores de la Fi
 
 Por otro lado, realizamos experimentaciones enfocadas en la finalización de protocolos compuestos. Es decir, cómo reacciona la herramienta cuando uno de los dos protocolos termina antes que el otro. En el caso del objeto padre terminando su protocolo primero, sabrá \texttt{JaTyC} que el colaborador interno no podrá finalizar el suyo? Y de ser al revéz, sabrá que el objeto padre no puede utilizar los métodos protocolados del colaborador?
 
-Para el caso en el que el objeto padre termine su protocolo antes que el colaborador, realizamos la siguiente prueba.
+Para el caso en el que el objeto padre termine su protocolo antes que el colaborador, realizamos la siguiente prueba. Similar a los tests anteriores, construimos una clase \texttt{Robot} simple como en la Figura \ref{exp:compound-4:robot}. La misma tiene un único método protocolado \texttt{rest()}, el cual hay que llamar para finalizar su protocolo. Por otro lado, creamos un controlador \texttt{RobotController} como en la Figura \ref{exp:compound-4:controller}. Este cuenta con un único método \texttt{turnOff()} para finalizar su protocolo, y nunca llama a \texttt{rest()} del robot.
 
-Similar a los tests anteriores, construimos una clase \texttt{Robot} como en la Figura \ref{} que tiene un método \textit{anytime}, \texttt{dance()}, y otro protocolado \texttt{rest()}. La única forma de finalizar su protocolo es a través del método \texttt{rest()}.
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+    \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_4/Robot.java}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.46\textwidth}
+    \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_4/RobotProtocol.protocol}
+\end{minipage}
+\caption{Código y protocolo para un \texttt{Robot} con un solo método \texttt{rest()}.}
+\label{exp:compound-4:robot}
+\end{figure}
 
-El \texttt{RobotController} cuenta con un nuevo método \texttt{turnOff()}, que representa la única forma de transicionar a \texttt{end}, y desde ningún método llama a \texttt{rest()} del robot (en otras palabras, no sabe finalizar su protocolo).
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+    \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_4/RobotController.java}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.46\textwidth}
+    \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_4/RobotControllerProtocol.protocol}
+\end{minipage}
+\caption{Código y protocolo para un \texttt{RobotController} con un solo método \texttt{turnOff()}.}
+\label{exp:compound-4:controller}
+\end{figure}
 
-En la Figura se puede ver el código cliente analizado. En el mismo, se instancia un conto
+En la Figura \ref{exp:compound-4:error} se puede ver el código cliente analizado. En el mismo, simplemente se instancia un controlador y se finaliza su protocolo llamando a \texttt{turnOff()}. El error es claro, donde se menciona que el robot no finalizó el suyo, sinó que termino en su estado inicial \texttt{Init}, y determinó como culpable a la clase \texttt{RobotController}. Nuevamente \textit{JaTyC} no hace referencia a la clase cliente \texttt{Main}, y demuestra que reconoce propiamente que el cliente del robot no se encargó de finalizar su protocolo durante el programa.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_4/Main.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/collaborator_compound_typestate_4/Error.txt}
+    \caption{Errores reportados por \textit{JaTyC} al analizar el código del controlador en la Figura \ref{exp:compound-4:controller} y su respectivo código cliente \texttt{Main}.}
+    \label{exp:compound-4:error}
+\end{figure}
 
 \section{Correctitud Vs Orden de Métodos}
 
