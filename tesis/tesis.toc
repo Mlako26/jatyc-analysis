@@ -25,11 +25,11 @@
 \contentsline {chapter}{\numberline {4.}Experimentación}{16}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Protocolos Compuestos}{16}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Incumplimiento de Protocolo}{16}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Finalización de Protocolo}{19}{subsection.4.1.2}%
-\contentsline {section}{\numberline {4.2}Correctitud Vs Orden de Métodos}{19}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Intervención Humana}{20}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Subtipado}{20}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{20}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Casos Bordes}{20}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Aliasing}{20}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Excepciones}{20}{section.4.8}%
+\contentsline {subsection}{\numberline {4.1.2}Finalización de Protocolo}{20}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Correctitud Vs Orden de Métodos}{20}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Intervención Humana}{21}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Subtipado}{21}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{21}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Casos Bordes}{21}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Aliasing}{21}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Excepciones}{21}{section.4.8}%

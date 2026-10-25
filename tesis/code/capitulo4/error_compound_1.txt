@@ -1,6 +1,0 @@
-RobotController.java:27: error: Cannot call [moveLeft] on State{Robot, TopLeft}
-                                this.robot.moveLeft();
-                                                   ^
-RobotController.java:21: error: Cannot call [moveUp] on State{Robot, TopLeft}
-                                this.robot.moveUp();
-                                                 ^

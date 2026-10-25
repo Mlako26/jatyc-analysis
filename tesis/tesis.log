@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  25 OCT 2026 12:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  25 OCT 2026 17:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -479,10 +479,6 @@ LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 Package babel Info: 'spanish' activates 'spanish' shorthands.
 (babel)             Reported on input line 11.
-
-
-LaTeX Warning: Label `jatyc:aliasing' multiply defined.
-
 )
 \openout1 = `tesis.aux'.
 
@@ -669,31 +665,31 @@ LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
  [15]
 Cap\'{\i }tulo 4.
-<assets/compound_1.pdf, id=529, 298.23419pt x 111.29579pt>
-File: assets/compound_1.pdf Graphic file (type pdf)
-<use assets/compound_1.pdf>
-Package pdftex.def Info: assets/compound_1.pdf  used on input line 21.
-(pdftex.def)             Requested size: 341.43437pt x 127.42194pt.
-(./code/capitulo4/Robot_compound_1.protocol) (./code/capitulo4/Robot_controller_compound_1.protocol) [16
+(d:/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+) (./code/capitulo4/collaborator_compound_typestate/Robot.java) (./code/capitulo4/collaborator_compound_typestate/RobotProtocol.protocol) [16
 
 ]
-LaTeX Info: Redefining \. on input line 50.
-LaTeX Info: Redefining \% on input line 50.
- [17 <./assets/compound_1.pdf>] (./code/capitulo4/Client_compound_1.java) (./code/capitulo4/error_compound_1.txt)
-LaTeX Info: Redefining \. on input line 69.
-LaTeX Info: Redefining \% on input line 69.
- [18])
-LaTeX Info: Redefining \. on input line 103.
-LaTeX Info: Redefining \% on input line 103.
+LaTeX Info: Redefining \. on input line 34.
+LaTeX Info: Redefining \% on input line 34.
+ [17] (./code/capitulo4/collaborator_compound_typestate/RobotController.java) (./code/capitulo4/collaborator_compound_typestate/RobotControllerProtocol.protocol) (./code/capitulo4/collaborator_compound_typestate/Main.java) (./code/capitulo4/collaborator_compound_typestate/Error.txt)
+LaTeX Info: Redefining \. on input line 65.
+LaTeX Info: Redefining \% on input line 65.
+ [18]
+LaTeX Info: Redefining \. on input line 65.
+LaTeX Info: Redefining \% on input line 65.
  [19]
+LaTeX Info: Redefining \. on input line 83.
+LaTeX Info: Redefining \% on input line 83.
+ [20])
 LaTeX Info: Redefining \. on input line 103.
 LaTeX Info: Redefining \% on input line 103.
- [20] (./tesis.bbl
+ [21] (./tesis.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 58--62
 []\OT1/cmr/m/n/10.95 JastAdd.  Jas-tAdd - Ap-pli-ca-tions.  []$\OT1/cmtt/m/n/10.95 https : / / jastadd . cs . lth . se / web /
  []
 
-[21
+[22
 
 
 ]
@@ -704,7 +700,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 93--97
 )
 LaTeX Info: Redefining \. on input line 107.
 LaTeX Info: Redefining \% on input line 107.
- [22] (./tesis.aux
+ [23] (./tesis.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -712,26 +708,22 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
  ***********
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `tesis.out' has not changed.
 (rerunfilecheck)             Checksum: F2F81FDC382950A23B1E6D71805FAB22;4833.
  ) 
 Here is how much of TeX's memory you used:
- 26067 strings out of 467099
- 493030 string characters out of 5412503
- 1049130 words of memory out of 5000000
- 54643 multiletter control sequences out of 15000+600000
+ 26169 strings out of 467099
+ 495366 string characters out of 5412503
+ 1279736 words of memory out of 5000000
+ 54676 multiletter control sequences out of 15000+600000
  637255 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 92i,14n,94p,1988b,1441s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 92i,14n,94p,1988b,1425s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (28 pages, 354492 bytes).
+Output written on tesis.pdf (29 pages, 340298 bytes).
 PDF statistics:
- 781 PDF objects out of 1000 (max. 8388607)
- 707 compressed objects within 8 object streams
- 303 named destinations out of 1000 (max. 500000)
- 295 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 847 PDF objects out of 1000 (max. 8388607)
+ 776 compressed objects within 8 object streams
+ 364 named destinations out of 1000 (max. 500000)
+ 290 words of extra memory for PDF output out of 10000 (max. 10000000)
 

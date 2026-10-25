@@ -22,6 +22,7 @@
 - [x] Agregar referencia de mungo https://www.dcs.gla.ac.uk/research/mungo/publication/pub3/ que no me carga ahora mismo
 - [x] Agregar referencia del capitulo de la teoria, hay un comentario ahi mismo
 - [x] Arreglar los listings pasandolos a Figure
+- [ ] Arreglar indentación de código Java en el archivo JaTyC, ademas de registrar que el listing es de tipo language java
 - [ ] Experimentacion
   - [x] 24: Introduccion
   - [ ] 24: Compound Protocols
