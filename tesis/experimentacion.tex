@@ -94,12 +94,16 @@ Para ambos códigos clientes, la herramienta reporta los mismos errores de la Fi
 
 \subsection{Finalización de Protocolo}
 
-Por otro lado, realizamos experimentaciones enfocadas en la finalización de protocolos compuestos. Es decir, cómo maneja la herramienta que uno de los dos protocolos termine antes que el otro. En el caso del objeto padre terminando su protocolo primero, sabrá \texttt{JaTyC} que el colaborador interno no podrá finalizar el suyo? Y de ser al revéz, sabrá que el objeto padre no puede utilizar los métodos protocolados del colaborador?
+Por otro lado, realizamos experimentaciones enfocadas en la finalización de protocolos compuestos. Es decir, cómo reacciona la herramienta cuando uno de los dos protocolos termina antes que el otro. En el caso del objeto padre terminando su protocolo primero, sabrá \texttt{JaTyC} que el colaborador interno no podrá finalizar el suyo? Y de ser al revéz, sabrá que el objeto padre no puede utilizar los métodos protocolados del colaborador?
 
-El primero de los casos puede observarse en la Figura . Las clases son muy similares a las mencionados anteriormente, con algunas diferencias. El \texttt{Robot} ahora tiene un método \textit{anytime}, \texttt{dance()}, y la única forma de finalizar su protocolo es a través del nuevo método \texttt{rest()}. El \texttt{RobotController} cuenta con un nuevo método \texttt{turnOff()}, que representa la única forma de transicionar a \texttt{end}, y desde ningún método llama a \texttt{rest()} del robot (en otras palabras, no sabe finalizar su protocolo).
+Para el caso en el que el objeto padre termine su protocolo antes que el colaborador, realizamos la siguiente prueba.
+
+Similar a los tests anteriores, construimos una clase \texttt{Robot} como en la Figura \ref{} que tiene un método \textit{anytime}, \texttt{dance()}, y otro protocolado \texttt{rest()}. La única forma de finalizar su protocolo es a través del método \texttt{rest()}.
+
+El \texttt{RobotController} cuenta con un nuevo método \texttt{turnOff()}, que representa la única forma de transicionar a \texttt{end}, y desde ningún método llama a \texttt{rest()} del robot (en otras palabras, no sabe finalizar su protocolo).
 
 En la Figura se puede ver el código cliente analizado. En el mismo, se instancia un conto
-% TODO me falta corregir un poco estos tests.
+
 \section{Correctitud Vs Orden de Métodos}
 
 El análisis de los object protocols en general se limita a verificar el orden correcto de las llamadas a métodos. Mientras que \textit{JaTyC} puede hacer mucho más que eso, como detectar posibles errores de puntero nulo o especificar typestates esperados para parámetos o valores de retorno, no tiene conocimiento sobre el contenido de los méotodos por sobre los que predica. En otras palabras, no juzga la \textbf{correctitud} de los métodos de un objeto protocolado, y por ende pueden suceder excepciones inesperadas incluso aunque se siga su contrato. En ese sentido, es interesante indagar cómo la herramienta está limitada en este aspecto, y cómo podemos utilizarla para hacer que nuestro código se alinee con lo su especificación de correcto.
