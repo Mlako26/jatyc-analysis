@@ -18,16 +18,24 @@
 
 ## Writing
 
-- [ ] Jatyc segunda versión
-  - [ ] Explicar que existe una segunda versión de Jatyc en una branch que intenta taclear el problema de la linearidad
-  - [ ] Explicar un poco cómo funciona
-  - [ ] Explicar que Jatyc actualmente no se banca el alliasing si no es de forma lineal (solo una referencia puede modificar el estado de un objeto a la vez)
-- [ ] Escribir los abstracts
-- [ ] Escribir agradecimientos
-- [ ] Escribir dedicatoria
 - [x] Escribir introduccion
-- [ ] Agregar referencias a los capitulos en la estructura de la tesis (hyperlinks)
-- [ ] Revisar si queres hablar de Foundations of Typestate-Oriented Programming
 - [x] Agregar referencia de mungo https://www.dcs.gla.ac.uk/research/mungo/publication/pub3/ que no me carga ahora mismo
 - [x] Agregar referencia del capitulo de la teoria, hay un comentario ahi mismo
 - [x] Arreglar los listings pasandolos a Figure
+- [ ] Experimentacion
+  - [x] 24: Introduccion
+  - [ ] 24: Compound Protocols
+  - [ ] 24: Method Sequences Vs Correctness
+  - [ ] 25: Human Intervention
+  - [ ] 26: Subtyping
+  - [ ] 27: State Versus Typestates
+  - [ ] 28: Modeling Capabilities
+  - [ ] 29: Aliasing
+  - [ ] 30: Exceptions
+- [ ] How the tool works
+  - [ ] 1,2: Escribir cómo funciona en el paper que hicieron
+  - [ ] 3,4: Escribir cómo interactúa con el Checker Framework
+- [ ] 5: Conclusion
+- [ ] 5: Escribir los abstracts
+- [ ] 5: Escribir agradecimientos
+- [ ] 5: Escribir dedicatoria

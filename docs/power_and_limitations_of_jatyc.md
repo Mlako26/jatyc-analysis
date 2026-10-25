@@ -59,11 +59,11 @@ When instead implementing it so that it created its own robot within the constru
 ```java
 public class Main {
     public static void main(String args[]) throws Exception {
-		RobotController controller = new RobotController();
+      RobotController controller = new RobotController();
 
-		if (controller.canMoveRobot()) {
-			controller.move("right");
-		}
+      if (controller.canMoveRobot()) {
+        controller.move("right");
+      }
     }
 }
 ```
