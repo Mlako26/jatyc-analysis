@@ -26,6 +26,7 @@
 - [ ] Experimentacion
   - [x] 24: Introduccion
   - [ ] 24: Compound Protocols
+    - [ ] A futuro evaluar si queremos mencionar la terminacion de protocolos, no me parece que van a aportar mucha mas informacion. La conclusion es la misma, que jatyc no ve protocolos como compuestos, sino que toma al controlador como el cliente del robot, y a main como el cliente del controlador, por separado.=
   - [ ] 24: Method Sequences Vs Correctness
   - [ ] 25: Human Intervention
   - [ ] 26: Subtyping

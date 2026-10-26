@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  25 OCT 2026 19:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  26 OCT 2026 00:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -482,24 +482,24 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 )
 \openout1 = `tesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
  (d:/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count339
@@ -519,8 +519,8 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (d:/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Info: Redefining \. on input line 62.
-LaTeX Info: Redefining \% on input line 62.
+LaTeX Info: Redefining \. on input line 66.
+LaTeX Info: Redefining \% on input line 66.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -556,7 +556,7 @@ LaTeX Info: Redefining \% on input line 62.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 62.
+Package hyperref Info: Link coloring OFF on input line 66.
 (./tesis.out) (./tesis.out)
 \@outlinefile=\write4
 \openout4 = `tesis.out'.
@@ -572,7 +572,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 9.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 9.
-<logofcen.pdf, id=143, 108.405pt x 108.405pt>
+<logofcen.pdf, id=135, 108.405pt x 108.405pt>
 File: logofcen.pdf Graphic file (type pdf)
 <use logofcen.pdf>
 Package pdftex.def Info: logofcen.pdf  used on input line 10.
@@ -667,35 +667,32 @@ LaTeX Info: Redefining \% on input line 1.
 Cap\'{\i }tulo 4.
 (d:/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
-) (./code/capitulo4/collaborator_compound_typestate/Robot.java) (./code/capitulo4/collaborator_compound_typestate/RobotProtocol.protocol) [16
+) (./code/capitulo4/collaborator_compound_typestate/Robot.java) (./code/capitulo4/collaborator_compound_typestate/RobotProtocol.protocol)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 20.
+ [16
 
-]
-LaTeX Info: Redefining \. on input line 34.
-LaTeX Info: Redefining \% on input line 34.
- [17] (./code/capitulo4/collaborator_compound_typestate/RobotController.java) (./code/capitulo4/collaborator_compound_typestate/RobotControllerProtocol.protocol) (./code/capitulo4/collaborator_compound_typestate/Main.java) (./code/capitulo4/collaborator_compound_typestate/Error.txt) (./code/capitulo4/collaborator_compound_typestate_3/RobotController.java)
-LaTeX Info: Redefining \. on input line 71.
-LaTeX Info: Redefining \% on input line 71.
- [18]
-LaTeX Info: Redefining \. on input line 71.
-LaTeX Info: Redefining \% on input line 71.
- [19] (./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol) (./code/capitulo4/collaborator_compound_typestate_3/Main.java) (./code/capitulo4/collaborator_compound_typestate_3/Error.txt)
-LaTeX Info: Redefining \. on input line 92.
-LaTeX Info: Redefining \% on input line 92.
- [20]
-
-LaTeX Warning: Reference `' on page 21 undefined on input line 101.
-
-LaTeX Info: Redefining \. on input line 110.
-LaTeX Info: Redefining \% on input line 110.
-[21])
-LaTeX Info: Redefining \. on input line 103.
-LaTeX Info: Redefining \% on input line 103.
- [22] (./tesis.bbl
+] (./code/capitulo4/collaborator_compound_typestate/RobotController.java) (./code/capitulo4/collaborator_compound_typestate/RobotControllerProtocol.protocol)
+LaTeX Info: Redefining \. on input line 37.
+LaTeX Info: Redefining \% on input line 37.
+ [17] (./code/capitulo4/collaborator_compound_typestate/Main.java) (./code/capitulo4/collaborator_compound_typestate/Error.txt)
+LaTeX Info: Redefining \. on input line 56.
+LaTeX Info: Redefining \% on input line 56.
+ [18] (./code/capitulo4/collaborator_compound_typestate_3/RobotController.java) (./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol)
+LaTeX Info: Redefining \. on input line 69.
+LaTeX Info: Redefining \% on input line 69.
+ [19] (./code/capitulo4/collaborator_compound_typestate_3/Main.java) (./code/capitulo4/collaborator_compound_typestate_3/Error.txt)
+LaTeX Info: Redefining \. on input line 138.
+LaTeX Info: Redefining \% on input line 138.
+ [20])
+LaTeX Info: Redefining \. on input line 107.
+LaTeX Info: Redefining \% on input line 107.
+ [21] (./tesis.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 58--62
 []\OT1/cmr/m/n/10.95 JastAdd.  Jas-tAdd - Ap-pli-ca-tions.  []$\OT1/cmtt/m/n/10.95 https : / / jastadd . cs . lth . se / web /
  []
 
-[23
+[22
 
 
 ]
@@ -704,9 +701,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 93--97
  []
 
 )
-LaTeX Info: Redefining \. on input line 107.
-LaTeX Info: Redefining \% on input line 107.
- [24] (./tesis.aux
+LaTeX Info: Redefining \. on input line 111.
+LaTeX Info: Redefining \% on input line 111.
+ [23] (./tesis.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -714,26 +711,22 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `tesis.out' has not changed.
-(rerunfilecheck)             Checksum: F2F81FDC382950A23B1E6D71805FAB22;4833.
+(rerunfilecheck)             Checksum: A17AE4019126CE5985EDF96423C29AC2;4434.
  ) 
 Here is how much of TeX's memory you used:
- 26253 strings out of 467099
- 497856 string characters out of 5412503
- 1314111 words of memory out of 5000000
- 54694 multiletter control sequences out of 15000+600000
- 637255 words of font info for 72 fonts, out of 8000000 for 9000
+ 26243 strings out of 467099
+ 497674 string characters out of 5412503
+ 1243999 words of memory out of 5000000
+ 54690 multiletter control sequences out of 15000+600000
+ 637604 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 92i,14n,94p,1988b,1425s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 92i,14n,94p,1988b,1479s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (30 pages, 346035 bytes).
+Output written on tesis.pdf (29 pages, 344226 bytes).
 PDF statistics:
- 925 PDF objects out of 1000 (max. 8388607)
- 851 compressed objects within 9 object streams
- 421 named destinations out of 1000 (max. 500000)
- 290 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 904 PDF objects out of 1000 (max. 8388607)
+ 831 compressed objects within 9 object streams
+ 415 named destinations out of 1000 (max. 500000)
+ 274 words of extra memory for PDF output out of 10000 (max. 10000000)
 

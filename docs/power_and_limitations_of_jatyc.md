@@ -1421,9 +1421,9 @@ public class RobotController {
 
 The tool was able to properly recognize that the internal collaborator's protocol was not completed.
 
-### collaborator_compound_state_5
+### collaborator_compound_typestate_5
 
-This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_state_5).
+This example can be found [here](https://github.com/Mlako26/jatyc-analysis/tree/main/tests/collaborator_compound_typestate_5).
 
 #### Aim
 
@@ -1431,7 +1431,7 @@ Following from the previous example, we would like to know what happens when we 
 
 #### Implementation
 
-Use the same `RobotController` and `Robot` implementation as before.Keep the `rest()` method in the robot that finishes its protocol.
+Use the same `RobotController` and `Robot` implementation as before. Keep the `rest()` method in the robot that finishes its protocol.
 
 Then, have both a new protocoled and anytime method for the robotController, lets say `anytimeEnd()` and `alliasedEnd()` methods, that both perform the same action of calling the robots `rest()` method and thus finishing its protocol.
 
