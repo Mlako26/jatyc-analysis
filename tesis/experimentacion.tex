@@ -1,12 +1,12 @@
 \chapter{Experimentación}
 
-A lo largo de este capítulo se recopilará la experimentación realizada con \textit{JaTyC}. Recordemos que el propósito principal es analizar el poder y las limitaciones de la herramienta, y a su vez validar su comportamiento correcto en casos interesantes. También buscamos entender mejor el potencial de la verificación de protocolos de objetos con typestates en general.
+A lo largo de este capítulo se recopilará la experimentación realizada con \textit{JaTyC}. Recordemos que el propósito principal es analizar las capacidades y limitaciones de la herramienta, y a su vez validar que se comporte correctamente en casos interesantes. También buscamos entender mejor el potencial de la verificación de protocolos de objetos con typestates en general.
 
-Los tests fueron realizados con pequeños extractos de código, compuestos por diferentes clases, interfaces, protocolos y clientes. Estos se analizaron con la herramienta y se anotó el comportamiento observado. Cada sección del capítulo tratará un aspecto diferente de \textit{JaTyC} o verificación de protocolos de objetos en general, e incluirá algunas de las pruebas más relevantes.
+Las pruebas se realizaron sobre pequeños extractos de código, compuestos por diferentes clases, interfaces, protocolos y clientes. Estos se analizaron con la herramienta y se anotó el comportamiento observado. Cada sección del capítulo tratará un aspecto diferente de \textit{JaTyC} o de la verificación de protocolos de objetos en general, e incluirá algunas de las pruebas más relevantes.
 
 \section{Protocolos Compuestos}
 
-Es de interés saber qué tanto tiene \textit{JaTyC} en consideración el estado de los colaboradores internos de un objeto protocolado. La herramienta parecería interpretar un typestate símplemente como un conjunto de métodos habilitados para una instancia y sus transiciones hacia otros typestates. El estado interno de un objeto pasa a ser secundario a la herramienta, aunque entiende que solo debe de ser modificado por métodos protocolados y no los \textit{anytime}. En este sentido, el protocolo y uso debido de un objeto está dictado solamente por las secuencias de sus métodos válidas.
+Nos interesa saber en qué medida \textit{JaTyC} tiene en cuenta el estado de los colaboradores internos de un objeto protocolado. La herramienta parece interpretar un typestate simplemente como un conjunto de métodos habilitados para una instancia y sus transiciones hacia otros typestates. El estado interno de un objeto pasa a ser secundario para la herramienta, aunque entiende que solo debe ser modificado por métodos protocolados y no por los \textit{anytime}. En este sentido, el protocolo y el uso debido de un objeto están dictados solamente por las secuencias válidas de sus métodos.
 
 \begin{figure}[htbp]
 \centering
@@ -17,11 +17,11 @@ Es de interés saber qué tanto tiene \textit{JaTyC} en consideración el estado
 \begin{minipage}[t]{0.46\textwidth}
     \lstinputlisting{./code/capitulo4/collaborator_compound_typestate/RobotProtocol.protocol}
 \end{minipage}
-\caption{Código y protocolo para un \texttt{Robot}, capaz de moverse sobre un mapa de tamaño $2 \times 2$.}
+\caption{Código y protocolo para un \texttt{Robot}, capaz de moverse sobre un mapa de tamaño $2\times2$.}
 \label{exp:compound-1:robot}
 \end{figure}
 
-Pero podría el typestate de un objeto ser dictado también por el estado de un colaborador interno? Es decir, podría el protocolo de un objeto padre ser uno compuesto donde, dependiendo del typestate de un colaborador, llamadas a un mismo método resulten en distintos resultados (tal como excepciones en ocasiones)? Intentamos entender cómo la herramienta analiza estos casos, donde la complejidad de determinar el comportamiento correcto de un objeto sobresale del scope del mismo.
+Lo que queremos aprender es si, a pesar de esto, la herramienta es capaz de razonar sobre ``protocolos compuestos'', donde un objeto protocolado tiene de colaborador interno a otro objeto protocolado. ¿Puede el comportamiento de un método de un objeto padre depender del typestate del colaborador? Es decir, ¿puede el protocolo del padre ser uno compuesto, de modo que, dependiendo del typestate de un colaborador, llamadas a un mismo método produzcan resultados distintos (como excepciones en ciertas ocasiones)? Intentamos entender cómo la herramienta analiza estos casos, donde determinar el comportamiento correcto de un objeto parecería exceder su propio alcance.
 
 \begin{figure}[!bp]
     \centering
@@ -33,11 +33,11 @@ Pero podría el typestate de un objeto ser dictado también por el estado de un 
 \end{figure}
 
 
-Nuestras pruebas realizadas buscaban romper el protocolo de un colaborador interno, mientras se respetaba el del objeto padre. En otras palabras, era de interés saber si, según el punto de vista de un cliente, se podían provocar comportamientos inesperados en un objeto a pesar de utilizarlo correctamente, causados por su estado interno. Buscábamos entender si \textit{JaTyC} reaccionaría ante estas situaciones, y si reportaría un error durante la compilación.
+Nuestros experimentos buscaban romper el protocolo de un colaborador interno respetando el del objeto padre. En otras palabras, nos interesaba saber si, desde el punto de vista de un cliente, se podían provocar comportamientos inesperados en un objeto a pesar de utilizarlo correctamente, causados por su estado interno. Buscábamos entender si \textit{JaTyC} reaccionaría ante estas situaciones y si reportaría un error durante la compilación.
 
-El código y protocolo de una clase \texttt{Robot} puede observarse en la Figura \ref{exp:compound-1:robot}. El robot se mueve en un mapa de tamaño $2\times2$, una unidad de distancia a la vez con métodos \texttt{moveLeft()}, \texttt{moveRight()}, \texttt{moveUp()} y \texttt{moveDown()}. Comienza en la posición inicial arriba a la izquierda y de moverse a una posición afuera del mapa levantará una excepción, simulando ``caerse del mapa''. Su protocolo refleja este comportamiento, con un typestate para cada posición posible del robot y solo movimientos permitidos tal que nunca se caiga.
+El código y el protocolo de la clase \texttt{Robot} pueden observarse en la Figura \ref{exp:compound-1:robot}. El robot se mueve en un mapa de tamaño $2\times2$, una unidad de distancia a la vez, con los métodos \texttt{moveLeft()}, \texttt{moveRight()}, \texttt{moveUp()} y \texttt{moveDown()}. Comienza en la posición inicial, arriba a la izquierda, y si se mueve a una posición fuera del mapa lanzará una excepción, simulando ``caerse del mapa''. Su protocolo refleja este comportamiento, con un typestate para cada posición posible del robot y solo los movimientos permitidos, de modo que nunca se caiga.
 
-Un primer experimento con este robot fue realizado con el controlador de la Figura \ref{exp:compound-1:controller}. El \texttt{RobotController} cuenta con un \texttt{Robot} de colaborador interno, y simplemente toma instrucciones de un cliente para moverlo. Su protocolo es pequeño, contando con un método de control inicial \texttt{canMoveRobot()}, el cual habilita al método \texttt{move(String direction)}, que mueve el robot en la dirección deseada.
+Un primer experimento con este robot se realizó con el controlador de la Figura \ref{exp:compound-1:controller}. El \texttt{RobotController} tiene un \texttt{Robot} como colaborador interno y simplemente toma instrucciones de un cliente para moverlo. Su protocolo es pequeño: cuenta con un método de control inicial \texttt{canMoveRobot()}, que habilita al método \texttt{move(String direction)}, el cual mueve al robot en la dirección deseada. % TODO: aclarar qué devuelve canMoveRobot() y cómo se ramifica el protocolo según su resultado, para que el lector no dependa solo de la figura.
 
 \begin{figure}[htbp]
     \centering
@@ -48,24 +48,24 @@ Un primer experimento con este robot fue realizado con el controlador de la Figu
     \label{exp:compound-1:error}
 \end{figure}
 
-Finalmente, el código cliente de la Figura \ref{exp:compound-1:error} sigue el protocolo del controlador pero rompe el del robot. Esto es porque, estando en la posición inicial, lo mueve hacia la izquierda donde cae fuera del mapa. Lo que el test busca es generar una situación donde, a pesar de que el cliente use el controlador correctamente, está quebrantando el protocolo del robot sin saberlo.
+Por su parte, el código cliente de la Figura \ref{exp:compound-1:error} sigue el protocolo del controlador pero rompe el del robot. Esto se debe a que mueve al robot hacia la izquierda desde la posición inicial, con lo cual cae fuera del mapa. Lo que busca el experimento es generar una situación en la que el cliente, a pesar de usar correctamente el controlador, quebrante sin saberlo el protocolo del robot.
 
-Observando el error devuelto por la herramienta, claramente detecta que se incumple el protocolo del robot. Lo interesante es que no se reporta al código cliente como culpable, el cual con sus llamadas al controlador tirarían al robot por fuera del mapa, sino al método \texttt{move(string direction)} del \texttt{RobotController}. Esto tiene sentido, dado que no controla el input del cliente y es capaz de mover al robot por fuera del mapa. No utiliza métodos de control para asegurarse de que la dirección del movimiento es segura.
+El error devuelto por la herramienta muestra que detecta claramente el incumplimiento del protocolo del robot. En concreto, indica que no pueden llamarse \texttt{moveUp} ni \texttt{moveLeft} sobre un robot en el typestate \texttt{TopLeft}, ambas llamadas dentro del \texttt{RobotController}. Lo interesante es que no culpa al código cliente, cuyas llamadas al controlador harían caer al robot fuera del mapa, sino al método \texttt{move(String direction)} del \texttt{RobotController}. Esto tiene sentido, dado que dicho método no controla el \textit{input} del cliente y es capaz de mover al robot fuera del mapa: no utiliza métodos de control para asegurarse de que la dirección del movimiento sea segura.
 
-Una conclusión que puede sacarse de esto es que el verdadero cliente del robot no es el código en \texttt{Main}, sino el controlador mismo. \textit{JaTyC} reportó el posible incumplimiento del protocolo desde el \texttt{RobotController} porque es allí donde el robot se utiliza. Por ende, no analiza ambos protocolos como uno compuesto desde \texttt{Main}, sino que verifica a cada cliente de un objeto protocolado por separado.
+Una conclusión que puede sacarse de esto es que el verdadero cliente del robot no es el código en \texttt{Main}, sino el controlador mismo. \textit{JaTyC} reportó el posible incumplimiento del protocolo desde el \texttt{RobotController} porque es allí donde se utiliza el robot. Por ende, no analiza ambos protocolos como uno compuesto desde \texttt{Main}, sino que verifica por separado a cada cliente de un objeto protocolado.
 
-Una variación del test que muestra el mismo comportamiento se puede ver en la Figura \ref{exp:compound-3:controller}. Mientras que el \texttt{Robot} no tiene cambios, el \texttt{RobotController} ahora cuenta con un método \texttt{run()}, que hace el robot de una vuelta al mapa en el sentido del reloj, y \texttt{moveRight()} que mueve el robot hacia la derecha una posición. Notemos que la única posición segura del robot desde la cual puede llamarse a \texttt{run()} es la inicial.
+Una variación del experimento que muestra el mismo comportamiento puede verse en la Figura \ref{exp:compound-3:controller}. Mientras que el \texttt{Robot} no tiene cambios, el \texttt{RobotController} ahora cuenta con un método \texttt{run()}, que hace que el robot dé una vuelta al mapa en sentido horario, y con \texttt{moveRight()}, que mueve al robot una posición hacia la derecha. Notemos que la única posición segura del robot desde la cual puede llamarse a \texttt{run()} es la inicial.
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_3/RobotController.java}
     \vspace{0.3cm}
     \lstinputlisting{./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol}
-    \caption{Código y protocolo de la clase \texttt{RobotController}, el cual incluye los nuevos métodos \texttt{run()} y \texttt{moveRight()}.}
+    \caption{Código y protocolo de la clase \texttt{RobotController}, la cual incluye los nuevos métodos \texttt{run()} y \texttt{moveRight()}.}
     \label{exp:compound-3:controller}
 \end{figure}
 
-\textit{JaTyC} analizó el código con dos clientes diferentes. El primero solamente realizaba una llamada a \texttt{canMoveRobot()} y \texttt{run()}, repetando ambos protocolos del robot y controlador. El segundo (Figura \ref{exp:compound-3:error}) llama a \texttt{run()}, luego a \texttt{moveRight()} y finalmente a \texttt{run()}, todas precedidas por llamdas a \texttt{canMoveRobot()}. Comenzando en la posición inicial del mapa $2x2$ arriba a la izquierda, la primera llamada a \texttt{run()} deja al robot en la misma posición. Al llamar a \texttt{moveRight()} el robot pasa a estar en la posición arriba derecha. Finalmente, la última llamada a \texttt{run()} provoca que el robot se caiga del mapa, dado que comienza con un movimiento a la derecha, y rompa su protocolo.
+\textit{JaTyC} analizó el código con dos clientes diferentes. El primero solamente realizaba una llamada a \texttt{canMoveRobot()} y otra a \texttt{run()}, respetando los protocolos tanto del robot como del controlador. El segundo (Figura \ref{exp:compound-3:error}) llama a \texttt{run()}, luego a \texttt{moveRight()} y finalmente a \texttt{run()}, todas precedidas por llamadas a \texttt{canMoveRobot()}. Comenzando en la posición inicial del mapa de $2\times2$, arriba a la izquierda, la primera llamada a \texttt{run()} deja al robot en la misma posición. Al llamar a \texttt{moveRight()}, el robot pasa a estar arriba a la derecha. Finalmente, la última llamada a \texttt{run()} hace que el robot se caiga del mapa, dado que comienza con un movimiento a la derecha, y así rompe su protocolo.
 
 \begin{figure}[htbp]
     \centering
@@ -76,7 +76,11 @@ Una variación del test que muestra el mismo comportamiento se puede ver en la F
     \label{exp:compound-3:error}
 \end{figure}
 
-Para ambos códigos clientes, la herramienta reporta los mismos errores de la Figura \ref{exp:compound-3:error}. Los mismos reportan sólamente sobre el uso indebido del robot por parte del controlador, donde diferentes combinaciones de llamadas de métodos provocan que caiga del mapa. Esto nuevamente confirma que para \textit{JaTyC} los protocolos no son compuestos, y se analiza por separado el uso del controlador por el código cliente, y del robot por parte del controlador. 
+Para ambos códigos clientes, la herramienta reporta los mismos errores de la Figura \ref{exp:compound-3:error}: no se puede mover al robot hacia la derecha dado que se encuentra en los posibles typestates \texttt{TopLeft} y \texttt{TopRight}, para ambos métodos \texttt{run()} y \texttt{moveRight()} del controlador. En otras palabras, \textit{JaTyC} detecta que el robot puede estar en cualquiera de esos dos estados, y para el caso del typestate \texttt{TopRight} se caería del mapa de moverse a la derecha nuevamente.
+
+En particular, el primer cliente, que nunca hace caer al robot, recibe los mismos errores que el segundo, que sí lo hace. Estos errores señalan solamente el uso indebido del robot por parte del controlador, donde diferentes combinaciones de llamadas a métodos provocan que caiga del mapa. Esto es consistente con lo observado en el primer experimento: para \textit{JaTyC} los protocolos no son compuestos, y se analizan por separado el uso del controlador por parte del código cliente y el uso del robot por parte del controlador.
+
+En resumen, ambos experimentos sugieren que \textit{JaTyC} realiza una verificación modular: se analiza el uso de los objetos protocolados en cada clase por separado, pero el protocolo de un objeto padre parece no depender del de sus colaboradores internos. Una consecuencia es que la herramienta rechaza al controlador independientemente de cómo lo use el cliente, lo cual es conservador y puede reportar errores (falsos positivos) en programas que, vistos en conjunto, nunca harían caer al robot. Para que el controlador sea aceptado, debería garantizar por sí mismo que nunca viola el protocolo del robot, por ejemplo validando la dirección mediante métodos de control o reflejando en su propio protocolo las posiciones posibles del robot. Esto puede verse como un enfoque por \textit{JaTyC} en la división de responsabilidades y encapsulamiento, donde cada objeto es el encargado de asegurarse de funcionar correctamente y cumplir con protocolos. También puede entenderse como una decisión de diseño que prioriza la simplicidad del análisis a costa de expresividad.
 
 % Esto es respaldado por lo visto en la sección TODO, donde el algoritmo de análisis de clases repasa todas las posibles combinaciones de llamadas de métodos para una clase particular, realizando un seguimiento de los posibles estados para parámentros, valores de retorno y sus colaboradores internos.
 
