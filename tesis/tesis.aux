@@ -145,12 +145,26 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Errores reportados por \textit  {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-3:controller} y su respectivo código cliente \texttt  {Main}.}}{20}{figure.caption.24}\protected@file@percent }
 \newlabel{exp:compound-3:error}{{4.5}{20}{Errores reportados por \textit {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-3:controller} y su respectivo código cliente \texttt {Main}}{figure.caption.24}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.2}Correctitud Vs Orden de Métodos}{21}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Intervención Humana}{21}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Subtipado}{21}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{21}{section.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Casos Bordes}{21}{section.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Aliasing}{21}{section.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.8}Excepciones}{21}{section.4.8}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/Stack.java}{21}{lstlisting.4.-28}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/StackProtocol.protocol}{21}{lstlisting.4.-29}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Código y protocolo de una clase \texttt  {Stack}. La misma tiene capacidad limitada y no controla si está llena correctamente.}}{21}{figure.caption.25}\protected@file@percent }
+\newlabel{exp:faulty-stack:stack}{{4.6}{21}{Código y protocolo de una clase \texttt {Stack}. La misma tiene capacidad limitada y no controla si está llena correctamente}{figure.caption.25}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/Main.java}{22}{lstlisting.4.-30}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/Error.txt}{22}{lstlisting.4.-31}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Código cliente del \texttt  {Stack}, el cual intenta apilar más elementos de los que caben en la pila, y el error al ejecutarlo.}}{22}{figure.caption.26}\protected@file@percent }
+\newlabel{exp:faulty-stack:client}{{4.7}{22}{Código cliente del \texttt {Stack}, el cual intenta apilar más elementos de los que caben en la pila, y el error al ejecutarlo}{figure.caption.26}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/normal\textunderscore stack/Stack.java}{23}{lstlisting.4.-32}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Código para un \texttt  {Stack} el cual tiene su método de control \texttt  {isFull()} corréctamente implementado.}}{23}{figure.caption.27}\protected@file@percent }
+\newlabel{exp:normal-stack}{{4.8}{23}{Código para un \texttt {Stack} el cual tiene su método de control \texttt {isFull()} corréctamente implementado}{figure.caption.27}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Intervención Humana}{23}{section.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Subtipado}{23}{section.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{23}{section.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Casos Bordes}{23}{section.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Aliasing}{23}{section.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}Excepciones}{23}{section.4.8}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/normal\textunderscore stack/Stack.java}{24}{lstlisting.4.-33}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Código cliente del stack y error reportado por \textit  {JaTyC}, dado que no sigue su protocolo.}}{24}{figure.caption.28}\protected@file@percent }
+\newlabel{exp:normal-stack:client}{{4.9}{24}{Código cliente del stack y error reportado por \textit {JaTyC}, dado que no sigue su protocolo}{figure.caption.28}{}}
 \bibstyle{plain}
 \bibdata{tesis}
 \bibcite{plaid:paper}{1}
@@ -175,4 +189,4 @@
 \bibcite{plaid}{20}
 \bibcite{mungo:website}{21}
 \bibcite{mungo:repo}{22}
-\gdef \@abspage@last{29}
+\gdef \@abspage@last{32}
