@@ -226,31 +226,98 @@ Como parte de esta funcionalidad, \textit{JaTyC} también introduce lógica para
 
 Con todas las características mencionadas anteriormente, \textit{JaTyC} consigue determinar en tiempo de compilación que todos los objetos sigan y completen sus protocolos, de tenerlos. En otras palabras, verifica que los métodos de los objetos se llamen en el orden correcto y que los objetos se utilicen hasta el final. Además, mediante sus anotaciones permite detectar potenciales errores de punteros nulos y especificar los typestates esperados para parámetros y valores de retorno de métodos. Finalmente, da soporte al subtipado, permitiendo a los usuarios aplicar herencia entre cualquier clase y manteniendo la correcta verificación de protocolos.
 
-% Deberiamos de hablar de las limitaciones? EN la documentacion ya menciona ciertas limitaciones oficiales, quizás valga la pena hacerlo para luego no reportarlas en la experimentacion sin precedentes.
+\section{Limitaciones}
 
-% \section{Implementación}
+Los autores describieron en la documentación oficial~\cite{jatyc:documentation} algunas limitaciones de la herramienta en las que están trabajando. Consideramos relevante tenerlas en cuenta a la hora de analizar las capacidades de \textit{JaTyC}, dado que condicionan el tipo de programas que pueden verificarse y ayudan a interpretar correctamente algunos resultados obtenidos en nuestros experimentos. A continuación, se detallan las más relevantes para nuestro trabajo.
 
-% La herramienta analiza las clases en aislamiento y método a método en dos fases. Una primera fase infiere los tipos de las variables y campos. Una segunda fase utiliza estas inferencias y evalúa si existen incompatibilidades de tipos o si se realizaron operaciones inválidas. De ser así, la herramienta reporta un error. A su vez, verifica que todos los objetos completen su protocolo y que la linealidad sea respetada.
+\begin{itemize}
+    \item No hay soporte para genéricos, los cuales son anulables y de referencia compartida por defecto.
+    \item No hay soporte para excepciones. Esto implica que transiciones entre \textit{typestates} a través de excepciones esperadas~\cite{xepa} no son modelables, y que \textit{JaTyC} no garantiza un estado consistente para un objeto que lanzó una excepción.
+    \item No hay soporte para herencia múltiple.
+    \item Los métodos \textit{anytime} no pueden modificar a los colaboradores internos de un objeto.
+\end{itemize}
 
-% \subsection{Primera Fase: Inferencia de Tipos}
+\section{Implementación}
 
-% A lo largo de esta fase, \textit{JaTyC} infiere los tipos de las variables, campos, parámetros y valores de retorno, por encima de los ya inferidos por el compilador de Java. Para hacer esto, la herramienta utiliza el reticulado de la Figura.
+En esta sección describiremos la implementación de la versión inicial de \textit{JaTyC}, basada en el trabajo realizado por uno de sus autores João Mota en 2021\cite{jatyc:msc-thesis}. Reconocemos que la misma difiere en algunos aspectos con la versión actual~\cite{jatyc:github}, en funcionalidades y nomenclaturas, pero consideramos que son cambios menores y que gran parte de la estructura del código se mantuvo inalterada. Esto nos brindará conocimiento sobre cómo la herramienta hace el seguimiento del estado de los objetos, sobre su reticulado y algoritmo de inferencia de tipos, y cómo revisa incumplimientos de protocolos o anotaciones adicionales.
 
-% % TODO: INSTERTAR LATTICE
+La herramienta analiza las clases de un programa en aislamiento, una por una, y método a método en dos fases. Una primera fase infiere los tipos de las variables y campos de todas las clases a verificar. Una segunda fase utiliza estas inferencias y evalúa si existen incompatibilidades de tipos o si se realizaron operaciones inválidas. De ser así, la herramienta reporta un error. A su vez, verifica que todos los objetos completen su protocolo y que la linealidad sea respetada.
 
-% Los diferentes conjuntos son:
+\subsection{Primera Fase: Inferencia de Tipos}
 
-% \begin{itemize}
-%     \item Unknown: Todos los valores posibles.
-%     \item Primitive: Todos los tipos primitivos de Java, tales como los enteros o booleanos.
-%     \item Object: Todos los objetos, excepto el valor null.
-%     \item Null: El valor null.
-%     \item Shared: El objeto Object was passed as a parameter to a method or assigned to another value. These variables can NO LONGER BE USED.
-%     \item NoProtocol: Objects that don't follow a protocol.
-%     \item Ended: Objects which completed the protocol.
-%     \item State*: Object in a specific state of their protocol. There is one lattice type for each state of the protocol, for each protocol.
-%     \item Bottom: Conceptually the empty set. Allows for all operations. Used for unreachable variables, computations that might generate errors, etc.
-% \end{itemize}
+A lo largo de esta fase, \textit{JaTyC} infiere los tipos de las variables, campos, parámetros y valores de retorno, por encima de los ya inferidos por el compilador de Java. Para hacer esto, la herramienta utiliza el reticulado de la Figura.
 
-% \subsection{Algoritmo}
-% \subsection{Checker Framework}
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        every node/.style={font=\small},
+        class/.style={
+            rectangle split,
+            rectangle split parts=2,
+            draw=black,
+            fill=yellow!20,
+            thick,
+            inner sep=3pt,
+            minimum width=1.8cm,
+            align=center
+        },
+        inh/.style={
+            draw=black,
+            thick,
+            -{Triangle[open, length=7pt, width=7pt]}
+        }
+    ]
+        % Nivel 1
+        \node[class] (unknown) at (2.5,5) {Unknown \nodepart{second}\phantom{x}};
+
+        % Nivel 2
+        \node[class] (object)    at (-0.5,3) {Object \nodepart{second}\phantom{x}};
+        \node[class] (primitive) at (4.5,3)  {Primitive \nodepart{second}\phantom{x}};
+        \node[class] (moved)     at (6.8,3)  {Moved \nodepart{second}\phantom{x}};
+
+        % Nivel 3
+        \node[class] (state)      at (-2.5,1) {State(*) \nodepart{second}\phantom{x}};
+        \node[class] (ended)      at (-0.2,1) {Ended \nodepart{second}\phantom{x}};
+        \node[class] (noprotocol) at (2,1)    {NoProtocol \nodepart{second}\phantom{x}};
+        \node[class] (null)       at (4,1)    {Null \nodepart{second}\phantom{x}};
+
+        % Nivel 4
+        \node[class] (bottom) at (3,-1.5) {Bottom \nodepart{second}\phantom{x}};
+
+        % Herencia (de hijo a padre)
+        \draw[inh] (object)    -- (unknown);
+        \draw[inh] (null)      -- (unknown);
+        \draw[inh] (primitive) -- (unknown);
+        \draw[inh] (moved)     -- (unknown);
+
+        \draw[inh] (state)      -- (object);
+        \draw[inh] (ended)      -- (object);
+        \draw[inh] (noprotocol) -- (object);
+
+        \draw[inh] (bottom) -- (state);
+        \draw[inh] (bottom) -- (ended);
+        \draw[inh] (bottom) -- (noprotocol);
+        \draw[inh] (bottom) -- (null);
+        \draw[inh] (bottom) to[out=0, in=-45] (primitive);
+        \draw[inh] (bottom) to[out=0, in=-90] (moved);
+    \end{tikzpicture}
+    \caption{Reticulado de tipos de \textit{JaTyC}.}
+    \label{fig:reticulado-tipos}
+\end{figure}
+
+Los diferentes conjuntos son:
+
+\begin{itemize}
+    \item Unknown: Todos los valores posibles.
+    \item Primitive: Todos los tipos primitivos de Java, tales como los enteros o booleanos.
+    \item Object: Todos los objetos, excepto el valor null.
+    \item Null: El valor null.
+    \item Shared: El objeto Object was passed as a parameter to a method or assigned to another value. These variables can NO LONGER BE USED.
+    \item NoProtocol: Objects that don't follow a protocol.
+    \item Ended: Objects which completed the protocol.
+    \item State*: Object in a specific state of their protocol. There is one lattice type for each state of the protocol, for each protocol.
+    \item Bottom: Conceptually the empty set. Allows for all operations. Used for unreachable variables, computations that might generate errors, etc.
+\end{itemize}
+
+\subsection{Algoritmo}
+\subsection{Checker Framework}

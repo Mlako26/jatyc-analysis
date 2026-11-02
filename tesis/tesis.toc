@@ -22,12 +22,17 @@
 \contentsline {subsection}{\numberline {3.3.3}Ensures}{12}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}Subtipado}{13}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Impacto}{15}{section.3.5}%
-\contentsline {chapter}{\numberline {4.}Experimentación}{16}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Protocolos Compuestos}{16}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{21}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Intervención Humana}{24}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Subtipado}{24}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{24}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Casos Bordes}{24}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Aliasing}{24}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Excepciones}{24}{section.4.8}%
+\contentsline {section}{\numberline {3.6}Limitaciones}{15}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Implementación}{15}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Primera Fase: Inferencia de Tipos}{16}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Algoritmo}{17}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.3}Checker Framework}{17}{subsection.3.7.3}%
+\contentsline {chapter}{\numberline {4.}Experimentación}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Protocolos Compuestos}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{23}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Intervención Humana}{26}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Subtipado}{26}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{26}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Casos Bordes}{26}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Aliasing}{26}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Excepciones}{26}{section.4.8}%
