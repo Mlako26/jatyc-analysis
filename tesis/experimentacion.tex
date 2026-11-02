@@ -133,9 +133,9 @@ En resumen, ambos experimentos sugieren que \textit{JaTyC} realiza una verificac
 
 % TODO: revisar si quiero hablar de esto, no me parece super substancial, creo que las conclusiones son las mismas, donde jatyc simplemente lo toma al controlador como cliente.
 
-\section{Correctitud Vs Orden de Métodos}
+\section{Correctitud vs.\ Orden de Métodos}
 
-El análisis de los \textit{object protocols} en general se limita a verificar el orden correcto de las llamadas a métodos. Mientras que \textit{JaTyC} puede hacer mucho más que eso, como detectar posibles errores de puntero nulo o especificar typestates esperados para parámetos o valores de retorno, nos preguntamos qué tanto tiene en cuenta el contenido de los métodos por sobre los que predica. En principio, parecería no juzgar la \textbf{correctitud} de los métodos de un objeto protocolado, y por ende pueden suceder excepciones inesperadas incluso aunque se siga su contrato. También puede suceder lo contrario, donde un código puede ser correcto bajo cierta especificación pero \textit{JaTyC} reporte potenciales errores dado que no se sigue algún protocolo. En ese sentido, es interesante indagar cómo la herramienta está limitada en este aspecto de correctitud, y cómo podemos utilizarla para hacer que nuestro código se alinee con su especificación de correcto.
+En general, el análisis de \textit{object protocols} se limita a verificar el orden correcto de las llamadas a métodos. Mientras que \textit{JaTyC} puede hacer mucho más que eso, como detectar posibles errores de puntero nulo o especificar \textit{typestates} esperados para parámetros o valores de retorno, nos preguntamos en qué medida tiene en cuenta el contenido de los métodos, y no solo lo que el protocolo predica sobre ellos. En principio, parecería no juzgar la \textbf{correctitud} de los métodos de un objeto protocolado, por lo que pueden ocurrir excepciones inesperadas incluso si se respeta su contrato. También puede suceder lo contrario: que un código sea correcto bajo cierta especificación y que \textit{JaTyC} reporte potenciales errores porque no se sigue algún protocolo. En ese sentido, es interesante indagar cómo está limitada la herramienta en este aspecto, y cómo podemos utilizarla para que nuestro código se alinee con su especificación de correctitud.
 
 \begin{figure}[htbp]
 \centering
@@ -146,11 +146,11 @@ El análisis de los \textit{object protocols} en general se limita a verificar e
 \begin{minipage}[t]{0.48\textwidth}
     \lstinputlisting{./code/capitulo4/faulty_stack/StackProtocol.protocol}
 \end{minipage}
-\caption{Código y protocolo de una clase \texttt{Stack}. La misma tiene capacidad limitada y no controla si está llena correctamente.}
+\caption{Código y protocolo de una clase \texttt{Stack}. La misma tiene capacidad limitada y no controla correctamente si está llena.}
 \label{exp:faulty-stack:stack}
 \end{figure}
 
-En la Figura \ref{exp:faulty-stack:stack} puede verse uno de los tests que realizamos al respecto, con una clase \texttt{Stack} implementada incorrectamente. Observando su protocolo, se pueden apilar y desapilar elementos mientras no esté llena ni vacía, respectivamente. Por ejemplo, solamente se puede llamar a \texttt{push()} si \texttt{isFull()} retorna falso. Para esta implementación, el \texttt{Stack} tiene una capacidad no expandible, definida a través de un parámetro \texttt{size} en el constructor. A su vez, el método \texttt{isFull()} siempre devuelve falso, con lo cual permite que se apile hasta sobrepasar el tamaño del stack, lo cual levantaría una excepción.
+En la Figura \ref{exp:faulty-stack:stack} puede verse una de las pruebas que realizamos al respecto, con una clase \texttt{Stack} implementada incorrectamente. Según su protocolo, se pueden apilar y desapilar elementos mientras la pila no esté llena ni vacía, respectivamente. Por ejemplo, solo se puede llamar a \texttt{push()} si \texttt{isFull()} retorna falso. En esta implementación, el \texttt{Stack} tiene una capacidad no expandible, definida mediante un parámetro \texttt{size} en el constructor. Sin embargo, el método \texttt{isFull()} siempre devuelve falso, con lo cual permite apilar elementos hasta sobrepasar el tamaño de la pila, lo que provoca una excepción.
 
 \begin{figure}[htbp]
     \centering
@@ -161,31 +161,29 @@ En la Figura \ref{exp:faulty-stack:stack} puede verse uno de los tests que reali
     \label{exp:faulty-stack:client}
 \end{figure}
 
-El código cliente de la Figura \ref{exp:faulty-stack:client} usa la pila siguiendo su protocolo, pero apilando más elementos que su capacidad. Al analizar con \textit{JaTyC}, notamos que efectivamente no reporta ningún error, pero al ejecutar el código falla con la excepción de tipo \texttt{ArrayIndexOutOfBoundsException}. Esto responde a lo que queríamos indagar, donde incluso con un protocolo bien definido y el cliente respetándolo, \textit{JaTyC} no nos asegura que el objeto esté implementado de forma correcta. Un programador podría confiarze en su código, al utilizar \texttt{isFull()} correctamente antes de apilar y la herramienta no reportando errores, pero como muestra el test nada impide que \texttt{isFull()} devuelva cualquier valor.
+El código cliente de la Figura \ref{exp:faulty-stack:client} usa la pila siguiendo su protocolo, pero apila más elementos que su capacidad. Al analizarlo con \textit{JaTyC}, notamos que efectivamente no reporta ningún error, pero al ejecutarlo falla con una \texttt{ArrayIndexOutOfBoundsException}. Esto responde a lo que queríamos indagar: incluso con un protocolo bien definido y un cliente que lo respeta, \textit{JaTyC} no asegura que el objeto esté implementado correctamente. Un programador podría confiarse en su código, al utilizar \texttt{isFull()} antes de apilar y no recibir errores de la herramienta, pero, como muestra el ejemplo, nada impide que \texttt{isFull()} devuelva cualquier valor.
 
-Por otro lado, de cambiar el método \texttt{isFull()} para que correctamente controle cuándo se puede apilar, como en la Figura \ref{exp:normal-stack}, el \texttt{Stack} y su protocolo es un ejemplo de cómo podemos apoyarnos en la herramienta para facilitar que el código sea más seguro. Obligando a los clientes a utilizar métodos de control antes de cada operación, conseguimos determinar estáticamente con \textit{JaTyC} que sucedan en el momento correcto, potencialmente reduciendo la cantidad de comportamientos inesperados.
+Por otro lado, si se modifica el método \texttt{isFull()} para que controle correctamente cuándo se puede apilar, como en la Figura \ref{exp:normal-stack}, el \texttt{Stack} y su protocolo constituyen un ejemplo de cómo podemos apoyarnos en la herramienta para que el código sea más seguro. Al obligar a los clientes a utilizar métodos de control antes de cada operación, conseguimos determinar estáticamente con \textit{JaTyC} que estas ocurran en el momento correcto, reduciendo potencialmente la cantidad de comportamientos inesperados.
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting[language=Java]{./code/capitulo4/normal_stack/Stack.java}
-    \caption{Código para un \texttt{Stack} el cual tiene su método de control \texttt{isFull()} corréctamente implementado.}
+    \caption{Código para un \texttt{Stack} con su método de control \texttt{isFull()} correctamente implementado.}
     \label{exp:normal-stack}
 \end{figure}
 
-Estos experimentos hablan sobre las aparentes limitaciones de \textit{JaTyC} y el análisis de \textit{object protocols} con typestates. Tomemos como ejemplo nuestro \texttt{Stack}, donde al final del día buscamos asegurarnos que no se apile si está lleno, o desapile si está vacío. Si observamos el protocolo de la pila, podemos notar que todas las operaciones están resguardadas detrás de métodos de control. Esto es intencional dado que, por la naturaleza de la herramienta, no hay mecanismos para contar la cantidad de llamadas a métodos o sus secuencias. En otras palabras, dado que el protocolo se interpreta y procesa como un autómata finito sin pila, \textit{JaTyC} no tiene forma de conocer el tamaño de la pila ni la cantidad de elementos apilados en un determinado momento.
+Estos experimentos muestran una de las limitaciones aparentes de \textit{JaTyC} y del análisis de \textit{object protocols} con \textit{typestates}. Tomemos como ejemplo nuestro \texttt{Stack}, donde en esencia  buscamos asegurarnos de que no se apile si está lleno ni se desapile si está vacío. Si observamos el protocolo de la pila, notamos que todas las operaciones están resguardadas detrás de métodos de control. Esto es intencional: por la naturaleza de la herramienta, no hay mecanismos para contar la cantidad de llamadas a métodos ni sus secuencias. En otras palabras, dado que el protocolo se interpreta y procesa como un autómata finito sin pila, \textit{JaTyC} no tiene forma de conocer el tamaño del \texttt{Stack} ni la cantidad de elementos apilados en un momento dado.
 
-La forma en la que se soluciona esto, bajo la filosofía y capacidades de la herramienta, es a través de estos métodos de control, quitando flexibilidad al programador a cambio de seguridad y simplicidad del análisis. Notemos que de no utilizarlos, incluso aunque nuestro código realísticamente produzca menos errores que antes, \textit{JaTyC} reportará estas carencias. En la Figura \ref{exp:normal-stack:client} se aprecia un ejemplo de esto, donde un código cliente apila un solo elemento a un stack de tamaño 10, acción completamente segura. De todos modos, al no estar respetando el protocolo del \texttt{Stack} se reporta un error al analizar el programa. En cierto sentido, bajo el punto de vista de la seguridad y correctitud, \textit{JaTyC} reporta estos falsos positivos, donde potencialmente el código esté bien pero sugiere al programador ser más defensivo.
+Bajo la filosofía y las capacidades de la herramienta, esto se soluciona mediante estos métodos de control, quitando flexibilidad al programador a cambio de seguridad y simplicidad en el análisis. Notemos que, de no utilizarlos, \textit{JaTyC} reportará estas carencias incluso si en la práctica nuestro código es seguro. En la Figura \ref{exp:normal-stack:client} se aprecia un ejemplo: un código cliente apila un solo elemento en un \texttt{Stack} de tamaño 10, una acción completamente segura. Sin embargo, como no respeta el protocolo del \texttt{Stack}, el análisis reporta un error. En cierto sentido, desde el punto de vista de la seguridad y la correctitud, \textit{JaTyC} reporta falsos positivos: el código potencialmente está bien, pero la herramienta sugiere al programador ser más defensivo.
 
 \begin{figure}[htbp]
     \centering
-    \lstinputlisting[language=Java]{./code/capitulo4/normal_stack/Stack.java}
+    \lstinputlisting[language=Java]{./code/capitulo4/normal_stack/Main.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/normal_stack/Error.txt}
     \caption{Código cliente del stack y error reportado por \textit{JaTyC}, dado que no sigue su protocolo.}
     \label{exp:normal-stack:client}
 \end{figure}
-
-%   - normal_stack
-
-%     - Explicar que si no puede probar que tu código es seguro, te fuerza a hacer checkeos (por medio de métodos de control) para que lo sea. En ese sentido, son falsos positivos, donde potencialmente el codigo esta bien pero te obliga a ser mas defensivo.
 
 \section{Intervención Humana}
 
