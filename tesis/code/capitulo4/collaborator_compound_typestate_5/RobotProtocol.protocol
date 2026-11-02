@@ -1,0 +1,6 @@
+typestate RobotProtocol {
+  Init = {
+    void rest(): end,
+    void dance(): Init
+  }
+}

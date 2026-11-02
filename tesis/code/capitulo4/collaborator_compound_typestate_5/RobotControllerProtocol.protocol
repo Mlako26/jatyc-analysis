@@ -1,0 +1,6 @@
+typestate RobotControllerProtocol {
+  Init = {
+    void dance(): Init,
+    drop: end
+  }
+}

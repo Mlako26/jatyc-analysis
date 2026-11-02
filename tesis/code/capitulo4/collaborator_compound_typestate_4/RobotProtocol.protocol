@@ -1,0 +1,5 @@
+typestate RobotProtocol {
+  Init = {
+    void rest(): end
+  }
+}

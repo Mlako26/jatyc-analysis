@@ -1,0 +1,5 @@
+typestate RobotControllerProtocol {
+  Init = {
+    void turnOff(): end
+  }
+}

@@ -1,0 +1,4 @@
+RobotController.java:3: error: [this.robot] did not complete its protocol (found: Shared{Robot} | State{Robot, ?})
+public class RobotController {
+       ^
+1 error

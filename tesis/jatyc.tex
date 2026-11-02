@@ -228,6 +228,29 @@ Con todas las características mencionadas anteriormente, \textit{JaTyC} consigu
 
 % Deberiamos de hablar de las limitaciones? EN la documentacion ya menciona ciertas limitaciones oficiales, quizás valga la pena hacerlo para luego no reportarlas en la experimentacion sin precedentes.
 
-\section{Implementación}
-\subsection{Algoritmo}
-\subsection{Checker Framework}
+% \section{Implementación}
+
+% La herramienta analiza las clases en aislamiento y método a método en dos fases. Una primera fase infiere los tipos de las variables y campos. Una segunda fase utiliza estas inferencias y evalúa si existen incompatibilidades de tipos o si se realizaron operaciones inválidas. De ser así, la herramienta reporta un error. A su vez, verifica que todos los objetos completen su protocolo y que la linealidad sea respetada.
+
+% \subsection{Primera Fase: Inferencia de Tipos}
+
+% A lo largo de esta fase, \textit{JaTyC} infiere los tipos de las variables, campos, parámetros y valores de retorno, por encima de los ya inferidos por el compilador de Java. Para hacer esto, la herramienta utiliza el reticulado de la Figura.
+
+% % TODO: INSTERTAR LATTICE
+
+% Los diferentes conjuntos son:
+
+% \begin{itemize}
+%     \item Unknown: Todos los valores posibles.
+%     \item Primitive: Todos los tipos primitivos de Java, tales como los enteros o booleanos.
+%     \item Object: Todos los objetos, excepto el valor null.
+%     \item Null: El valor null.
+%     \item Shared: El objeto Object was passed as a parameter to a method or assigned to another value. These variables can NO LONGER BE USED.
+%     \item NoProtocol: Objects that don't follow a protocol.
+%     \item Ended: Objects which completed the protocol.
+%     \item State*: Object in a specific state of their protocol. There is one lattice type for each state of the protocol, for each protocol.
+%     \item Bottom: Conceptually the empty set. Allows for all operations. Used for unreachable variables, computations that might generate errors, etc.
+% \end{itemize}
+
+% \subsection{Algoritmo}
+% \subsection{Checker Framework}

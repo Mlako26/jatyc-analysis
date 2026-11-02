@@ -22,6 +22,12 @@
 \contentsline {subsection}{\numberline {3.3.3}Ensures}{12}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}Subtipado}{13}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Impacto}{15}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Implementación}{15}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Algoritmo}{15}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Checker Framework}{15}{subsection.3.6.2}%
+\contentsline {chapter}{\numberline {4.}Experimentación}{16}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Protocolos Compuestos}{16}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{21}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Intervención Humana}{24}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Subtipado}{24}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{24}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Casos Bordes}{24}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Aliasing}{24}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Excepciones}{24}{section.4.8}%

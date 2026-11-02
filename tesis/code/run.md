@@ -1,0 +1,1 @@
+java -jar ../../../../dist/checker/dist/checker.jar  -classpath ../../../../dist/jatyc.jar  -processor jatyc.JavaTypestateChecker  *.java

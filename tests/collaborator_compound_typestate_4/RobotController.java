@@ -3,7 +3,7 @@ import jatyc.lib.Requires;
 
 @Typestate("RobotControllerProtocol")
 public class RobotController {
-    private Robot robot;
+  private Robot robot;
 
 	public RobotController(@Requires("TopLeft") Robot robot) {
 		this.robot = robot;
