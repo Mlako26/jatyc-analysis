@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex tesis"] 1793649560.48058 "tesis.aux" "tesis.bbl" "tesis" 1793649564.16592 0
+["bibtex tesis"] 1793672651.07887 "tesis.aux" "tesis.bbl" "tesis" 1793672654.48735 0
   "./tesis.bib" 1793646260.64068 9279 36b91b3870dfffbcf066a5a7ab1346f5 ""
   "d:/texlive/2026/texmf-dist/bibtex/bst/base/plain.bst" 1788543082.26116 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "tesis.aux" 1793649562.94704 21442 7d326372e9b50e228df8f0e142716566 "pdflatex"
+  "tesis.aux" 1793672653.29323 21604 1c22b0328eb4a7c33a83e345fa44e937 "pdflatex"
   (generated)
   "tesis.bbl"
   "tesis.blg"
   (rewritten before read)
-["pdflatex"] 1793649561.01706 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1793649564.1668 0
+["pdflatex"] 1793672651.56076 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1793672654.48808 0
   "abs_en.tex" 1312501726 2019 3a17316dcc8346efa212c9db57626f71 ""
   "abs_esp.tex" 1788614362.72794 917 f15c42d36a21c5505573702827584dea ""
   "agradecimientos.tex" 1458096991 1356 64bc1b20247e3c57335be885f8af796b ""
@@ -221,13 +221,13 @@
   "dedicatoria.tex" 1458095999 39 fc8211744c92236ca9e35da83e7cb61a ""
   "experimentacion.tex" 1793583971.045 21361 9e59947517d830c8e800b255002b2256 ""
   "introduccion.tex" 1793476605.66094 4287 d1de070f6a03609782a2c5e5c32cac54 ""
-  "jatyc.tex" 1793649556.18256 26690 235ea344e5383d1b91aa39e9b0d32b2e ""
+  "jatyc.tex" 1793672646.91112 30332 9ee9aaeb6b4242e02e4c0c6bb348213b ""
   "logofcen.pdf" 1280949812 39758 9bdae1f60233e50ba5e4e659fa2e6078 ""
-  "tesis.aux" 1793649562.94704 21442 7d326372e9b50e228df8f0e142716566 "pdflatex"
-  "tesis.bbl" 1793649560.98515 5093 67e82bc5a32068b916937cfeda80cc92 "bibtex tesis"
+  "tesis.aux" 1793672653.29323 21604 1c22b0328eb4a7c33a83e345fa44e937 "pdflatex"
+  "tesis.bbl" 1793672651.53644 5093 67e82bc5a32068b916937cfeda80cc92 "bibtex tesis"
   "tesis.cls" 1312502354 36659 469a5b174f6a5f4de348ff19f86a677d ""
-  "tesis.out" 1793649562.95964 5178 42bf4419e2b5c30f24d215e7af5b0a71 "pdflatex"
-  "tesis.toc" 1793649562.96467 3001 d2e5e9e027187e36e8cde747678dc9f2 "pdflatex"
+  "tesis.out" 1793672653.30714 5178 42bf4419e2b5c30f24d215e7af5b0a71 "pdflatex"
+  "tesis.toc" 1793672653.30714 3065 b631f9d98e143afe7f4bc7b17a684556 "pdflatex"
   "trabajos_relacionados.tex" 1791899206.26286 14172 fecd587b0e3db4429f93565fbe3e9b2a ""
   (generated)
   "tesis.aux"

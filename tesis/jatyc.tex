@@ -107,6 +107,7 @@ De no proveer esta anotación, \textit{JaTyC} asume que el objeto recibido por e
 \end{figure}
 
 \subsection{Ensures}
+\label{ensures}
 
 Por último, la herramienta provee la anotación \texttt{@Ensures}, utilizada para indicar el typestate (o conjunto de typestates) en el que se encuentra el valor de retorno de un método. Un ejemplo puede observarse en la Figura~\ref{jatyc:ensures}, donde se ve un método \textit{getter} de un controlador de robots. En él se define que el valor devuelto será una referencia lineal a un robot que se encuentra exactamente en el estado \texttt{TopLeft}. Al retornar, el código cliente podrá acceder a los métodos protocolados del robot.
 
@@ -241,11 +242,18 @@ Los autores describieron en la documentación oficial~\cite{jatyc:documentation}
 
 En esta sección describiremos la implementación de la versión inicial de \textit{JaTyC}, basada en el trabajo realizado por uno de sus autores João Mota en 2021\cite{jatyc:msc-thesis}. Reconocemos que la misma difiere en algunos aspectos con la versión actual~\cite{jatyc:github}, en funcionalidades y nomenclaturas, pero consideramos que son cambios menores y que gran parte de la estructura del código se mantuvo inalterada. Esto nos brindará conocimiento sobre cómo la herramienta hace el seguimiento del estado de los objetos, sobre su reticulado y algoritmo de inferencia de tipos, y cómo revisa incumplimientos de protocolos o anotaciones adicionales.
 
+Algunas diferencias notables entre la versión inicial de la herramienta y la actual son:
+
+\begin{itemize}
+    \item La versión inicial contaba con una anotación adicional \texttt{@State}, la cual funcionaba en forma idéntica al \texttt{@Ensures} actual, especificando el \textit{typestate} de un valor de retorno. A su vez, la anotación \texttt{@Ensures} existía pero era utilizada únicamente para los parámetros de entrada de métodos, y nunca para valores de retorno. En base a esta diferencia hicimos la prueba mencionada en la sección \ref{ensures}, donde descubrimos que esta última funcionalidad sigue existiendo en la versión actual, aunque no mencionada por la documentación.
+    \item La linealidad de la primera versión era más rígida, donde no se permitía tener más de una referencia utilizable para un mismo objeto. De haber más de una variable apuntando al mismo objeto, solamente la lineal podía llamar métodos, mientras que hacerlo desde las demás produciría un error por \textit{JaTyC}. En la versión actual se permite tener más de una referencia a un objeto, donde solo una tiene acceso total al mismo y las demás solo a sus métodos compartidos.
+\end{itemize}
+
 La herramienta analiza las clases de un programa en aislamiento, una por una, y método a método en dos fases. Una primera fase infiere los tipos de las variables y campos de todas las clases a verificar. Una segunda fase utiliza estas inferencias y evalúa si existen incompatibilidades de tipos o si se realizaron operaciones inválidas. De ser así, la herramienta reporta un error. A su vez, verifica que todos los objetos completen su protocolo y que la linealidad sea respetada.
 
 \subsection{Primera Fase: Inferencia de Tipos}
 
-A lo largo de esta fase, \textit{JaTyC} infiere los tipos de las variables, campos, parámetros y valores de retorno, por encima de los ya inferidos por el compilador de Java. Para hacer esto, la herramienta utiliza el reticulado de la Figura.
+Durante esta fase, \textit{JaTyC} infiere los tipos de las variables, campos, parámetros y valores de retorno, por encima de los ya inferidos por el compilador de Java. Para hacer esto, la herramienta sigue la estructura y conjuntos del reticulado de la Figura \ref{jatyc:reticulado}.
 
 \begin{figure}[h]
     \centering
@@ -302,22 +310,40 @@ A lo largo de esta fase, \textit{JaTyC} infiere los tipos de las variables, camp
         \draw[inh] (bottom) to[out=0, in=-90] (moved);
     \end{tikzpicture}
     \caption{Reticulado de tipos de \textit{JaTyC}.}
-    \label{fig:reticulado-tipos}
+    \label{jatyc:reticulado}
 \end{figure}
 
 Los diferentes conjuntos son:
 
 \begin{itemize}
-    \item Unknown: Todos los valores posibles.
-    \item Primitive: Todos los tipos primitivos de Java, tales como los enteros o booleanos.
-    \item Object: Todos los objetos, excepto el valor null.
-    \item Null: El valor null.
-    \item Shared: El objeto Object was passed as a parameter to a method or assigned to another value. These variables can NO LONGER BE USED.
-    \item NoProtocol: Objects that don't follow a protocol.
-    \item Ended: Objects which completed the protocol.
-    \item State*: Object in a specific state of their protocol. There is one lattice type for each state of the protocol, for each protocol.
-    \item Bottom: Conceptually the empty set. Allows for all operations. Used for unreachable variables, computations that might generate errors, etc.
+    \item \textbf{\textit{Unknown}}: Todos los valores posibles. Utilizado cuando se desconoce el tipo del dato.
+    \item \textbf{\textit{Primitive}}: Todos los tipos primitivos de Java, tales como los enteros o booleanos.
+    \item \textbf{\textit{Object}}: Todos los objetos, exceptuando el valor \texttt{null}.
+    \item \textbf{\textit{Null}}: Simplemente el tipo \texttt{null}.
+    \item \textbf{\textit{Moved}}: Variables referenciando a objetos que se pasaron como parámetro a métodos o asignados a otra variable. Este tipo es el equivalente a las referencias compartidas (o \textit{shared}) de la herramienta actual, con la diferencia que las variables de tipo \textit{moved} no pueden ser utilizadas en lo absoluto (ni siquiera con métodos \textit{anytime}).
+    \item \textbf{\textit{NoProtocol}}: Objetos que no siguen ningún protocolo.
+    \item \textbf{\textit{Ended}}: Objetos que ya completaron su protocolo.
+    \item \textbf{\textit{State*}}: Objetos que siguen un protocolo, aún no lo completaron, y se encuentran este estado específico. Dentro del reticulado hay un tipo por cada \textit{typestate} de un protocolo, por cada protocolo (por eso la denominación \textit{State*}).
+    \item \textbf{\textit{Bottom}}: Conceptualmente es el conjunto vacío, donde se permiten todas las operaciones. Se utiliza para las variables fuera de \textit{scope}, resultados de cálculos que generarían errores, etc.
 \end{itemize}
+
+En base a este reticulado, \textit{JaTyC} sigue las próximas reglas a la hora de calcular el tipo final para una variable:
+
+\begin{itemize}
+    \item El tipo de una variable puede ser cualquiera de los del reticulado o la unión de varios.
+    \item No hay uniones de uniones.
+    \item Si una unión de tipos contiene al tipo \textit{Unknown}, el tipo resultante es simplemente \textit{Unknown}.
+    \item Si una unión de tipos contiene un solo elemento, el tipo resultante es simplemente el elemento fuera de la union.
+    \item Si una unión de tipos no contiene ningún elemento, el tipo resultante es \textit{Bottom}.
+    \item Las uniones no incluyen al tipo \textit{Bottom} dado que es el conjunto vacío.
+    \item Si el tipo \textit{Object} pertenece a una unión, los tipos \textit{NoProtocol}, \textit{Ended} y \textit{State*} no pertencen dado que son subtipos.
+\end{itemize}
+
+Desde una perspectiva de alto nivel, el proceso de inferencia de tipos sucede clase por clase en forma independiente. Para cada clase visitada, se corrobora que esté suscrita a algún protocolo, y de lo contrario se le asigna un protocolo trivial. El mismo es un único \textit{typestate} descartable, donde todos los métodos de la clase están disponibles y transicionan al mismo estado. Finalmente, se analizan por separado los métodos estáticos de los no estáticos. Los métodos no estáticos son analizados comenzando por el constructor en el orden establecido por el protocolo, para evitar analizar combinaciones inválidas de llamadas. Los métodos estáticos se analizan en forma similar pero en cualquier orden. Al proceso de analizar de esta forma una clase la denominó el autor \textit{Class Analysis}.
+
+\subsubsection{Class Analysis}
+
+
 
 \subsection{Algoritmo}
 \subsection{Checker Framework}
