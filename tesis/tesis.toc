@@ -25,9 +25,8 @@
 \contentsline {section}{\numberline {3.6}Limitaciones}{15}{section.3.6}%
 \contentsline {section}{\numberline {3.7}Implementación}{15}{section.3.7}%
 \contentsline {subsection}{\numberline {3.7.1}Primera Fase: Inferencia de Tipos}{16}{subsection.3.7.1}%
-\contentsline {subsubsection}{Class Analysis}{18}{section*.21}%
-\contentsline {subsection}{\numberline {3.7.2}Algoritmo}{18}{subsection.3.7.2}%
-\contentsline {subsection}{\numberline {3.7.3}Checker Framework}{18}{subsection.3.7.3}%
+\contentsline {subsubsection}{Class Analysis}{17}{section*.21}%
+\contentsline {subsection}{\numberline {3.7.2}Checker Framework}{18}{subsection.3.7.2}%
 \contentsline {chapter}{\numberline {4.}Experimentación}{19}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Protocolos Compuestos}{19}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{24}{section.4.2}%

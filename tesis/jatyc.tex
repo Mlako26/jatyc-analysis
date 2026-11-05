@@ -327,7 +327,7 @@ Los diferentes conjuntos son:
     \item \textbf{\textit{Bottom}}: Conceptualmente es el conjunto vacío, donde se permiten todas las operaciones. Se utiliza para las variables fuera de \textit{scope}, resultados de cálculos que generarían errores, etc.
 \end{itemize}
 
-En base a este reticulado, \textit{JaTyC} sigue las próximas reglas a la hora de calcular el tipo final para una variable:
+En base a este reticulado, \textit{JaTyC} sigue las próximas reglas a la hora de refinar el tipo final para una variable:
 
 \begin{itemize}
     \item El tipo de una variable puede ser cualquiera de los del reticulado o la unión de varios.
@@ -339,11 +339,22 @@ En base a este reticulado, \textit{JaTyC} sigue las próximas reglas a la hora d
     \item Si el tipo \textit{Object} pertenece a una unión, los tipos \textit{NoProtocol}, \textit{Ended} y \textit{State*} no pertencen dado que son subtipos.
 \end{itemize}
 
-Desde una perspectiva de alto nivel, el proceso de inferencia de tipos sucede clase por clase en forma independiente. Para cada clase visitada, se corrobora que esté suscrita a algún protocolo, y de lo contrario se le asigna un protocolo trivial. El mismo es un único \textit{typestate} descartable, donde todos los métodos de la clase están disponibles y transicionan al mismo estado. Finalmente, se analizan por separado los métodos estáticos de los no estáticos. Los métodos no estáticos son analizados comenzando por el constructor en el orden establecido por el protocolo, para evitar analizar combinaciones inválidas de llamadas. Los métodos estáticos se analizan en forma similar pero en cualquier orden. Al proceso de analizar de esta forma una clase la denominó el autor \textit{Class Analysis}.
-
 \subsubsection{Class Analysis}
 
+Desde una perspectiva de alto nivel, el proceso de inferencia de tipos sucede clase por clase en forma independiente, en lo que el autor denominó apropiadamente \textit{Class Analysis}.
 
+Para cada clase visitada, se corrobora que esté suscrita a algún protocolo, y de lo contrario se le asigna un protocolo trivial. El mismo es un único \textit{typestate} descartable, donde todos los métodos de la clase están disponibles y transicionan al mismo estado.
 
-\subsection{Algoritmo}
+Por otro lado, los métodos se analizan separando los estátiticos de los no estáticos. Los primeros se revisan en cualquier orden, mientras que los segundos siguiendo el orden establecido por el protocolo, comenzando por el constructor. Esto es porque la información recopilada durante el análisis de un método es usada en el análisis del próximo, y al seguir sus transiciones se evitan las secuencias inválidas de llamadas de métodos.
+
+A la hora de analizar un método, \textit{JaTyC} recorre de principio a fin todas las expresiones en orden y en forma independiente, actualizando un inventario con los tipos inferidos para cada variable involucrada, similar a otros analizadores estáticos.
+
+Más específicamente, si un inventario es un mapeo entre variables y sus tipos, por cada expresión del método la herramienta llama a una \textit{función de transferencia} la cual toma dos inventarios y devuelve otros dos. El par de inventarios que devuelve son el \textit{inventario then} e \textit{inventario else}. Si la expresión bajo análisis devuelve un booleano, los inventarios pueden diferir y representan si la misma devolvió verdadero o falso, respectivamente. Esto es usado para hacer el seguimiento de tipos en presencia de condicionales o ciclos. Si la expresión analizada no devuelve un booleano, entonces ambos inventarios deberían de ser iguales. El par de inventarios que recibe la función de transferencia es el par que devolvió la función para la expresión anterior.
+
+Los inventarios \textit{then} y \textit{else} resultantes de analizar la última expresión de un método son fusionados para formar uno único. Esta fusión sucede de tal forma que, para cada variable mencionada, si los inventarios difieren en los tipos inferidos el resultante es la unión de los tipos. Esto busca que el inventario final abarque todas las combinaciones de tipos posibles para las variables en juego.
+
+A su vez, se requiere un par de inventarios iniciales para la primera expresión de los métodos. Estos son obtenidos en base a los inventarios finales de métodos analizados previamente, o de valores por defecto que asigna \textit{JaTyC}.
+
+Dadas todas estas definiciones, el algoritmo de \textit{Class Analysis} entonces es el siguiente:
+
 \subsection{Checker Framework}
