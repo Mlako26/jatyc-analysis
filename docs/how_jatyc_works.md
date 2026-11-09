@@ -122,8 +122,6 @@ In particular:
 - For method calls, the receiver must be in a state that allows for that method to be called. Also, arguments need to be subtypes of the expected parameter types.
 - For protocol completion, it checks the *exit store* of all methods analyzed. For every variable, their type should be the one stated by the `@Ensures` notation, or *Ended*(protocol completed)/*Moved*(delegated), or in a state that is droppable.
 
-
-
 ## Second Version - Alliasing and Linearity Checking
 
 For now, I will not explain how this works more. I will if my tutor says so. This is because it explains how another version of the tool which supports alliasing could work, but it is currently being implemented in a separate branch from master for the tool ([`non-linear-mode](https://github.com/jdmota/java-typestate-checker/tree/non-linear-mode)) which has not gotten a single commit since 2021. It apparently is simply an experimental branch.
