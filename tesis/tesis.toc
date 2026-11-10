@@ -28,13 +28,13 @@
 \contentsline {subsubsection}{Class Analysis}{17}{section*.21}%
 \contentsline {subsubsection}{Análisis de Métodos}{19}{section*.22}%
 \contentsline {subsection}{\numberline {3.7.2}Segunda Fase: Verificación de Errores}{21}{subsection.3.7.2}%
-\contentsline {subsection}{\numberline {3.7.3}Checker Framework}{21}{subsection.3.7.3}%
-\contentsline {chapter}{\numberline {4.}Experimentación}{22}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Protocolos Compuestos}{22}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{27}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Intervención Humana}{30}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Subtipado}{30}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{30}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Casos Bordes}{30}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Aliasing}{30}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Excepciones}{30}{section.4.8}%
+\contentsline {subsection}{\numberline {3.7.3}Checker Framework}{22}{subsection.3.7.3}%
+\contentsline {chapter}{\numberline {4.}Experimentación}{23}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Protocolos Compuestos}{23}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{28}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Intervención Humana}{31}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Subtipado}{31}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{31}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Casos Bordes}{31}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Aliasing}{31}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Excepciones}{31}{section.4.8}%
