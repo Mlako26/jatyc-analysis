@@ -25,7 +25,7 @@
 \contentsline {section}{\numberline {3.6}Limitaciones}{15}{section.3.6}%
 \contentsline {section}{\numberline {3.7}Implementación}{15}{section.3.7}%
 \contentsline {subsection}{\numberline {3.7.1}Primera Fase: Inferencia de Tipos}{16}{subsection.3.7.1}%
-\contentsline {subsubsection}{Class Analysis}{17}{section*.21}%
+\contentsline {subsubsection}{\textit {Class Analysis}}{17}{section*.21}%
 \contentsline {subsubsection}{Análisis de Métodos}{19}{section*.22}%
 \contentsline {subsection}{\numberline {3.7.2}Segunda Fase: Verificación de Errores}{21}{subsection.3.7.2}%
 \contentsline {subsection}{\numberline {3.7.3}Checker Framework}{22}{subsection.3.7.3}%
