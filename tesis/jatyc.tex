@@ -330,17 +330,15 @@ Desde una perspectiva de alto nivel, el proceso de inferencia de tipos sucede cl
 
 Para cada clase visitada, se corrobora que esté suscrita a algún protocolo, y de lo contrario se le asigna un protocolo trivial. El mismo es un único \textit{typestate} descartable, donde todos los métodos de la clase están disponibles y transicionan al mismo estado.
 
-Por otro lado, los métodos se analizan separando los estátiticos de los no estáticos. Los primeros se revisan en cualquier orden, mientras que los segundos siguiendo el orden establecido por el protocolo, comenzando por el constructor. Esto es porque la información recopilada durante el análisis de un método es usada en el análisis del próximo, y al seguir sus transiciones se evitan las secuencias inválidas de llamadas de métodos.
+Por otro lado, los métodos se analizan separando los estáticos de los no estáticos. Los primeros se revisan en cualquier orden, mientras que los segundos siguiendo el orden establecido por el protocolo, comenzando por el constructor. Esto es porque la información recopilada durante el análisis de un método es usada en el análisis del próximo, y al seguir sus transiciones se evitan las secuencias inválidas de llamadas de métodos. Dado que el análisis de ambos tipos de métodos es muy similar exceptuando pequeñas diferencias, a partir de ahora vamos a enfocarnos exclusivamente en los métodos no estáticos, los cuales consideramos suficientes para entender el comportamiento general de la herramienta.
 
-A la hora de analizar un método, \textit{JaTyC} recorre de principio a fin todas las expresiones en orden y en forma independiente, actualizando un inventario con los tipos inferidos para cada variable involucrada, similar a otros analizadores estáticos.
+A modo de resumen, a la hora de analizar un método \textit{JaTyC} recorre de principio a fin todas las expresiones en orden y en forma independiente, actualizando un inventario con los tipos inferidos para cada variable involucrada, similar a otros analizadores estáticos.
 
-Más específicamente, siendo un inventario un mapeo entre variables y sus tipos inferidos, por cada expresión del método la herramienta llama a una \textit{función de transferencia}, la cual toma dos inventarios y devuelve otros dos. El par de inventarios que devuelve son el \textit{inventario then} e \textit{inventario else}. Si la expresión bajo análisis devuelve un booleano, los inventarios contienen el resultado de analizar tanto la rama verdadera como la falsa, respectivamente. Esto es usado para hacer el seguimiento de tipos en presencia de condicionales o ciclos, donde los tipos inferidos pueden diferir. Si la expresión analizada no devuelve un booleano, entonces ambos inventarios devueltos deberían de ser iguales. El par de inventarios que recibe la función de transferencia es el par que devolvió la función para la expresión anterior.
+Más específicamente, siendo un \textbf{inventario} un mapeo entre variables y sus tipos inferidos, por cada expresión del método la herramienta llama a una \textbf{función de transferencia}, la cual toma dos inventarios y devuelve otros dos. El par de inventarios que devuelve son el \textbf{inventario \textit{then}} e \textbf{inventario \textit{else}}. Si la expresión bajo análisis devuelve un booleano, los inventarios contienen el resultado de analizar tanto la rama verdadera como la falsa, respectivamente. Esto es usado para hacer la inferencia de tipos en presencia de condicionales o ciclos, donde los resultados pueden diferir. Si la expresión analizada no devuelve un booleano, entonces ambos inventarios retornados por la función de transferencia deberían ser iguales. El par de inventarios que recibe la función de transferencia es el par que devolvió la función para la expresión anterior.
 
-Los inventarios \textit{then} y \textit{else} resultantes de analizar la última expresión de un método son fusionados para formar el \textit{inventario de salida}. Esta fusión sucede de tal forma que se incluyen a todas las variables mencionadas en ambos inventarios, con sus tipos inferidos. A su vez, para cada una de las variables, si ambos inventarios las mencionan, el tipo resultante es la unión de los tipos. Esto busca que el inventario final abarque todas las combinaciones de tipos posibles para las variables en juego.
+Los inventarios \textit{then} y \textit{else} resultantes de analizar la última expresión de un método son fusionados para formar el \textbf{inventario de salida}. Esta fusión sucede de tal forma que se incluyen a todas las variables mencionadas en ambos inventarios, con sus tipos inferidos. A su vez, para cada una de las variables, si ambos inventarios las mencionan, el tipo resultante es la unión de los tipos. Esto busca que el inventario final abarque todas las combinaciones de tipos posibles para las variables en juego.
 
-A su vez, se requiere un par de inventarios iniciales para la primera expresión de los métodos. Estos se construyen a partir de valores por defecto que asigna \textit{JaTyC} a las variables y los resultados de analizar cadenas de métodos que llevan al método actual.
-
-Dadas todas estas definiciones, el algoritmo de \textit{Class Analysis} entonces es el siguiente:
+Dadas todas estas definiciones, el algoritmo de \textit{Class Analysis} para los métodos no estáticos es entonces el siguiente:
 
 \begin{algorithm}[ht]
 \caption{Análisis de una clase con protocolo en \textit{JaTyC}}
@@ -377,9 +375,9 @@ Dadas todas estas definiciones, el algoritmo de \textit{Class Analysis} entonces
 
 Se mantienen dos diccionarios a lo largo de la ejecución: uno relacionando los typestates del protocolo a inventarios, $T$, y otro relacionando métodos a inventarios, $M$. Anotamos $T(t)$ como el inventario asociado al \textit{typestate} $t$ y $M(m)$ cómo el inventario asociado al método $m$.
 
-Al comienzo del algoritmo, todos los métodos y typestates en los diccionarios se inicializan con inventarios vacíos, los cuales por defecto asignan \textit{Bottom} a todas las variables. \textit{JaTyC} luego infiere los tipos iniciales para los colaboradores internos del objeto analizando el método consturctor, y asocia este inventario de salida al typestate inicial del protocolo $t_0$.
+Al comienzo del algoritmo, todos los métodos y typestates en los diccionarios se inicializan con inventarios vacíos, los cuales por defecto asignan \textit{Bottom} a todas las variables. \textit{JaTyC} luego infiere los tipos iniciales para los colaboradores internos del objeto analizando el método constructor, y asocia este inventario de salida al typestate inicial del protocolo $t_0$.
 
-Por otro lado, se mantiene una cola $Q$ que contiene los \textit{typestates} a analizar. Esta es utilizada para realizar un estilo de \textit{BFS} sobre el grafo del protocolo de la clase,  donde se busca analizar solo cadenas de métodos válidas. $Q$ se inicializa conteniendo solamente el \textit{typestate} inicial del protocolo $t_0$.
+Por otro lado, se mantiene una cola $Q$ que contiene los \textit{typestates} a analizar. Esta es utilizada para realizar un estilo de \textit{BFS} sobre el grafo del protocolo de la clase, donde se busca analizar solo cadenas de métodos válidas. $Q$ se inicializa conteniendo solamente el \textit{typestate} inicial del protocolo $t_0$.
 
 El algoritmo luego comienza un ciclo, donde en cada iteración se desencola el próximo \textit{typestate} $t$ y se lo analiza, hasta que la cola quede vacía. En el cuerpo del ciclo la herramienta hace lo siguiente:
 
@@ -392,29 +390,39 @@ El algoritmo luego comienza un ciclo, donde en cada iteración se desencola el p
     \item De lo contrario, se actualiza $T(t_d)$ con el resultado de la fusión y el \textit{typestate} se encola para analizar a futuro.
 \end{enumerate}
 
-Como mencionamos previamente, el ciclo termina cuando no hay mas \textit{typestates} en la cola. El autor garantiza su finalización dado que el número de estados en un protocolo es finito, y porque no se reencolan estados de los cuales no se aprendió nada nuevo luego de analizarlos. 
+Como mencionamos previamente, el ciclo termina cuando no hay más \textit{typestates} en la cola. El autor garantiza su finalización dado que el número de estados en un protocolo es finito, y porque no se reencolan estados de los cuales no se aprendió nada nuevo luego de analizarlos.
 
-Para analizar cada uno de los métodos, $\textsc{Analizar}(m,\ M(m))$, se recorren en orden todas las expresiones una por una, llamando a la función de transferencia y actualizando los inventarios \textit{then} y \textit{else}. La herramienta sigue varias reglas para hacerlo, divididas en reglas de introducción de tipos y de inferencia de tipos.
+\subsubsection{Análisis de Métodos}
 
-Las reglas de introducción de tipos son utilizadas para asignarles tipos iniciales a parámetros y campos según cómo y dónde se declaran, observando el tipo de Java mencionado en la expresión. A todo \texttt{java.lang.Object} encontrado se le asigna el tipo \textit{Object}. A los primitivos como enteros o booleanos se les asigna el tipo \textit{Primitive}. A todo valor \texttt{null} encontrado se le asigna el tipo \textit{Null}. A las variables y colaboradores internos de un tipo que no tengan protocolo se les asigna el tipo \textit{NoProtocol}.
+A lo largo de la ejecución del algoritmo, la función $\textsc{Analizar}(m,\ \mathit{inv})$ es utilizada para inferir tipos en cada uno de los métodos. Como mencionamos anteriormente, la misma recorre en orden todas las expresiones una por una, llamando a la función de transferencia y actualizando los inventarios \textit{then} y \textit{else}. Procederemos a exponer cómo funciona internamente.
 
-Finalmente, a las variables y colaboradores internos de un tipo con protocolo se le asignan tipos distintos según el caso.
+Antes de comenzar con la primera expresión, $\textsc{Analizar}(m,\ \mathit{inv})$ construye un inventario inicial, el cual será la entrada para esta primera llamada a la función de transferencia. El mismo es el resultado de la fusión de dos inventarios. El primero es el inventario provisto por el mismo \textit{Class Analysis} (en el algoritmo \ref{alg:class-analisis} denotado $M(m)$). El segundo es obtenido a través de la \textbf{introducción de tipos}. Este es un paso inicial del análisis de un método, utilizado para asignarles tipos iniciales a parámetros y campos según cómo y dónde se declaran, observando el tipo de Java mencionado en la expresión.
 
-Para los valores de retorno del método, se le asigna el tipo correspondiente al estado especificado en la anotación \texttt{@State} (equivalente a la actual \texttt{@Ensures}). Si no se cuenta con una anotación, se le asigna la uinón de los tipos correspondientes a todos los estados de su protocolo excepto el reservado \texttt{end}, representando que puede encontrarse en cualquier estado posible. Esto hoy en día ya no funciona así, dado que de no utilizar la anotación \texttt{@Ensures} se interpreta que la referencia devuelta es compartida.
+Para algunos tipos de Java, la introducción de tipos es bastante directa. A todo \texttt{java.lang.Object} encontrado se le asigna el tipo \textit{Object}. A los primitivos como enteros o booleanos se les asigna el tipo \textit{Primitive}. A todo valor \texttt{null} encontrado se le asigna el tipo \textit{Null}. A las variables y colaboradores internos de un tipo que no tengan protocolo se les asigna el tipo \textit{NoProtocol}.
 
-Para parámtros del método funciona de la misma forma pero con los \textit{typestates} especificados por \texttt{@Requires}. Similarmente, en las versiones más nuevas de \textit{JaTyC} ya no funciona de esta forma, donde parámetros sin la anotación se interpretan como compartidos.
+La introducción de tipos para variables y colaboradores internos de una clase con protocolo es distinta según el caso.
+
+Para los valores de retorno del método, se le asigna el tipo correspondiente al estado especificado en la anotación \texttt{@State} (equivalente a la actual \texttt{@Ensures}). Si no se cuenta con una anotación, se le asigna la unión de los tipos correspondientes a todos los estados de su protocolo excepto el reservado \texttt{end}, representando que puede encontrarse en cualquier estado posible. Esto hoy en día ya no funciona así, dado que de no utilizar la anotación \texttt{@Ensures} se interpreta que la referencia devuelta es compartida.
+
+Para parámetros del método funciona de la misma forma pero con los \textit{typestates} especificados por \texttt{@Requires}. Similarmente, en las versiones más nuevas de \textit{JaTyC} ya no funciona de esta forma, donde parámetros sin la anotación se interpretan como compartidos.
 
 Para colaboradores internos públicos, se les asigna el tipo \textit{Unknown}. Esto es así dado que la herramienta no puede garantizar el estado de objetos que pueden ser alterados desde cualquier otra clase.
 
-Finalmente, para colaboradores internos privados y variables locales del método, se les asigna como tipo la unión de los tipos correspondientes a todos sus \textit{typestates} posibles. Esto representa que, a no ser que se infiera algo distinto durante el análisis del método, pueden encontrarse en cualquier estado. 
+Finalmente, para colaboradores internos privados y variables locales del método, se les asigna como tipo la unión de los tipos correspondientes a todos sus \textit{typestates} posibles. Esto representa que, a no ser que se infiera algo distinto durante el análisis del método, pueden encontrarse en cualquier estado.
 
-Por otro lado, \textit{JaTyC} sigue las próximas reglas para inferir tipos al analizar nuevas expresiones:
+Luego de obtener este inventario inicial, $\textsc{Analizar}(m,\ \mathit{inv})$ comienza a recorrer las expresiones una por una actualizando los tipos inferidos. Esto lo hace bajo ciertas reglas de inferencia, las cuales cambian según el tipo de expresión a analizar.
 
-Cuando se instancia un nuevo objeto con protocolo, se les asigna el tipo correspondiente al \textit{typestate} inicial. De lo contrario, se le asigna el tipo \textit{NoProtocol}.
-Para asignaciones \texttt{x = y}, a \texttt{x} se le asigna el tipo de \texttt{y}, e \texttt{y} se convierte en \textit{Moved} si era de tipo \textit{Object} antes. Sino \texttt{y} permanece sin cambios.
-Para expresiones de retorno \texttt{return x}, el tipo de \texttt{x} pasa a ser \textit{Moved}.
-Para expresiones de llamadas a métodos de objetos con protocolos \texttt{x.m()}, el tipo de \texttt{x} es el correspondiente al estado destino de \texttt{m}. Si \texttt{x} no tiene protocolo, permanece de tipo \textit{NoProtocol}. Si el tipo de \texttt{x} era \textit{Ended}, \textit{Moved}, \textit{Null} o \textit{Primitive}, o si \texttt{m} no era un método válido en sus \textit{typestates} posibles, su tipo pasa a ser \textit{Bottom}, representando una operación inválida. Si el tipo de \texttt{x} era una unión de tipos, el tipo resultante es el resultado de procesar con las reglas anteriores cada miembro de la unión.
-A los argumentos para las llamadas a métodos se les asigna \textit{Moved}, similar a como la herramienta actual los convierte en referencias compartidas. De todos modos, si el método a llamar los anota con \texttt{@Ensures}, se les asigna el tipo correspondiente al \texttt{typestate} especificado.
+Si la expresión es la instanciación de un objeto \texttt{Obj x = new Obj()}, se le asigna a \texttt{x} el tipo correspondiente al \textit{typestate} inicial de \texttt{Obj}, de tener protocolo. De lo contrario, se le asigna el tipo \textit{NoProtocol}.
+
+Para asignaciones \texttt{x = y}, a \texttt{x} se le asigna el tipo de \texttt{y}. Si \texttt{y} es de tipo o subtipo de \textit{Object}, pasa a ser \textit{Moved}, y de lo contrario permanece sin cambios. Esto le quita la capacidad de operar el objeto al que referenciaba y preserva la linealidad. En la versión actual de \textit{JaTyC} pasaría a ser una variable compartida.
+
+Para expresiones de retorno \texttt{return x}, el tipo de \texttt{x} permanece sin cambios en todos los casos a no ser que sea un objeto protocolado, donde pasa a ser \textit{Moved}. A pesar de que luego de la expresión ya se sale del scope del método y parecería insignificante cambiar su tipo en ese punto, se hace por si el objeto devuelto es un colaborador interno, denotando que ya no puede utilizarse esta referencia más adelante.
+
+Para expresiones de llamadas a métodos de objetos \texttt{x.m()}, el tipo inferido cambia según el tipo inicial del objeto. Si \texttt{x} no tiene protocolo, permanece de tipo \textit{NoProtocol}. Si \texttt{x} era \textit{Ended}, \textit{Moved}, \textit{Null} o \textit{Primitive}, su tipo pasa a ser \textit{Bottom}, representando una operación inválida. Para objetos protocolados, el tipo de \texttt{x} es el correspondiente al estado destino de \texttt{m}, o \textit{Bottom} si el método no estaba disponible en su estado actual. Si era \textit{Unknown} o \textit{Object}, permanecen en el mismo tipo dado que no se puede saber el tipo resultante luego de llamar al método $m$. Si es \textit{Bottom} permanece igual también. Finalmente, si el tipo de \texttt{x} era una unión de tipos, el tipo resultante es el resultado de procesar con las reglas anteriores cada miembro de la unión.
+
+Por otro lado, el tipo del resultado de la llamada \texttt{x.m()} es el mismo que el del valor retornado por $m$. A su vez, a los argumentos se les asigna \textit{Moved}, similar a como la herramienta actual los convierte en referencias compartidas. De todos modos, si el método a llamar los anota con \texttt{@Ensures}, se les asigna el tipo correspondiente al \texttt{typestate} especificado.
+
+Finalmente, similar a como mencionamos anteriormente, en la presencia de expresiones booleanas de control de flujo se trabaja con los inventarios \textit{then} y \textit{else} por separado, denotando los casos donde la expresión devuelva verdadero o falso. Esto se hace visitando los nodos del \textit{control flow graph} proveído por el Checker Framework, del cual hablaremos en la sección \ref{checker-framework}.
 
 \subsection{Segunda Fase: Verificación de Errores}
 
@@ -430,3 +438,4 @@ En particular, se verifica que:
 \end{itemize}
 
 \subsection{Checker Framework}
+\label{checker-framework}
