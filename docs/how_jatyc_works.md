@@ -40,10 +40,10 @@ There are a couple of rules that the implementation follows:
 - The type of a variable/field can be one of these or the union of multiple ones.
 - There are no unions within unions.
 - A set with the unknown type is just the unknown type.
-- A set with only one tye is just that type.
+- A set with only one type is just that type.
 - An empty set is the Bottom type.
 - Unions don't include Bottom since it is the empty set.
-- If Object is present in an union, NoProtocol/Empty/State* are not since they are already subtypes.
+- If Object is present in an union, NoProtocol/Ended/State* are not since they are already subtypes.
 
 The following are the steps that the tool follows in this phase to infer the types of variables and fields.
 
@@ -121,8 +121,6 @@ In particular:
 - For return statements, the returned expression must be assigned to a variable so that it can finish its protocol, unless it is returned in a droppable state.
 - For method calls, the receiver must be in a state that allows for that method to be called. Also, arguments need to be subtypes of the expected parameter types.
 - For protocol completion, it checks the *exit store* of all methods analyzed. For every variable, their type should be the one stated by the `@Ensures` notation, or *Ended*(protocol completed)/*Moved*(delegated), or in a state that is droppable.
-
-
 
 ## Second Version - Alliasing and Linearity Checking
 
