@@ -127,62 +127,82 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}Impacto}{15}{section.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.6}Limitaciones}{15}{section.3.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.7}Implementación}{15}{section.3.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}Primera Fase: Inferencia de Tipos}{16}{subsection.3.7.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces Reticulado de tipos de \textit  {JaTyC}.}}{16}{figure.caption.20}\protected@file@percent }
-\newlabel{jatyc:reticulado}{{3.13}{16}{Reticulado de tipos de \textit {JaTyC}}{figure.caption.20}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\textit  {Class Analysis}}{17}{section*.21}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Análisis de una clase con protocolo en \textit  {JaTyC}}}{18}{algorithm.1}\protected@file@percent }
-\newlabel{alg:class-analisis}{{1}{18}{Análisis de una clase con protocolo en \textit {JaTyC}}{algorithm.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Análisis de Métodos}{19}{section*.22}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.2}Segunda Fase: Verificación de Errores}{21}{subsection.3.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.3}Checker Framework}{22}{subsection.3.7.3}\protected@file@percent }
-\newlabel{checker-framework}{{3.7.3}{22}{Checker Framework}{subsection.3.7.3}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4.}Experimentación}{23}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}Diferencias con la versión actual}{16}{subsection.3.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.2}Visión general}{16}{subsection.3.7.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces Visión general del análisis de \textit  {JaTyC}.}}{16}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:jatyc:pipeline}{{3.13}{16}{Visión general del análisis de \textit {JaTyC}}{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.3}Primera Fase: Inferencia de Tipos}{16}{subsection.3.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Reticulado de tipos}{16}{section*.21}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.14}{\ignorespaces Reticulado de tipos de \textit  {JaTyC}.}}{17}{figure.caption.22}\protected@file@percent }
+\newlabel{jatyc:reticulado}{{3.14}{17}{Reticulado de tipos de \textit {JaTyC}}{figure.caption.22}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\textit  {Class Analysis}}{17}{section*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Inventarios y fusión.}{18}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{El algoritmo.}{18}{section*.25}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Análisis de una clase con protocolo en \textit  {JaTyC}}}{19}{algorithm.1}\protected@file@percent }
+\newlabel{alg:class-analisis}{{1}{19}{Análisis de una clase con protocolo en \textit {JaTyC}}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Análisis de Métodos}{20}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Introducción de tipos.}{20}{section*.27}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Introducción de tipos según el elemento declarado.}}{21}{table.caption.28}\protected@file@percent }
+\newlabel{tab:introduccion-tipos}{{3.1}{21}{Introducción de tipos según el elemento declarado}{table.caption.28}{}}
+\@writefile{toc}{\contentsline {paragraph}{Reglas de inferencia.}{21}{section*.29}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Tipo inferido para el receptor \texttt  {x} luego de la llamada \texttt  {x.m()}.}}{22}{table.caption.30}\protected@file@percent }
+\newlabel{tab:llamada-metodo}{{3.2}{22}{Tipo inferido para el receptor \texttt {x} luego de la llamada \texttt {x.m()}}{table.caption.30}{}}
+\@writefile{toc}{\contentsline {paragraph}{Control de flujo.}{22}{section*.31}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo3/If.Java}{22}{lstlisting.3.-18}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.15}{\ignorespaces Refinamiento de tipos en un \texttt  {if-else}.}}{22}{figure.caption.32}\protected@file@percent }
+\newlabel{jatyc:if}{{3.15}{22}{Refinamiento de tipos en un \texttt {if-else}}{figure.caption.32}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo3/While.Java}{23}{lstlisting.3.-19}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.16}{\ignorespaces Refinamiento de tipos en un \texttt  {while}.}}{23}{figure.caption.33}\protected@file@percent }
+\newlabel{jatyc:while}{{3.16}{23}{Refinamiento de tipos en un \texttt {while}}{figure.caption.33}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.4}Segunda Fase: Verificación de Errores}{23}{subsection.3.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.5}Checker Framework}{24}{subsection.3.7.5}\protected@file@percent }
+\newlabel{checker-framework}{{3.7.5}{24}{Checker Framework}{subsection.3.7.5}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4.}Experimentación}{25}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10pt}}
 \@writefile{lot}{\addvspace {10pt}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Protocolos Compuestos}{23}{section.4.1}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/Robot.java}{23}{lstlisting.4.-18}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/RobotProtocol.protocol}{23}{lstlisting.4.-19}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Código y protocolo para un \texttt  {Robot}, capaz de moverse sobre un mapa de tamaño $2\times 2$.}}{23}{figure.caption.23}\protected@file@percent }
-\newlabel{exp:compound-1:robot}{{4.1}{23}{Código y protocolo para un \texttt {Robot}, capaz de moverse sobre un mapa de tamaño $2\times 2$}{figure.caption.23}{}}
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/RobotController.java}{24}{lstlisting.4.-20}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/RobotControllerProtocol.protocol}{24}{lstlisting.4.-21}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Código y protocolo para un \texttt  {RobotController}, el cual mueve a un robot en las direcciones cardinales.}}{24}{figure.caption.24}\protected@file@percent }
-\newlabel{exp:compound-1:controller}{{4.2}{24}{Código y protocolo para un \texttt {RobotController}, el cual mueve a un robot en las direcciones cardinales}{figure.caption.24}{}}
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/Main.java}{25}{lstlisting.4.-22}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/Error.txt}{25}{lstlisting.4.-23}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Errores reportados por \textit  {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-1:controller} y su respectivo código cliente \texttt  {Main}.}}{25}{figure.caption.25}\protected@file@percent }
-\newlabel{exp:compound-1:error}{{4.3}{25}{Errores reportados por \textit {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-1:controller} y su respectivo código cliente \texttt {Main}}{figure.caption.25}{}}
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate\textunderscore 3/RobotController.java}{26}{lstlisting.4.-24}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate\textunderscore 3/RobotControllerProtocol.protocol}{26}{lstlisting.4.-25}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Código y protocolo de la clase \texttt  {RobotController}, la cual incluye los nuevos métodos \texttt  {run()} y \texttt  {moveRight()}.}}{26}{figure.caption.26}\protected@file@percent }
-\newlabel{exp:compound-3:controller}{{4.4}{26}{Código y protocolo de la clase \texttt {RobotController}, la cual incluye los nuevos métodos \texttt {run()} y \texttt {moveRight()}}{figure.caption.26}{}}
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate\textunderscore 3/Main.java}{27}{lstlisting.4.-26}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate\textunderscore 3/Error.txt}{27}{lstlisting.4.-27}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Errores reportados por \textit  {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-3:controller} y su respectivo código cliente \texttt  {Main}.}}{27}{figure.caption.27}\protected@file@percent }
-\newlabel{exp:compound-3:error}{{4.5}{27}{Errores reportados por \textit {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-3:controller} y su respectivo código cliente \texttt {Main}}{figure.caption.27}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{28}{section.4.2}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/Stack.java}{28}{lstlisting.4.-28}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/StackProtocol.protocol}{28}{lstlisting.4.-29}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Código y protocolo de una clase \texttt  {Stack}. La misma tiene capacidad limitada y no controla correctamente si está llena.}}{28}{figure.caption.28}\protected@file@percent }
-\newlabel{exp:faulty-stack:stack}{{4.6}{28}{Código y protocolo de una clase \texttt {Stack}. La misma tiene capacidad limitada y no controla correctamente si está llena}{figure.caption.28}{}}
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/Main.java}{29}{lstlisting.4.-30}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/Error.txt}{29}{lstlisting.4.-31}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Código cliente del \texttt  {Stack}, el cual intenta apilar más elementos de los que caben en la pila, y el error al ejecutarlo.}}{29}{figure.caption.29}\protected@file@percent }
-\newlabel{exp:faulty-stack:client}{{4.7}{29}{Código cliente del \texttt {Stack}, el cual intenta apilar más elementos de los que caben en la pila, y el error al ejecutarlo}{figure.caption.29}{}}
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/normal\textunderscore stack/Stack.java}{30}{lstlisting.4.-32}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Código para un \texttt  {Stack} con su método de control \texttt  {isFull()} correctamente implementado.}}{30}{figure.caption.30}\protected@file@percent }
-\newlabel{exp:normal-stack}{{4.8}{30}{Código para un \texttt {Stack} con su método de control \texttt {isFull()} correctamente implementado}{figure.caption.30}{}}
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/normal\textunderscore stack/Main.java}{30}{lstlisting.4.-33}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/normal\textunderscore stack/Error.txt}{30}{lstlisting.4.-34}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Código cliente del stack y error reportado por \textit  {JaTyC}, dado que no sigue su protocolo.}}{30}{figure.caption.31}\protected@file@percent }
-\newlabel{exp:normal-stack:client}{{4.9}{30}{Código cliente del stack y error reportado por \textit {JaTyC}, dado que no sigue su protocolo}{figure.caption.31}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Intervención Humana}{31}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Subtipado}{31}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{31}{section.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Casos Bordes}{31}{section.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Aliasing}{31}{section.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.8}Excepciones}{31}{section.4.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Protocolos Compuestos}{25}{section.4.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/Robot.java}{25}{lstlisting.4.-20}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/RobotProtocol.protocol}{25}{lstlisting.4.-21}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Código y protocolo para un \texttt  {Robot}, capaz de moverse sobre un mapa de tamaño $2\times 2$.}}{25}{figure.caption.34}\protected@file@percent }
+\newlabel{exp:compound-1:robot}{{4.1}{25}{Código y protocolo para un \texttt {Robot}, capaz de moverse sobre un mapa de tamaño $2\times 2$}{figure.caption.34}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/RobotController.java}{26}{lstlisting.4.-22}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/RobotControllerProtocol.protocol}{26}{lstlisting.4.-23}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Código y protocolo para un \texttt  {RobotController}, el cual mueve a un robot en las direcciones cardinales.}}{26}{figure.caption.35}\protected@file@percent }
+\newlabel{exp:compound-1:controller}{{4.2}{26}{Código y protocolo para un \texttt {RobotController}, el cual mueve a un robot en las direcciones cardinales}{figure.caption.35}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/Main.java}{27}{lstlisting.4.-24}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate/Error.txt}{27}{lstlisting.4.-25}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Errores reportados por \textit  {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-1:controller} y su respectivo código cliente \texttt  {Main}.}}{27}{figure.caption.36}\protected@file@percent }
+\newlabel{exp:compound-1:error}{{4.3}{27}{Errores reportados por \textit {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-1:controller} y su respectivo código cliente \texttt {Main}}{figure.caption.36}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate\textunderscore 3/RobotController.java}{28}{lstlisting.4.-26}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate\textunderscore 3/RobotControllerProtocol.protocol}{28}{lstlisting.4.-27}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Código y protocolo de la clase \texttt  {RobotController}, la cual incluye los nuevos métodos \texttt  {run()} y \texttt  {moveRight()}.}}{28}{figure.caption.37}\protected@file@percent }
+\newlabel{exp:compound-3:controller}{{4.4}{28}{Código y protocolo de la clase \texttt {RobotController}, la cual incluye los nuevos métodos \texttt {run()} y \texttt {moveRight()}}{figure.caption.37}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate\textunderscore 3/Main.java}{29}{lstlisting.4.-28}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/collaborator\textunderscore compound\textunderscore typestate\textunderscore 3/Error.txt}{29}{lstlisting.4.-29}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Errores reportados por \textit  {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-3:controller} y su respectivo código cliente \texttt  {Main}.}}{29}{figure.caption.38}\protected@file@percent }
+\newlabel{exp:compound-3:error}{{4.5}{29}{Errores reportados por \textit {JaTyC} al analizar el código del controlador en la Figura \ref {exp:compound-3:controller} y su respectivo código cliente \texttt {Main}}{figure.caption.38}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{30}{section.4.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/Stack.java}{30}{lstlisting.4.-30}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/StackProtocol.protocol}{30}{lstlisting.4.-31}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Código y protocolo de una clase \texttt  {Stack}. La misma tiene capacidad limitada y no controla correctamente si está llena.}}{30}{figure.caption.39}\protected@file@percent }
+\newlabel{exp:faulty-stack:stack}{{4.6}{30}{Código y protocolo de una clase \texttt {Stack}. La misma tiene capacidad limitada y no controla correctamente si está llena}{figure.caption.39}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/Main.java}{31}{lstlisting.4.-32}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/faulty\textunderscore stack/Error.txt}{31}{lstlisting.4.-33}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Código cliente del \texttt  {Stack}, el cual intenta apilar más elementos de los que caben en la pila, y el error al ejecutarlo.}}{31}{figure.caption.40}\protected@file@percent }
+\newlabel{exp:faulty-stack:client}{{4.7}{31}{Código cliente del \texttt {Stack}, el cual intenta apilar más elementos de los que caben en la pila, y el error al ejecutarlo}{figure.caption.40}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/normal\textunderscore stack/Stack.java}{32}{lstlisting.4.-34}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Código para un \texttt  {Stack} con su método de control \texttt  {isFull()} correctamente implementado.}}{32}{figure.caption.41}\protected@file@percent }
+\newlabel{exp:normal-stack}{{4.8}{32}{Código para un \texttt {Stack} con su método de control \texttt {isFull()} correctamente implementado}{figure.caption.41}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/normal\textunderscore stack/Main.java}{32}{lstlisting.4.-35}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/normal\textunderscore stack/Error.txt}{32}{lstlisting.4.-36}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Código cliente del stack y error reportado por \textit  {JaTyC}, dado que no sigue su protocolo.}}{32}{figure.caption.42}\protected@file@percent }
+\newlabel{exp:normal-stack:client}{{4.9}{32}{Código cliente del stack y error reportado por \textit {JaTyC}, dado que no sigue su protocolo}{figure.caption.42}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Intervención Humana}{33}{section.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Subtipado}{33}{section.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{33}{section.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Casos Bordes}{33}{section.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Aliasing}{33}{section.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}Excepciones}{33}{section.4.8}\protected@file@percent }
 \bibstyle{plain}
 \bibdata{tesis}
 \bibcite{plaid:paper}{1}
@@ -208,4 +228,4 @@
 \bibcite{plaid}{21}
 \bibcite{mungo:website}{22}
 \bibcite{mungo:repo}{23}
-\gdef \@abspage@last{39}
+\gdef \@abspage@last{41}
