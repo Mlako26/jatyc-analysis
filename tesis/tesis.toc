@@ -37,12 +37,15 @@
 \contentsline {paragraph}{Control de flujo.}{22}{section*.31}%
 \contentsline {subsection}{\numberline {3.7.4}Segunda Fase: Verificación de Errores}{23}{subsection.3.7.4}%
 \contentsline {subsection}{\numberline {3.7.5}Checker Framework}{24}{subsection.3.7.5}%
-\contentsline {chapter}{\numberline {4.}Experimentación}{25}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Protocolos Compuestos}{25}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{30}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Intervención Humana}{33}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Subtipado}{33}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{33}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Casos Bordes}{33}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Aliasing}{33}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Excepciones}{33}{section.4.8}%
+\contentsline {subsubsection}{SourceChecker}{24}{section*.34}%
+\contentsline {subsubsection}{SourceVisitor}{24}{section*.35}%
+\contentsline {subsubsection}{Clases Utilitarias}{25}{section*.36}%
+\contentsline {chapter}{\numberline {4.}Experimentación}{27}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Protocolos Compuestos}{27}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{32}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Intervención Humana}{35}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Subtipado}{35}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{35}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Casos Bordes}{35}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Aliasing}{35}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Excepciones}{35}{section.4.8}%

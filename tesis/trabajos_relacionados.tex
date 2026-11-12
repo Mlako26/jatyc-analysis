@@ -75,6 +75,7 @@ Los protocolos se escriben con una sintaxis muy similar a la de \textit{JaTyC}, 
 Un aspecto en el que \textit{JaTyC} mejora con respecto a su antecesor es la funcionalidad. Información detallada puede encontrarse en el cuadro comparativo oficial de la herramienta\cite{jatyc:mungo-comparison}, pero las principales utilidades que agrega son los estados \textit{droppable}, el subtipado, y verificación de typestates en argumentos y valores de retorno de métodos. A su vez, los autores recalcan que Mungo falla al manejar ciertos casos borde, relacionados con valores nulos, linealidad de las variables y corroborar la finalización de los protocolos. Profundizaremos más en todos estos conceptos en el próximo capítulo.
 
 \subsection{Implementación}
+\label{mungo:implementacion}
 
 Con respecto a la implementación de ambas herramientas, Mungo está creada sobre el framework \textbf{JastAdd}\cite{jastadd:website}. Este es un sistema de meta-compilación fácilmente extensible, que le permite a sus usuarios crear herramientas de análisis estático customizables. A pesar de haber sido utilizado para múltiples proyectos\cite{jastadd:applications}, JastAdd no se mantiene activamente, con solamente 3 releases desde 2020.
 

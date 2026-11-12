@@ -38,10 +38,22 @@ Kevin Bierhoff and Jonathan Aldrich.
 \newblock {\em SIGPLAN Not.}, 42(10):301–320, October 2007.
 
 \bibitem{checker-framework}
-Checker Framewor.
+Checker Framework.
 \newblock The checker framework.
 \newblock \url{https://checkerframework.org}.
 \newblock Accessed: 2026-09-07.
+
+\bibitem{checker-framework-docs}
+Checker Framework.
+\newblock The checker framework official api documentation.
+\newblock \url{https://checkerframework.org/api/index.html}.
+\newblock Accessed: 2026-11-11.
+
+\bibitem{checker-framework-manual}
+Checker Framework.
+\newblock The checker framework official manual.
+\newblock \url{https://checkerframework.org/manual/checker-framework-manual.pdf}.
+\newblock Accessed: 2026-11-12.
 
 \bibitem{tsop}
 Ronald Garcia, {\'E}ric Tanter, Roger Wolff, and Jonathan Aldrich.
@@ -105,6 +117,12 @@ Oracle.
 \newblock {Interface Iterator}.
 \newblock \url{https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html}.
 \newblock Accessed: 2026-09-05.
+
+\bibitem{java-docs:javac-module}
+Oracle.
+\newblock {JDK Compiler Module Documentation}.
+\newblock \url{https://docs.oracle.com/en/java/javase/21/docs/api/jdk.compiler/module-summary.html}.
+\newblock Accessed: 2026-11-11.
 
 \bibitem{typestate}
 R~E Strom and S~Yemini.
