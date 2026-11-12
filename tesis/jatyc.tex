@@ -239,6 +239,7 @@ Los autores describieron en la documentación oficial~\cite{jatyc:documentation}
 \end{itemize}
 
 \section{Implementación}
+\label{implementacion}
 
 En esta sección describiremos la implementación de la versión inicial de \textit{JaTyC}, basada en el trabajo realizado en 2021 por uno de sus autores, João Mota~\cite{jatyc:msc-thesis}. Reconocemos que esta difiere en algunos aspectos de la versión actual~\cite{jatyc:github}, tanto en funcionalidades como en nomenclatura, pero consideramos que se trata de cambios menores y que gran parte de la estructura del código se mantuvo inalterada. Esto nos permitirá entender cómo la herramienta hace el seguimiento del estado de los objetos, cuál es su reticulado y su algoritmo de inferencia de tipos, y cómo detecta incumplimientos de protocolos o de anotaciones adicionales.
 
@@ -558,3 +559,43 @@ La siguiente es una lista con las principales verificaciones que realiza \textit
 
 \subsection{Checker Framework}
 \label{checker-framework}
+
+A diferencia de su predecesora Mungo, creada en el framework JastAdd~\cite{jastadd:website}, \textit{JaTyC} fue hecha con el \textbf{Checker Framework}. Como mencionamos en la sección~\ref{mungo:implementacion}, este le permite a los desarrolladores incluir varios \textit{checkers} a sus proyectos, los cuales realizan diferentes tipos de verificaciones en tiempo de compilación. El Checker Framework extiende al sistema de tipado nativo de Java y, apoyándose en las mismas interfaces del módulo de compilación de java~\cite{java-docs:javac-module}, provee interfaces y clases simples y accesibles para analizar código. \textit{JaTyC} utiliza estas para hacer sus verificaciones de protocolos, y consideramos interesante hacer un pequeño apartado recorriendo lo que consideramos sus principales usos. Todas las clases e interfaces mencionadas en las próximas secciones pueden encontrarse en la documentación oficial del framework~\cite{checker-framework-docs} y el código oficial de \textit{JaTyC}~\cite{jatyc:github}.
+
+\subsubsection{SourceChecker}
+
+El \texttt{SourceChecker} es una de las principales clases ofrecidas por el Checker Framework. Esta es el punto de entrada al framework, y hace el rol de una interfaz hacia la API de anotaciones del compilador de Java. También funciona como objeto \textit{factory} para otras clases interesantes del framework, las cuales mencionaremos más adelante.
+
+La clase se incializa ya con varios valores y colaboradores internos por defecto para ser ``\textit{plug and play}'', útiles para la mayoría de los \textit{checkers} que se quieran construir. De todos modos, muchos de estos valores pueden ser sobreescritos para modificar y flexibilizar el comportamiento de un \textit{checker}, ventaja de la cual \textit{JaTyC} hace uso extensivo.
+
+\textit{JaTyC} tiene su propia subclase del \texttt{SourceChecker}, el \texttt{JatycTypestateChekcer}. Principalmente, esta inicializa algunas clases de utilidades, agrega soporte para imprimir mensajes de alerta y errores, y por último sobreescribe el método \texttt{createSourceVisitor()} para devolver un \texttt{SourceVisitor} personalizado para la herramienta, el \texttt{CFVisitor}.
+
+\subsubsection{SourceVisitor}
+
+Otra de las clases importantes del Checker Framework es el \texttt{SourceVisitor}, cuyo principal propósito es ser un \textit{visitor} para \textbf{Árboles de Sintaxis Abstracta} (\textit{AST}s). Instancias de esta clase saben recorrer el \textit{AST} de cada archivo fuente y dan funcionalidad para analizar su contenido. Mientras que la clase en sí no realiza verificaciones de código, el framework ofrece una subclase \texttt{BaseTypeVisitor}, la cual reporta advertencias cuando se incumple el sistema de tipos en ciertos casos, como asignaciones o llamadas a métodos. En otras palabras,el \texttt{SourceVisitor} tiene la lógica para recorrer los \textit{AST}s, y sus subclases la aprovechan para agregar las verificaciones. Los árboles que recorre son proveidos por la API del módulo de compilación de java~\cite{java-docs:javac-module}, y extiende una de sus clases, \texttt{TreePathScanner}, la cual ya contiene lógica de recorrido de \textit{AST}s hacia nodos hijos y padres.
+
+Como mencionamos en la sección anterior, el \texttt{SourceChecker} se encarga de proveer su propio \texttt{SourceVisitor}. En el caso de \textit{JaTyC}, su \texttt{JatycTypestateChecker} incializa su propia subclase \texttt{CFVisitor}. 
+
+La misma no funciona en forma similar al \texttt{BaseTypeVisitor}, el cual verifica el código a la par que lo recorre, sino que realiza su análisis en dos fases.
+
+La segunda fase es donde se realiza todo lo mencionado en la sección de implementación de la herramineta~\ref{implementacion}, con la inferencia de tipos y la verificación de errores.
+
+La primera fase sí funciona similarmente a otras subclases del \texttt{SourceVisitor}, donde se aprovecha su lógica de recorrido de \textit{AST}s para analizar su contenido, pero no se realiza ninguna tarea relacionada a \textit{Class Analysis} ni \textit{typestates}. Más bien, simplemente se inicializan variables y mapeos para que la segunda fase funcione correctamente. Por ejemplo, el \texttt{CFVisitor} sobreescribe algunos métodos de su superclase \texttt{SourceVisitor}, tales como \texttt{visitClass()}, para generar un mapa conceptual del código y las traducciones necesarias desde los objetos del Checker Framework y el compilador de Java hacia las representaciones internas de \textit{JaTyC}.
+
+Otra función de la primera fase es validar las anotaciones de \textit{JaTyC} en los archivos, tales como \texttt{@Requires}, \texttt{@Ensures} y \texttt{@Typestate}. Observando los nodos de los árboles provistos por el framework, se asegura que estas estén escritas en los lugares correctos, o que los \textit{typestates} que mencionan existan en el protocolo del objeto que especifican.
+
+Finalmente, en esta fase se hace uso extensivo de otra clase importante del \textit{checker}: el \texttt{CFAdapter}. Esta es la encargada de traducir los modelos provistos por el \textit{Checker Framework} hacia las representaciones internas de \textit{JaTyC}. De las más importantes, convierte los grafos de control de flujo (\texttt{CFGraph}) de cada bloque de código en \texttt{SimpleGraph}, una versión simplificada que la herramienta sabe procesar. A su vez, traduce cada uno de los nodos de esos grafos a las expresiones de código internas (\texttt{CodeExpr}), que describen únicamente lo necesario para realizar la verificación.
+
+La segunda fase del \texttt{CFVisitor} sucede luego de que el Checker Framework termina de visitar el código y que la representación interna para \textit{JaTyC} fuera resuelta. Durante la fase, el framework ya deja de ser utilizado y toda la lógica de verificación de protocolos y anotaciones adicionales es propia de la herramienta.
+
+\subsubsection{Clases Utilitarias}
+
+\textit{JaTyC} también hace uso de varias clases utilitarias del framework. En particular, \texttt{ElementUtils}, \texttt{TypesUtils}, \texttt{AnnotationUtils} y \texttt{TreeUtils}.
+
+\texttt{ElementUtils} es una clase que sabe analizar \texttt{Element}s, o elementos. Esta es una interfaz del compilador de Java que representa una construcción del lenguaje durante la compilación. El mismo manual oficial del Checker Framework~\cite{checker-framework-manual} describe que hay un \texttt{Element}, o más bien una implementación de esta interfaz, representando semánticamente cada declaración de construcción linguística de Java, como por ejemplo los \texttt{TypeElement} para las clases e interfaces, los \texttt{ExecutableElement} para métodos enteros, o los \texttt{VariableElement} para variables locales y parámetros de métodos. \textit{JaTyC} utiliza esta clase de utilidades para verificar si miembros de una clase son estáticos o no, o para razonar sobre la jerarquía de los elementos del código.
+
+\texttt{TypeUtils} sirve para razonar sobre los \texttt{TypeMirror}s. Esta también es una interfaz del compilador de java que representa a los tipos de datos, tales como lo primitivos, las clases, las interfaces, etc. \textit{JaTyC} utiliza esta clase para determinar el tipo exacto de variables, como por ejemplo si son objetos o inmutables, o para analizar la relación jerárquica entre diferentes tipos.
+
+\texttt{AnnotationUtils} se utiliza para trabajar con instancias de \texttt{AnnotationMirror}s, las cuales son simplemente representaciones de las anotaciones en Java. La herramienta principalmente usa la clase para obtener el nombre de las anotaciones.
+
+Finalmente, \texttt{TreeUtils} es una clase que analiza los nodos de los árboles de sintaxis abstracta del compilador de Java. Estos nodos son diferentes clases que implementan la interfaz \texttt{Tree} y representan unidades sintácticas (y no semánticas) del código, tales como declaraciones de métodos, condicionales, ciclos \texttt{while} o \texttt{for}, etc. \textit{JaTyC} usa la clase para extraer \texttt{Element}s de los \texttt{Tree}s, lo que sería razonas sobre la semántica de un programa en base a la sintaxis.
