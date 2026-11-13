@@ -1,7 +1,7 @@
 typestate UnderspecifiedIterator {
-  HasNext = {
-    boolean hasNext(): <true: Next, false: end>,
-    int next(): HasNext,
+  Init = {
+    boolean hasNext(): <true: Init, false: Init>,
+    int next(): Init,
     drop: end
   }
 }
