@@ -1,0 +1,4 @@
+ClientCode2.java:10: error: Cannot call [next] on State{Iterator, end}
+                it.next();
+                       ^
+1 error

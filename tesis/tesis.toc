@@ -43,9 +43,9 @@
 \contentsline {chapter}{\numberline {4.}Experimentación}{27}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Protocolos Compuestos}{27}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{32}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Intervención Humana}{35}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Subtipado}{35}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{35}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Casos Bordes}{35}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Aliasing}{35}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Excepciones}{35}{section.4.8}%
+\contentsline {section}{\numberline {4.3}Intervención Humana}{34}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Subtipado}{37}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{37}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Casos Bordes}{37}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Aliasing}{37}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Excepciones}{37}{section.4.8}%

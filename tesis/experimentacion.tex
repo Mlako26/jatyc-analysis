@@ -187,6 +187,101 @@ Bajo la filosofía y las capacidades de la herramienta, esto se soluciona median
 
 \section{Intervención Humana}
 
+\textit{JaTyC} es una herramienta de verificación de typestates la cual tiene como objetivo reducir los herrores en programas de Java. Para ello, se apoya en los protocolos definidos en los archivos de extensión \textit{.protocol}, y verifica estáticamente que las llamadas a métodos de objetos protocolados sigan el orden denotado en ellos. De todos modos, ¿qué evita que un programador incorrectamente defina un protocolo? ¿Qué consecuencias podría traer en el programa final y en los errores reportados, o ignorados, por \textit{JaTyC}? Es de interés investigar cómo la herramienta puede ser afectada al depender de intervención humana para detectar errores correctamente.
+
+En un primer lugar, realizamos un experimento para probar la ``sobre-especificación'' de un protocolo. Esto lo interpretamos como un protocolo que permite menos cadenas de llamadas de métodos de lo esperado. Este fue realizado con los dos iteradores ya introducidos en la sección \ref{subtipado} de subtipado, la interfaz \texttt{Iterator} y una implementación \texttt{LoopIterator}. Sus protocolos los volvemos a mostrar en las Figuras \ref{exp:iterator_protocol} y \ref{exp:loopiterator_protocol}. Recordemos que la interfaz permite obtener el siguiente elemento siempre y cuando haya uno, y su protocolo finaliza cuando no. Por otro lado, el \texttt{LoopIterator} cicla la colección infinitamente, con lo cual pueden llamarse a \texttt{next()} y \texttt{hasNext()} en cualquier momento. Sus protocolos reflejan este comportamiento.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+    \lstinputlisting{./code/capitulo3/loop_iterator/Iterator.protocol}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial] (H) at (0,0)    {HasNext};
+\node[state]          (N) at (4.2,0)  {Next};
+\node[state, accepting] (E) at (2.1,-3) {end};
+
+\path (H) edge [bend left] node {hasNext()=true} (N)
+          edge             node [swap] {hasNext()=false} (E)
+      (N) edge [bend left] node {next()} (H)
+          edge             node {hasNext()=false} (E)
+          edge [loop above] node {hasNext()=true} (N);
+\end{tikzpicture}}
+\end{minipage}
+\caption{Protocolo \texttt{Iterator} y su autómata}
+\label{exp:iterator_protocol}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+    \lstinputlisting{./code/capitulo3/loop_iterator/LoopIterator.protocol}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (I) at (0,0) {Init};
+\node[state, accepting] (E) at (4,0) {end};
+
+\path (I) edge [loop above] node [align=center]
+          {hasNext()=true\\hasNext()=false\\next()} (I)
+          edge node {drop} (E);
+\end{tikzpicture}}
+\end{minipage}
+\caption{Protocolo \texttt{LoopIterator} y su autómata}
+\label{exp:loopiterator_protocol}
+\end{figure}
+
+La prueba que realizamos fue con el código cliente de la Figura~\ref{exp:restrictive-iterator:client}, el cual simplemente instancia un \texttt{LoopIterator}, recorre su colección hasta el final, y luego le pide un elemento más llamando a \texttt{next()}. Analizamos todo el código con dos versiones: una en la que el \texttt{LoopIterator} seguía el protocolo de la Figura \ref{exp:loopiterator_protocol}, y otra en la que no (y por ende, seguía el protocolo de su interfaz \texttt{Iterator}).
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/restrictive_iterator/ClientCode.java}
+    \caption{Código cliente para un \texttt{LoopIterator}, el cual intenta ciclar sobre la colección a iterar.}
+    \label{exp:restrictive-iterator:client}
+\end{figure}
+
+Cuando la clase contaba con su propio protocolo, \textit{JaTyC} no detectó ningún error. Cuando seguía el protocolo de su interaz, el cual es más restrictivo, la herramienta reportó el error de la Figura \ref{exp:restrictive-iterator:error}, indicando que la última llamada a \texttt{next()} incumplía el protocolo. Este resultado nos muestra que, de diseñar los protoclos más restrictivos de lo necesario, se pueden perder cadenas de llamadas de métodos potencialmente válidas.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/restrictive_iterator/Error.txt}
+    \caption{Error producido por el código cliente de la Figura \ref{exp:restrictive-iterator:client} cuando el \texttt{LoopIterator} no implementa su propio protocolo.}
+    \label{exp:restrictive-iterator:error}
+\end{figure}
+
+Otro experimento realizado sería su contraparte, donde probamos ``sub-especificar'' el protocolo de un objeto, permitiendo más secuencias de métodos de lo esperado. Para ello, construímos una clase \texttt{UnderspecifiedIterator} (Figura~\ref{exp:underspecified-iterator}), la cual es una simple implementación de la interfaz \texttt{Iterator} sin cambios particulares. Dado que esta implementación no puede devolver más elementos luego de llegar al final de la colección, otra llamada a este método lanzaría una excepción. De todos modos, está suscrita al mismo protocolo que el \texttt{LoopIterator} de la prueba anterior, donde se permiten llamadas a \texttt{next()} en cualquier situación.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+    \lstinputlisting[language=Java]{./code/capitulo4/underspecified_iterator/UnderspecifiedIterator.java}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \lstinputlisting{./code/capitulo4/underspecified_iterator/UnderspecifiedIterator.protocol}
+\end{minipage}
+\caption{Implementación y protocolo de \texttt{UnderspecifiedIterator}\, una simple implementación de \texttt{Iterator}.}
+\label{exp:underspecified-iterator}
+\end{figure}
+
+Efectivamente, la compilación de las clases no generan ningún error por parte de \textit{JaTyC}. De todos modos, el cliente utilizado, expuesto en la Figura \ref{exp:underspecified-iterator:client}, intenta obtener elementos sin ninguna guarda, con lo cual el iterador termina excediéndose del tamaño de la colección que recorre, haciendo que el programa reporte una \texttt{java.lang.ArrayIndexOutOfBoundsException}.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/underspecified_iterator/ClientCode.java}
+    \caption{Código cliente para un \texttt{UnderspecifiedIterator}, el cual intenta obtener elementos sin verificar que existen en repetición.}
+    \label{exp:underspecified-iterator:client}
+\end{figure}
+
+Estas pruebas nos muestran que la herramienta es susceptible al error humano, donde malas definiciones de protocolos pueden afectar su resultado. En el caso de hacerlos más restrictivos y ``sobre-especificarlos'', reporta errores para cadenas de métodos las cuales en un principio querríamos considerar válidas. En el caso de hacerlos más laxos y ``sub-especificarlos'', cadenas de métodos que querríamos evitar son permitidas, y excepciones en tiempo de ejecución pueden terminar nuestros programas. Con estos ejemplos pequeños que diseñamos quizás no es tan evidente, pero para protocolos más complejos, con potencialmente decenas de \textit{typestates} e incluso más transiciones, especificar correctamente el comportamiento que esperamos de los clientes puede rápidamente volverse difícil y propenso a errores. A futuro, la generación automática de estos protocolos podría ser una solución a este problema. Una aproximación a esto puede verse en trabajos como el de Uchitel et al \cite{xepa}, donde se toma a la implementación actual de una clase como oráculo.
+
 \section{Subtipado}
 
 \section{Estado Vs Typestate}

@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex tesis"] 1794526036.20992 "tesis.aux" "tesis.bbl" "tesis" 1794526431.89315 0
-  "./tesis.bib" 1794515514.14116 10055 d0db12a66820018e611c921bfeb48ce2 ""
+["bibtex tesis"] 1794598291.18223 "tesis.aux" "tesis.bbl" "tesis" 1794598294.98534 0
+  "./tesis.bib" 1794597985.96458 11242 5708d543216041ee8866e9006ab09cbc ""
   "d:/texlive/2026/texmf-dist/bibtex/bst/base/plain.bst" 1788543082.26116 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "tesis.aux" 1794526430.7399 25504 a600b9870e8bfa6cb7a7c169ee80a010 "pdflatex"
+  "tesis.aux" 1794598293.77726 29119 dc56f458c9cd67a8b755ae3deceff8d6 "pdflatex"
   (generated)
   "tesis.bbl"
   "tesis.blg"
   (rewritten before read)
-["pdflatex"] 1794526428.78719 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1794526431.894 0
+["pdflatex"] 1794598291.71727 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1794598294.98623 0
   "abs_en.tex" 1312501726 2019 3a17316dcc8346efa212c9db57626f71 ""
   "abs_esp.tex" 1788614362.72794 917 f15c42d36a21c5505573702827584dea ""
   "agradecimientos.tex" 1458096991 1356 64bc1b20247e3c57335be885f8af796b ""
@@ -49,6 +49,11 @@
   "code/capitulo4/normal_stack/Error.txt" 1793483910.39282 111 ed28d7c39400f9196879febe7e6b0b7a ""
   "code/capitulo4/normal_stack/Main.java" 1793484020.78534 138 51da4386ad604961bf9aec3d7b016047 ""
   "code/capitulo4/normal_stack/Stack.java" 1793484053.23984 388 258a6b823ff70b45cf5aa53ec090f7cc ""
+  "code/capitulo4/restrictive_iterator/ClientCode.java" 1794594856.50328 236 448d20e0225ea98dc42964913c739623 ""
+  "code/capitulo4/restrictive_iterator/Error.txt" 1794595314.92011 130 aa3cf6ccd0fed18b43b49cbde6cc7230 ""
+  "code/capitulo4/underspecified_iterator/ClientCode.java" 1794596639.69102 229 c5f8605651a341dcf473162fee17b637 ""
+  "code/capitulo4/underspecified_iterator/UnderspecifiedIterator.java" 1794596659.29422 346 d5cd5c440e39d97bb0d2aeadac02a79e ""
+  "code/capitulo4/underspecified_iterator/UnderspecifiedIterator.protocol" 1786220273.2541 143 21f14209ef2254425766e8db44ca0056 ""
   "d:/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1788544803.50222 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1788543463.08449 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "d:/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1788543463.08449 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -229,15 +234,15 @@
   "d:/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt" 1788571999 3658229 daabc2d3605b95a01a6b06b0493e9c90 ""
   "d:/texlive/2026/texmf.cnf" 1788571889.79398 713 baa45e065482d44c4cd81b98ef72c63b ""
   "dedicatoria.tex" 1458095999 39 fc8211744c92236ca9e35da83e7cb61a ""
-  "experimentacion.tex" 1793583971.045 21361 9e59947517d830c8e800b255002b2256 ""
+  "experimentacion.tex" 1794598287.17732 29122 fe0d04cb9f53064c900df557f02ba321 ""
   "introduccion.tex" 1793476605.66094 4287 d1de070f6a03609782a2c5e5c32cac54 ""
-  "jatyc.tex" 1794526427.93943 60022 14f5dec57c5e1889c9e6f5e6c72ffd10 ""
+  "jatyc.tex" 1794594267.85844 60041 5ac46ec239b12735d562b5db9ca10006 ""
   "logofcen.pdf" 1280949812 39758 9bdae1f60233e50ba5e4e659fa2e6078 ""
-  "tesis.aux" 1794526430.7399 25504 a600b9870e8bfa6cb7a7c169ee80a010 "pdflatex"
-  "tesis.bbl" 1794526036.67194 5740 4d566fa0038a4d0376e2bc4e0f89d3ae "bibtex tesis"
+  "tesis.aux" 1794598293.77726 29119 dc56f458c9cd67a8b755ae3deceff8d6 "pdflatex"
+  "tesis.bbl" 1794598291.6761 5720 2e5cf6a6884cec66126e832f96d4dac4 "bibtex tesis"
   "tesis.cls" 1312502354 36659 469a5b174f6a5f4de348ff19f86a677d ""
-  "tesis.out" 1794526430.74941 5713 5719e3f4c58c4a54cf425cf417e76bdd "pdflatex"
-  "tesis.toc" 1794526430.75091 3955 c8d383a87c4c3ec5eb6afe5dc0567b3b "pdflatex"
+  "tesis.out" 1794598293.79127 5713 5719e3f4c58c4a54cf425cf417e76bdd "pdflatex"
+  "tesis.toc" 1794598293.79228 3955 daa15af08cba784fea6119c376d7ca06 "pdflatex"
   "trabajos_relacionados.tex" 1794431246.33388 14202 e9cf4f23844add4deb5cb0ca1ffbda4a ""
   (generated)
   "tesis.aux"
