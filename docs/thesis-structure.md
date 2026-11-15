@@ -80,7 +80,6 @@ Acá voy a compilar diferentes tópicos generales que venimos testeando con la t
     - Un stack que su implementación tiene fallas y larga excepciones, pero su protocolo lo cumple bien.
   - normal_stack
     - Esto es un stack normal, donde para hacer que cumpla un protocolo hay que agregarle métodos booleanos de control. Sirve para explicar que la tool no puede trackear cantidad de llamadas a métodos o secuencias de métodos, a no ser que hagamos un estado por llamada. Es decir, en escencia lo que se testea es querer determinar cuándo estoy por ejemplo haciendo un push cuando la pila ya está llena. En ese sentido, la herramienta al no tener una pila interna es incapaz de asegurarse que el código sea seguro, y te obliga a usar métodos booleanos de control.
-    - Explicar que si no puede probar que tu código es seguro, te fuerza a hacer checkeos (por medio de métodos de control) para que lo sea. En ese sentido, son falsos positivos, donde potencialmente el codigo esta bien pero te obliga a ser mas defensivo.
 - **Human Intervention**
   - En esta sección se puede hablar sobre cómo a la hora de hacer protocolos puede haber errores humanos, al menos a la hora de sub-sobre especificar, o tener un protocolo mal hecho en general. Es decir, es un checker que depende de input humano para checkear.
   - restrictive_iterator

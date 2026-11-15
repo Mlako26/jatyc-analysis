@@ -1,4 +1,4 @@
-ClientCode2.java:10: error: Cannot call [next] on State{Iterator, end}
+ClientCode.java:10: error: Cannot call [next] on State{LoopIterator, end}
                 it.next();
                        ^
 1 error

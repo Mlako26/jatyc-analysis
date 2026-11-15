@@ -1,0 +1,7 @@
+SuperSafeIterator.java:6: error: [next] transition(s) in [Next] of Iterator.protocol are not included in [Verify] of SuperSafeIterator.protocol
+public class SuperSafeIterator implements Iterator {
+       ^
+TiredIterator.java:6: error: [hasNext] transition(s) in [HasNext] of Iterator.protocol are not included in [Rest] of TiredIterator.protocol
+public class TiredIterator implements Iterator {
+       ^
+2 errors

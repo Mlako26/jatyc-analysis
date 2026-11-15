@@ -280,6 +280,103 @@ Estas pruebas muestran que la herramienta es susceptible al error humano, donde 
 
 \section{Subtipado}
 
+En relación a las funcionalidades de subtipado de la herramienta, nos interesaba explorar sus capacidades, sobretodo por ser una de sus principales distinciones con Mungo. Realizamos varias pruebas para entender cómo funcionaba, qué cosas permitía y qué no.
+
+Un primer acercamiento a esta funcionalidad puede verse en uno de los experimentos de la sección anterior (Figuras~\ref{exp:iterator_protocol} y \ref{exp:loopiterator_protocol}), donde la clase \texttt{LoopIterator} implementaba la interfaz \texttt{Iterator}. Si observamos los protocolos, podemos apreciar que el de la clase \textbf{permite más secuencias de métodos} que el de su interfaz (protocolo padre). Con el código cliente de la Figura~\ref{exp:restrictive-iterator:client}, que instancia un objeto de tipo \texttt{LoopIterator}, \textit{JaTyC} no reporta ningún error a pesar de estar rompiendo el protocolo su interfaz. Realizamos la misma prueba pero con el código cliente de la Figura~\ref{exp:restrictive-iterator:client_2}, donde se instancia en vez a la interfaz \texttt{Iterator}, y esta vez la herramienta sí reportó un error de incumplimiento de protocolo.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/restrictive_iterator/ClientCode2.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/restrictive_iterator/Error_2.txt}
+    \caption{Código cliente que intenta recorrer cíclicamente la colección con una instancia de \texttt{Iterator} y no \texttt{LoopIterator}. Se muestra también el error reportado por la herramienta.}
+    \label{exp:restrictive-iterator:client_2}
+\end{figure}
+
+Que \textit{JaTyC} haya reportado errores con la instancia de la interfaz pero no de la clase tiene sentido: de inicializar un objeto de tipo \texttt{Iterator}, incluso con una instancia que permita más secuencias de métodos, el cliente va a esperar que se comporte como un \texttt{Iterator}.
+
+% ---------- Iterator ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.45\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)    {HasNext};
+\node[state]            (N) at (4.2,0)  {Next};
+\node[state, accepting] (E) at (0,-3)   {end};
+
+\path (H) edge [bend left] node {hasNext()=true} (N)
+          edge             node [swap] {hasNext()=false} (E)
+      (N) edge [bend left] node {next()} (H);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{Iterator}.}
+\label{exp:subtyping:iterator-protocol}
+\end{figure}
+
+A partir de esta prueba quisimos profundizar sobre este comportamiento de la herramienta. En particular, nos interesaba ver casos un poco más complejos de subprotocolado, y también que sucedería si un subprotocolo permitiese \textbf{menos secuencias de métodos} que su protocolo padre.
+
+Comenzamos la prueba definiendo una interfaz iterator, la cual tiene el protocolo de la Figura~\ref{exp:subtyping:iterator-protocol}. El mismo es una versión simplificada del protocolo anterior (Figura~\ref{exp:iterator_protocol}), donde siempre que \texttt{hasNext()} devuelva verdadero necesariamente debe de llamarse a \texttt{next()}, y de devolver falso termina su protocolo.
+
+Luego, fuimos diseñando distintas implementaciones de la interfaz con sus propios subprotocolos. En la Figura~\ref{exp:supersafeiterator_protocol}
+
+% ---------- SafeIterator ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.6\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)    {HasNext};
+\node[state]            (V) at (4.2,0)  {Verify};
+\node[state]            (N) at (8.4,0)  {Next};
+\node[state, accepting] (E) at (0,-3)   {end};
+
+\path (H) edge [bend left] node {hasNext()=true} (V)
+          edge             node [swap] {hasNext()=false} (E)
+      (V) edge [bend left] node {next()} (H)
+          edge             node {iAmSure()} (N)
+      (N) edge [bend right=55] node {next()} (H);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{SafeIterator}}
+\label{exp:safeiterator_protocol}
+\end{figure}
+
+% ---------- SuperSafeIterator ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.6\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)    {HasNext};
+\node[state]            (V) at (4.2,0)  {Verify};
+\node[state]            (N) at (8.4,0)  {Next};
+\node[state, accepting] (E) at (0,-3)   {end};
+
+\path (H) edge             node {hasNext()=true} (V)
+          edge             node [swap] {hasNext()=false} (E)
+      (V) edge             node {iAmSure()} (N)
+      (N) edge [bend right=45] node {next()} (H);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{SuperSafeIterator}}
+\label{exp:supersafeiterator_protocol}
+\end{figure}
+
+% ---------- TiredIterator ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.45\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)    {HasNext};
+\node[state]            (N) at (4.2,0)  {Next};
+\node[state]            (R) at (4.2,-3) {Rest};
+\node[state, accepting] (E) at (0,-3)   {end};
+
+\path (H) edge             node {hasNext()=true} (N)
+          edge             node [swap] {hasNext()=false} (E)
+      (N) edge             node {next()} (R)
+      (R) edge             node {rest()} (H);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{TiredIterator}}
+\label{exp:tirediterator_protocol}
+\end{figure}
+
+
 \section{Estado Vs Typestate}
 
 \section{Casos Bordes} % o \section{Capacidad de Modelado}

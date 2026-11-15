@@ -25,18 +25,18 @@
 - [ ] Arreglar indentación de código Java en el archivo JaTyC, ademas de registrar que el listing es de tipo language java
 - [ ] Experimentacion
   - [x] 24: Introduccion
-  - [ ] 24: Compound Protocols
-    - [ ] A futuro evaluar si queremos mencionar la terminacion de protocolos, no me parece que van a aportar mucha mas informacion. La conclusion es la misma, que jatyc no ve protocolos como compuestos, sino que toma al controlador como el cliente del robot, y a main como el cliente del controlador, por separado.=
-  - [ ] 24: Method Sequences Vs Correctness
-  - [ ] 25: Human Intervention
+  - [x] 24: Compound Protocols
+    - [x] A futuro evaluar si queremos mencionar la terminacion de protocolos, no me parece que van a aportar mucha mas informacion. La conclusion es la misma, que jatyc no ve protocolos como compuestos, sino que toma al controlador como el cliente del robot, y a main como el cliente del controlador, por separado.=
+  - [x] 24: Method Sequences Vs Correctness
+  - [x] 25: Human Intervention
   - [ ] 26: Subtyping
   - [ ] 27: State Versus Typestates
   - [ ] 28: Modeling Capabilities
   - [ ] 29: Aliasing
   - [ ] 30: Exceptions
-- [ ] How the tool works
-  - [ ] 1,2: Escribir cómo funciona en el paper que hicieron
-  - [ ] 3,4: Escribir cómo interactúa con el Checker Framework
+- [x] How the tool works
+  - [x] 1,2: Escribir cómo funciona en el paper que hicieron
+  - [x] 3,4: Escribir cómo interactúa con el Checker Framework
 - [ ] 5: Conclusion
 - [ ] 5: Escribir los abstracts
 - [ ] 5: Escribir agradecimientos
