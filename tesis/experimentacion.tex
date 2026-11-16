@@ -280,20 +280,20 @@ Estas pruebas muestran que la herramienta es susceptible al error humano, donde 
 
 \section{Subtipado}
 
-En relación a las funcionalidades de subtipado de la herramienta, nos interesaba explorar sus capacidades, sobretodo por ser una de sus principales distinciones con Mungo. Realizamos varias pruebas para entender cómo funcionaba, qué cosas permitía y qué no.
+En relación con las funcionalidades de subtipado de la herramienta, nos interesaba explorar sus capacidades, sobre todo por ser una de sus principales distinciones con Mungo. Realizamos varias pruebas para entender cómo funcionaba, qué cosas permitía y qué no.
 
-Un primer acercamiento a esta funcionalidad puede verse en uno de los experimentos de la sección anterior (Figuras~\ref{exp:iterator_protocol} y \ref{exp:loopiterator_protocol}), donde la clase \texttt{LoopIterator} implementaba la interfaz \texttt{Iterator}. Si observamos los protocolos, podemos apreciar que el de la clase \textbf{permite más secuencias de métodos} que el de su interfaz (protocolo padre). Con el código cliente de la Figura~\ref{exp:restrictive-iterator:client}, que instancia un objeto de tipo \texttt{LoopIterator}, \textit{JaTyC} no reporta ningún error a pesar de estar rompiendo el protocolo su interfaz. Realizamos la misma prueba pero con el código cliente de la Figura~\ref{exp:restrictive-iterator:client_2}, donde se instancia en vez a la interfaz \texttt{Iterator}, y esta vez la herramienta sí reportó un error de incumplimiento de protocolo.
+Un primer acercamiento a esta funcionalidad puede verse en uno de los experimentos de la sección anterior (Figuras~\ref{exp:iterator_protocol} y~\ref{exp:loopiterator_protocol}), donde la clase \texttt{LoopIterator} implementaba la interfaz \texttt{Iterator}. Si observamos los protocolos, podemos apreciar que el de la clase \textbf{permite más secuencias de métodos} que el de su interfaz (protocolo padre). Con el código cliente de la Figura~\ref{exp:restrictive-iterator:client}, que instancia un objeto de tipo \texttt{LoopIterator}, \textit{JaTyC} no reporta ningún error a pesar de que se rompe el protocolo de su interfaz. Realizamos la misma prueba con el código cliente de la Figura~\ref{exp:restrictive-iterator:client_2}, donde en cambio el objeto se declara con el tipo de la interfaz \texttt{Iterator}, y esta vez la herramienta sí reportó un error de incumplimiento de protocolo.
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting[language=Java]{./code/capitulo4/restrictive_iterator/ClientCode2.java}
     \vspace{0.3cm}
     \lstinputlisting{./code/capitulo4/restrictive_iterator/Error_2.txt}
-    \caption{Código cliente que intenta recorrer cíclicamente la colección con una instancia de \texttt{Iterator} y no \texttt{LoopIterator}. Se muestra también el error reportado por la herramienta.}
+    \caption{Código cliente que intenta recorrer cíclicamente la colección con un objeto declarado como \texttt{Iterator} y no como \texttt{LoopIterator}. Se muestra también el error reportado por la herramienta.}
     \label{exp:restrictive-iterator:client_2}
 \end{figure}
 
-Que \textit{JaTyC} haya reportado errores con la instancia de la interfaz pero no de la clase tiene sentido: de inicializar un objeto de tipo \texttt{Iterator}, incluso con una instancia que permita más secuencias de métodos, el cliente va a esperar que se comporte como un \texttt{Iterator}.
+Que \textit{JaTyC} haya reportado errores con el tipo de la interfaz pero no con el de la clase tiene sentido: al declarar un objeto de tipo \texttt{Iterator}, incluso si la instancia permite más secuencias de métodos, el cliente espera que se comporte como un \texttt{Iterator}.
 
 % ---------- Iterator ----------
 \begin{figure}[htbp]
@@ -312,9 +312,9 @@ Que \textit{JaTyC} haya reportado errores con la instancia de la interfaz pero n
 \label{exp:subtyping:iterator-protocol}
 \end{figure}
 
-A partir de esta prueba quisimos profundizar sobre este comportamiento de la herramienta. En particular, nos interesaba ver casos un poco más complejos de subprotocolado, y también que sucedería si un subprotocolo permitiese \textbf{menos secuencias de métodos} que su protocolo padre.
+A partir de esta prueba quisimos profundizar en este comportamiento. En particular, nos interesaba ver casos un poco más complejos de subprotocolado, y también qué sucedería si un subprotocolo permitiese \textbf{menos secuencias de métodos} que su protocolo padre.
 
-Comenzamos la prueba definiendo una interfaz iterator, la cual tiene el protocolo de la Figura~\ref{exp:subtyping:iterator-protocol}. El mismo es una versión simplificada del protocolo anterior (Figura~\ref{exp:iterator_protocol}), donde siempre que \texttt{hasNext()} devuelva verdadero necesariamente debe de llamarse a \texttt{next()}, y de devolver falso termina su protocolo.
+Comenzamos la prueba definiendo una interfaz \texttt{Iterator} con el protocolo de la Figura~\ref{exp:subtyping:iterator-protocol}. Es una versión simplificada del protocolo anterior (Figura~\ref{exp:iterator_protocol}): siempre que \texttt{hasNext()} devuelve verdadero debe llamarse a \texttt{next()}, y si devuelve falso el protocolo termina.
 
 % ---------- SafeIterator ----------
 \begin{figure}[htbp]
@@ -336,7 +336,7 @@ Comenzamos la prueba definiendo una interfaz iterator, la cual tiene el protocol
 \label{exp:safeiterator_protocol}
 \end{figure}
 
-Luego, fuimos diseñando distintas implementaciones de la interfaz con sus propios subprotocolos. En la Figura~\ref{exp:safeiterator_protocol} podemos ver el protocolo de \texttt{SafeIterator}, el cual es un iterador con un método extra \texttt{iAmSure()}, o ``\texttt{estoySeguro()}''. Básicamente, la clase se llama ``iterador seguro'' dado que se puede llamar a \texttt{iAmSure()} entre llamadas de \texttt{hasNext()} y \texttt{next()}, en cierta forma confirmando que se quiere acceder al próximo elemento. De todos modos, este método puede obviarse; puede observarse la transición desde el estado \textit{Verify} hacia \textit{HasNext} con el método \texttt{next()} en el autómata. En otras palabras, el protocolo de este iterador debería de tener todas las cadenas de llamadas de métodos de su interfaz.
+Luego diseñamos distintas implementaciones de la interfaz, cada una con su propio subprotocolo. En la Figura~\ref{exp:safeiterator_protocol} puede verse el protocolo de \texttt{SafeIterator}, un iterador con un método extra \texttt{iAmSure()} (``\texttt{estoySeguro()}''). La clase se llama ``iterador seguro'' porque se puede llamar a \texttt{iAmSure()} entre \texttt{hasNext()} y \texttt{next()}, confirmando de cierta forma que se quiere acceder al próximo elemento. No obstante, este método puede omitirse: en el autómata existe una transición desde \textit{Verify} hacia \textit{HasNext} con \texttt{next()}. En otras palabras, el protocolo de este iterador admite todas las secuencias de llamadas de su interfaz.
 
 % ---------- SuperSafeIterator ----------
 \begin{figure}[htbp]
@@ -357,7 +357,7 @@ Luego, fuimos diseñando distintas implementaciones de la interfaz con sus propi
 \label{exp:supersafeiterator_protocol}
 \end{figure}
 
-Por otro lado, en la Figura~\ref{exp:supersafeiterator_protocol} puede observarse el protocolo de una segunda variante de la clase anterior llamada \texttt{SuperSafeIterator}. La misma representa a un ``iterador super seguro'', y su protocolo lo demuestra dado que necesariamente hay que llamar al método \texttt{iAmSure()} entre llamadas de \texttt{hasNext()} y \texttt{next()}. Notemos que en este caso, la cadena de llamadas \texttt{hasNext();next()} ya no puede ser realizada, con lo cual este protocolo no permite todas las mismas secuencias que su interfaz.
+Por otro lado, en la Figura~\ref{exp:supersafeiterator_protocol} puede observarse el protocolo de una segunda variante llamada \texttt{SuperSafeIterator}, un ``iterador super seguro'' que obliga a llamar a \texttt{iAmSure()} entre \texttt{hasNext()} y \texttt{next()}. Notemos que en este caso la secuencia \texttt{hasNext();next()} ya no puede realizarse, con lo cual este protocolo no permite todas las secuencias de su interfaz.
 
 % ---------- TiredIterator ----------
 \begin{figure}[htbp]
@@ -378,20 +378,20 @@ Por otro lado, en la Figura~\ref{exp:supersafeiterator_protocol} puede observars
 \label{exp:tirediterator_protocol}
 \end{figure}
 
-Finalmente, en la Figura~\ref{exp:tirediterator_protocol} puede verse el protocolo para otra implementación \texttt{TiredIterator}. Como su nombre lo indica, la clase representa a un ``iterador cansado'', y luego de cada llamada a \texttt{next()} el protocolo exige que el cliente llame a un nuevo método \texttt{rest()} (descansar). Notemos que en este caso, la cadena de llamadas \texttt{hasNext();next();hasNext()}, permitida por la interfaz, ya no puede realizarse con este protocolo.
+Finalmente, en la Figura~\ref{exp:tirediterator_protocol} puede verse el protocolo para otra implementación, \texttt{TiredIterator}. Como su nombre lo indica, representa a un ``iterador cansado'': luego de cada llamada a \texttt{next()}, el protocolo exige que el cliente llame a un nuevo método \texttt{rest()} (descansar). Notemos que la secuencia \texttt{hasNext();next();hasNext()}, permitida por la interfaz, ya no puede realizarse con este protocolo.
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo4/subtyping_iterators/Error.txt}
-    \caption{Errores reportados por \textit{JaTyC} al analizar las relaciones de protocolos entre los iteradores de las Figuras~\ref{exp:subtyping:iterator-protocol}, \ref{exp:safeiterator_protocol}, \ref{exp:supersafeiterator_protocol} y \ref{exp:tirediterator_protocol}}.
+    \caption{Errores reportados por \textit{JaTyC} al analizar las relaciones de protocolos entre los iteradores de las Figuras~\ref{exp:subtyping:iterator-protocol}, \ref{exp:safeiterator_protocol}, \ref{exp:supersafeiterator_protocol} y~\ref{exp:tirediterator_protocol}.}
     \label{exp:subtyping:error}
 \end{figure}
 
-En la Figura~\ref{exp:subtyping:error} pueden verse los errores reportados por \textit{JaTyC} al analizar estos protocolos. En particular, reporta errores solo para las clases cuyos protocolos no permiten al menos todas las cadenas de métodos que la interfaz que implementan, \texttt{SuperSafeIterator} y \texttt{TiredIterator}. Para la primera clase, reporta que la transición con \texttt{next()} en el estado \textit{Next} de la interfaz no está presente desde el estado \textit{Verify}. Esto tiene sentido; como mencionamos, el \texttt{SuperSafeIterator} fuerza a llamar a \texttt{iAmSure()} antes de \texttt{next()}, y por ende esa transición no se encuentra disponible. Similarmente para la segunda clase, reporta correctamente que la transición con \texttt{hasNext()} en el estado \textit{HasNext} de \texttt{Iterator} no está desde el estado \textit{Rest}. Como notamos previamente, esto es esperado para el protocolo, dado que los clientes necesariamente deben de llamar a \texttt{rest()} luego de llamar a \texttt{next()}.
+En la Figura~\ref{exp:subtyping:error} pueden verse los errores reportados por \textit{JaTyC} al analizar estos protocolos. En particular, reporta errores solo para las clases cuyos protocolos no admiten todas las secuencias de métodos de la interfaz que implementan: \texttt{SuperSafeIterator} y \texttt{TiredIterator}. Para la primera, reporta que la transición con \texttt{next()} en el estado \textit{Next} de la interfaz no está presente desde el estado \textit{Verify}. Esto tiene sentido dado que, como mencionamos, el \texttt{SuperSafeIterator} fuerza a llamar a \texttt{iAmSure()} antes de \texttt{next()}, y por ende esa transición no está disponible. Similarmente, para la segunda reporta correctamente que la transición con \texttt{hasNext()} en el estado \textit{HasNext} de \texttt{Iterator} no está disponible desde el estado \textit{Rest}. Esto también es esperable, dado que los clientes deben llamar a \texttt{rest()} luego de \texttt{next()}.
 
-Con este experimento, confirmamos que la herramienta busca que todas las transiciones en el protocolo de un supertipo deben de estar disponibles también en el protocolo del subtipo. De ser así, como para el \texttt{SafeIterator}, no se reportará ningún error. De lo contrario, como para el \texttt{SuperSafeIterator} o \texttt{TiredIterator}, se especificará qué transiciones hacen falta para que los protocolos sean compatibles.
+Con este experimento confirmamos que la herramienta exige que todas las transiciones del protocolo de un supertipo estén disponibles también en el protocolo del subtipo. De ser así, como en \texttt{SafeIterator}, no se reporta ningún error. De lo contrario, como en \texttt{SuperSafeIterator} o \texttt{TiredIterator}, se especifica qué transiciones hacen falta para que los protocolos sean compatibles.
 
-Otro aspecto del subtipado de la herramienta que queríamos investigar era el de las finalizaciones de protocolo. \textit{JaTyC} se asegura de que si tanto un supertipo y un subtipo estan suscritos a protocolos diferentes, el protocolo del hijo incluya al del padre. De todos modos, nos preguntamos si esta inclusión tiene en cuenta todos los aspectos del protocolo, como por ejemplo los estados descartables. Nos interesaba saber si requería que además el subtipo pueda finalizar su protocolo de la misma forma en la que el supertipo lo hace.
+Otro aspecto del subtipado que queríamos investigar era el de las finalizaciones de protocolo. \textit{JaTyC} se asegura de que, si tanto un supertipo como un subtipo están suscriptos a protocolos diferentes, el protocolo del subtipo incluya al del supertipo. Sin embargo, nos preguntamos si esta inclusión tiene en cuenta todos los aspectos del protocolo, como los estados descartables. Nos interesa saber si además se requiere que el subtipo pueda finalizar su protocolo de la misma forma en que lo hace el supertipo.
 
 % ---------- Iterator (con drop) ----------
 \begin{figure}[htbp]
@@ -411,7 +411,7 @@ Otro aspecto del subtipado de la herramienta que queríamos investigar era el de
 \label{exp:droppable_iterator_protocol}
 \end{figure}
 
-Para ello, volvimos a crear una interfaz \texttt{Iterator} con su protocolo usual, pero con la diferencia de que ambos estados \textit{HasNext} y \textit{Next} sean descartables. El autómata final del protocolo puede observarse en la Figura~\ref{exp:droppable_iterator_protocol}.
+Para ello volvimos a crear una interfaz \texttt{Iterator} con su protocolo usual, pero con la diferencia de que ambos estados \textit{HasNext} y \textit{Next} son descartables. El autómata resultante puede observarse en la Figura~\ref{exp:droppable_iterator_protocol}.
 
 % ---------- SometimesDroppableIterator ----------
 \begin{figure}[htbp]
@@ -435,18 +435,20 @@ Para ello, volvimos a crear una interfaz \texttt{Iterator} con su protocolo usua
 \label{exp:sometimesdroppableiterator_protocol}
 \end{figure}
 
-Luego, por un lado creamos una primera implementación \texttt{NeverDroppableIterator}, la cual no tiene ningún estado descartable. Su protocolo es el mismo que el anterior \texttt{Iterator} de la Figura~\ref{exp:subtyping:iterator-protocol}, y por ende su única forma de transicionar a \texttt{end} es cuando \texttt{hasNext()} devuelve falso.
+Luego, por un lado, creamos una primera implementación, \texttt{NeverDroppableIterator}, la cual no tiene ningún estado descartable. Su protocolo es el del \texttt{Iterator} original, sin \texttt{drop} (Figura~\ref{exp:subtyping:iterator-protocol}), y por ende su única forma de transicionar a \texttt{end} es cuando \texttt{hasNext()} devuelve falso.
 
-Por otro lado, creamos una segunda implementación \texttt{SometimesDroppableIterator}, la cual tiene solo algunos estados descartables. El autómata de su protocolo puede verse en la Figura~\ref{exp:sometimesdroppableiterator_protocol}. La clase agrega un nuevo método \texttt{doNothing()}, o ``hacer nada'', el cual puede ser llamado entre \texttt{next()} y \texttt{hasNext()}. El protocolo define un \textit{typestate} nuevo, \textit{DoNothing}, desde donde se podrá llamar a este método y el cual no es descartable. Es importante observar que, para tanto esta como la clase anterior, se preservan todas las secuencias de llamadas de métodos de la interfaz, lo único que se cambian son las transiciones a \texttt{end} a través de estados descartables.
+Por otro lado, creamos una segunda implementación, \texttt{SometimesDroppableIterator}, con solo algunos estados descartables. El autómata de su protocolo puede verse en la Figura~\ref{exp:sometimesdroppableiterator_protocol}. La clase agrega un nuevo método \texttt{doNothing()} (``hacer nada''), que puede llamarse entre \texttt{next()} y \texttt{hasNext()}. El protocolo define un nuevo \textit{typestate}, \textit{DoNothing}, desde donde se puede llamar a este método y que no es descartable. Es importante observar que, tanto en esta clase como en la anterior, se preservan todas las secuencias de llamadas de métodos de la interfaz; lo único que cambia son las transiciones a \texttt{end} a través de estados descartables.
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting{./code/capitulo4/subtyping_with_droppables/Error.txt}
-    \caption{Errores reportados por \textit{JaTyC} al analizar las relaciones de protocolos entre los iteradores de las Figuras~\ref{exp:droppable_iterator_protocol}, \ref{exp:subtyping:iterator-protocol} y \ref{exp:sometimesdroppableiterator_protocol}}.
+    \caption{Errores reportados por \textit{JaTyC} al analizar las relaciones de protocolos entre los iteradores de las Figuras~\ref{exp:droppable_iterator_protocol}, \ref{exp:subtyping:iterator-protocol} y~\ref{exp:sometimesdroppableiterator_protocol}.}
     \label{exp:subtyping:drop-error}
 \end{figure}
 
-En la Figura~\ref{exp:subtyping:drop-error} pueden observarse los errores reportados por \textit{JaTyC} al analizar estos protocolos. En particular, reporta que varias transiciones a \texttt{end} no están presentes en los protocolos de ambas clases. Esto nos confirma que toda transición a la finalización del protocolo, tanto con llamadas a métodos como con estados descartables, son contempladas a la hora de evaluar el correcto subtipado de protocolos.
+En la Figura~\ref{exp:subtyping:drop-error} pueden observarse los errores reportados por \textit{JaTyC} al analizar estos protocolos. Para \texttt{NeverDroppableIterator} reporta dos errores: las transiciones \texttt{drop} de los estados \textit{HasNext} y \textit{Next} de la interfaz no están presentes en los estados equivalentes de la clase, ya que ninguno es descartable. Para \texttt{SometimesDroppableIterator} reporta un error: la transición \texttt{drop} del estado \textit{HasNext} de la interfaz no está presente en el estado \textit{DoNothing} de la clase, que no es descartable. Esto confirma que toda transición a la finalización del protocolo, tanto mediante llamadas a métodos como mediante estados descartables, es contemplada al evaluar el correcto subtipado de protocolos.
+
+En resumen, los experimentos muestran que \textit{JaTyC} entiende el subtipado de protocolos como una relación de inclusión: el protocolo del subtipo debe admitir todas las secuencias de llamadas del protocolo del supertipo. Esto incluye las que terminan en \texttt{end}, ya sea mediante una llamada a un método o mediante un estado descartable. El subtipo puede ofrecer secuencias adicionales, como en \texttt{SafeIterator} y \texttt{LoopIterator}, pero no puede restringir las del supertipo, como en \texttt{SuperSafeIterator} o \texttt{SometimesDroppableIterator}.
 
 \section{Estado Vs Typestate}
 
