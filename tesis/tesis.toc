@@ -45,7 +45,7 @@
 \contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{32}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Intervención Humana}{34}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Subtipado}{37}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{40}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Casos Bordes}{40}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Aliasing}{40}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Excepciones}{40}{section.4.8}%
+\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{42}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Casos Bordes}{42}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Aliasing}{42}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Excepciones}{42}{section.4.8}%

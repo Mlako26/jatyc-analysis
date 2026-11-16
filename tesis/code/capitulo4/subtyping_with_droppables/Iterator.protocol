@@ -1,0 +1,10 @@
+typestate Iterator {
+  HasNext = {
+    boolean hasNext(): <true: Next, false: end>,
+    drop: end
+  }
+  Next = {
+    Object next(): HasNext,
+    drop: end
+  }
+}

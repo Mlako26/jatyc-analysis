@@ -560,6 +560,12 @@ INPUT ./code/capitulo4/restrictive_iterator/ClientCode2.java
 INPUT ./code/capitulo4/restrictive_iterator/Error_2.txt
 INPUT ./code/capitulo4/restrictive_iterator/Error_2.txt
 INPUT ./code/capitulo4/restrictive_iterator/Error_2.txt
+INPUT ./code/capitulo4/subtyping_iterators/Error.txt
+INPUT ./code/capitulo4/subtyping_iterators/Error.txt
+INPUT ./code/capitulo4/subtyping_iterators/Error.txt
+INPUT ./code/capitulo4/subtyping_with_droppables/Error.txt
+INPUT ./code/capitulo4/subtyping_with_droppables/Error.txt
+INPUT ./code/capitulo4/subtyping_with_droppables/Error.txt
 INPUT ./tesis.bbl
 INPUT ./tesis.bbl
 INPUT tesis.bbl
