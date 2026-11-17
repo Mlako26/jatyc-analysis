@@ -29,8 +29,8 @@
     - [x] A futuro evaluar si queremos mencionar la terminacion de protocolos, no me parece que van a aportar mucha mas informacion. La conclusion es la misma, que jatyc no ve protocolos como compuestos, sino que toma al controlador como el cliente del robot, y a main como el cliente del controlador, por separado.=
   - [x] 24: Method Sequences Vs Correctness
   - [x] 25: Human Intervention
-  - [ ] 26: Subtyping
-  - [ ] 27: State Versus Typestates
+  - [x] 26: Subtyping
+  - [x] 27: State Versus Typestates
   - [ ] 28: Modeling Capabilities
   - [ ] 29: Aliasing
   - [ ] 30: Exceptions
