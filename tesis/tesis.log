@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  16 NOV 2026 00:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  17 NOV 2026 00:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -661,21 +661,21 @@ Cap\'{\i }tulo 2.
 [3
 
 ]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 26.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 27.
  (./code/capitulo2/iterator_example.java)
-LaTeX Info: Redefining \. on input line 44.
-LaTeX Info: Redefining \% on input line 44.
+LaTeX Info: Redefining \. on input line 45.
+LaTeX Info: Redefining \% on input line 45.
  [4] (./code/capitulo2/plaid_example.plaid
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <9> on input line 6.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 6.
 )
-LaTeX Info: Redefining \. on input line 65.
-LaTeX Info: Redefining \% on input line 65.
+LaTeX Info: Redefining \. on input line 66.
+LaTeX Info: Redefining \% on input line 66.
  [5] (./code/capitulo2/mungo_protocol.protocol)
-LaTeX Info: Redefining \. on input line 81.
-LaTeX Info: Redefining \% on input line 81.
+LaTeX Info: Redefining \. on input line 82.
+LaTeX Info: Redefining \% on input line 82.
  [6]) (./jatyc.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
@@ -704,51 +704,51 @@ LaTeX Info: Redefining \% on input line 190.
 LaTeX Info: Redefining \. on input line 224.
 LaTeX Info: Redefining \% on input line 224.
  [14]
-LaTeX Info: Redefining \. on input line 250.
-LaTeX Info: Redefining \% on input line 250.
+LaTeX Info: Redefining \. on input line 251.
+LaTeX Info: Redefining \% on input line 251.
  [15]
-LaTeX Info: Redefining \. on input line 353.
-LaTeX Info: Redefining \% on input line 353.
+LaTeX Info: Redefining \. on input line 354.
+LaTeX Info: Redefining \% on input line 354.
  [16]
-LaTeX Info: Redefining \. on input line 371.
-LaTeX Info: Redefining \% on input line 371.
+LaTeX Info: Redefining \. on input line 372.
+LaTeX Info: Redefining \% on input line 372.
  [17]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 387.
-LaTeX Info: Redefining \. on input line 424.
-LaTeX Info: Redefining \% on input line 424.
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 388.
+LaTeX Info: Redefining \. on input line 425.
+LaTeX Info: Redefining \% on input line 425.
  [18]
-LaTeX Info: Redefining \. on input line 434.
-LaTeX Info: Redefining \% on input line 434.
+LaTeX Info: Redefining \. on input line 435.
+LaTeX Info: Redefining \% on input line 435.
  [19]
-LaTeX Info: Redefining \. on input line 484.
-LaTeX Info: Redefining \% on input line 484.
+LaTeX Info: Redefining \. on input line 485.
+LaTeX Info: Redefining \% on input line 485.
  [20]
-LaTeX Info: Redefining \. on input line 496.
-LaTeX Info: Redefining \% on input line 496.
+LaTeX Info: Redefining \. on input line 497.
+LaTeX Info: Redefining \% on input line 497.
  [21]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 503.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 504.
  (./code/capitulo3/If.Java)
-LaTeX Info: Redefining \. on input line 537.
-LaTeX Info: Redefining \% on input line 537.
+LaTeX Info: Redefining \. on input line 538.
+LaTeX Info: Redefining \% on input line 538.
  [22] (./code/capitulo3/While.Java)
-LaTeX Info: Redefining \. on input line 558.
-LaTeX Info: Redefining \% on input line 558.
+LaTeX Info: Redefining \. on input line 559.
+LaTeX Info: Redefining \% on input line 559.
  [23]
-LaTeX Info: Redefining \. on input line 577.
-LaTeX Info: Redefining \% on input line 577.
+LaTeX Info: Redefining \. on input line 578.
+LaTeX Info: Redefining \% on input line 578.
  [24]
-Overfull \hbox (21.51659pt too wide) in paragraph at lines 580--581
+Overfull \hbox (21.51659pt too wide) in paragraph at lines 581--582
 []\OT1/cmr/m/n/10.95 La pri-me-ra fa-se s^^S^^P se pa-re-ce al com-por-ta-mien-to ha-bi-tual de las sub-cla-ses del \OT1/cmtt/m/n/10.95 SourceVisitor\OT1/cmr/m/n/10.95 :
  []
 
 
-Overfull \hbox (43.32774pt too wide) in paragraph at lines 580--581
+Overfull \hbox (43.32774pt too wide) in paragraph at lines 581--582
 \OT1/cmr/m/n/10.95 que, por ca-da cla-se vi-si-ta-da, es-ta se tra-duz-ca a su re-pre-sen-ta-ci^^Son in-ter-na (\OT1/cmtt/m/n/10.95 ClassDeclAndCompanion\OT1/cmr/m/n/10.95 ),
  []
 
-LaTeX Info: Redefining \. on input line 593.
-LaTeX Info: Redefining \% on input line 593.
+LaTeX Info: Redefining \. on input line 594.
+LaTeX Info: Redefining \% on input line 594.
 [25]) (./experimentacion.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
@@ -801,10 +801,22 @@ LaTeX Info: Redefining \% on input line 415.
  [40] (./code/capitulo4/subtyping_with_droppables/Error.txt)
 LaTeX Info: Redefining \. on input line 450.
 LaTeX Info: Redefining \% on input line 450.
- [41])
+ [41]
+LaTeX Info: Redefining \. on input line 460.
+LaTeX Info: Redefining \% on input line 460.
+ [42] (./code/capitulo4/state_equals_typestate/MoveToEndIterator.java) (./code/capitulo4/state_equals_typestate/MoveToEndIterator.protocol) (./code/capitulo4/state_equals_typestate/MoveToEndIterator.java)
+LaTeX Info: Redefining \. on input line 485.
+LaTeX Info: Redefining \% on input line 485.
+ [43] (./code/capitulo4/public_stack/Stack.java) (./code/capitulo4/public_stack/StackProtocol.protocol) (./code/capitulo4/public_stack/Main.java) (./code/capitulo4/public_stack/Error.txt)
+LaTeX Info: Redefining \. on input line 516.
+LaTeX Info: Redefining \% on input line 516.
+ [44]
+LaTeX Info: Redefining \. on input line 516.
+LaTeX Info: Redefining \% on input line 516.
+ [45])
 LaTeX Info: Redefining \. on input line 122.
 LaTeX Info: Redefining \% on input line 122.
- [42] (./tesis.bbl
+ [46] (./tesis.bbl
 Underfull \hbox (badness 3158) in paragraph at lines 53--57
 []\OT1/cmr/m/n/10.95 Checker Fra-me-work.  The chec-ker fra-me-work of-fi-cial ma-nual.  []$\OT1/cmtt/m/n/10.95 https : / /
  []
@@ -814,7 +826,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 75--79
 []\OT1/cmr/m/n/10.95 JastAdd.  Jas-tAdd - Ap-pli-ca-tions.  []$\OT1/cmtt/m/n/10.95 https : / / jastadd . cs . lth . se / web /
  []
 
-[43
+[47
 
 
 ]
@@ -825,7 +837,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 110--114
 )
 LaTeX Info: Redefining \. on input line 126.
 LaTeX Info: Redefining \% on input line 126.
- [44] (./tesis.aux
+ [48] (./tesis.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -837,18 +849,18 @@ Package rerunfilecheck Info: File `tesis.out' has not changed.
 (rerunfilecheck)             Checksum: 5719E3F4C58C4A54CF425CF417E76BDD;5713.
  ) 
 Here is how much of TeX's memory you used:
- 28001 strings out of 467099
- 533973 string characters out of 5412503
- 1292395 words of memory out of 5000000
- 56071 multiletter control sequences out of 15000+600000
+ 28163 strings out of 467099
+ 537821 string characters out of 5412503
+ 1373901 words of memory out of 5000000
+ 56098 multiletter control sequences out of 15000+600000
  637963 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  92i,14n,94p,1988b,1443s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (50 pages, 484339 bytes).
+Output written on tesis.pdf (54 pages, 499621 bytes).
 PDF statistics:
- 1455 PDF objects out of 1728 (max. 8388607)
- 1340 compressed objects within 14 object streams
- 714 named destinations out of 1000 (max. 500000)
+ 1618 PDF objects out of 1728 (max. 8388607)
+ 1498 compressed objects within 15 object streams
+ 832 named destinations out of 1000 (max. 500000)
  330 words of extra memory for PDF output out of 10000 (max. 10000000)
 

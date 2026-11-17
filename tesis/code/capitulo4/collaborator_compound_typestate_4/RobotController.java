@@ -2,7 +2,7 @@ import jatyc.lib.*;
 
 @Typestate("RobotControllerProtocol")
 public class RobotController {
-    private Robot robot;
+  private Robot robot;
 
 	public RobotController() {
 		this.robot = new Robot();

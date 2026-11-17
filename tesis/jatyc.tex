@@ -229,6 +229,7 @@ Como parte de esta funcionalidad, \textit{JaTyC} también introduce lógica para
 Con todas las características mencionadas anteriormente, \textit{JaTyC} consigue determinar en tiempo de compilación que todos los objetos sigan y completen sus protocolos, de tenerlos. En otras palabras, verifica que los métodos de los objetos se llamen en el orden correcto y que los objetos se utilicen hasta el final. Además, mediante sus anotaciones permite detectar potenciales errores de punteros nulos y especificar los typestates esperados para parámetros y valores de retorno de métodos. Finalmente, da soporte al subtipado, permitiendo a los usuarios aplicar herencia entre cualquier clase y manteniendo la correcta verificación de protocolos.
 
 \section{Limitaciones}
+\label{limitaciones}
 
 Los autores describieron en la documentación oficial~\cite{jatyc:documentation} algunas limitaciones de la herramienta en las que están trabajando. Consideramos relevante tenerlas en cuenta a la hora de analizar las capacidades de \textit{JaTyC}, dado que condicionan el tipo de programas que pueden verificarse y ayudan a interpretar correctamente algunos resultados obtenidos en nuestros experimentos. A continuación, se detallan las más relevantes para nuestro trabajo.
 
