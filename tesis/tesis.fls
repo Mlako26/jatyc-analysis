@@ -587,6 +587,12 @@ INPUT ./code/capitulo4/public_stack/Main.java
 INPUT ./code/capitulo4/public_stack/Error.txt
 INPUT ./code/capitulo4/public_stack/Error.txt
 INPUT ./code/capitulo4/public_stack/Error.txt
+INPUT ./code/capitulo4/exception_stack/Stack.java
+INPUT ./code/capitulo4/exception_stack/Stack.java
+INPUT ./code/capitulo4/exception_stack/Stack.java
+INPUT ./code/capitulo4/exception_stack/Main.java
+INPUT ./code/capitulo4/exception_stack/Main.java
+INPUT ./code/capitulo4/exception_stack/Main.java
 INPUT ./tesis.bbl
 INPUT ./tesis.bbl
 INPUT tesis.bbl

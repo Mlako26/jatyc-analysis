@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  17 NOV 2026 00:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  17 NOV 2026 23:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -813,10 +813,16 @@ LaTeX Info: Redefining \% on input line 516.
  [44]
 LaTeX Info: Redefining \. on input line 516.
 LaTeX Info: Redefining \% on input line 516.
- [45])
+ [45] (./code/capitulo4/exception_stack/Stack.java) (./code/capitulo4/exception_stack/Main.java)
+LaTeX Info: Redefining \. on input line 539.
+LaTeX Info: Redefining \% on input line 539.
+ [46]
+LaTeX Info: Redefining \. on input line 542.
+LaTeX Info: Redefining \% on input line 542.
+ [47])
 LaTeX Info: Redefining \. on input line 122.
 LaTeX Info: Redefining \% on input line 122.
- [46] (./tesis.bbl
+ [48] (./tesis.bbl
 Underfull \hbox (badness 3158) in paragraph at lines 53--57
 []\OT1/cmr/m/n/10.95 Checker Fra-me-work.  The chec-ker fra-me-work of-fi-cial ma-nual.  []$\OT1/cmtt/m/n/10.95 https : / /
  []
@@ -826,7 +832,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 75--79
 []\OT1/cmr/m/n/10.95 JastAdd.  Jas-tAdd - Ap-pli-ca-tions.  []$\OT1/cmtt/m/n/10.95 https : / / jastadd . cs . lth . se / web /
  []
 
-[47
+[49
 
 
 ]
@@ -837,7 +843,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 110--114
 )
 LaTeX Info: Redefining \. on input line 126.
 LaTeX Info: Redefining \% on input line 126.
- [48] (./tesis.aux
+ [50] (./tesis.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -849,18 +855,18 @@ Package rerunfilecheck Info: File `tesis.out' has not changed.
 (rerunfilecheck)             Checksum: 5719E3F4C58C4A54CF425CF417E76BDD;5713.
  ) 
 Here is how much of TeX's memory you used:
- 28162 strings out of 467099
- 537933 string characters out of 5412503
- 1374902 words of memory out of 5000000
- 56101 multiletter control sequences out of 15000+600000
+ 28229 strings out of 467099
+ 539259 string characters out of 5412503
+ 1375048 words of memory out of 5000000
+ 56117 multiletter control sequences out of 15000+600000
  637963 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  92i,14n,94p,1988b,1443s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (54 pages, 499831 bytes).
+Output written on tesis.pdf (56 pages, 506899 bytes).
 PDF statistics:
- 1612 PDF objects out of 1728 (max. 8388607)
- 1492 compressed objects within 15 object streams
- 828 named destinations out of 1000 (max. 500000)
+ 1679 PDF objects out of 1728 (max. 8388607)
+ 1556 compressed objects within 16 object streams
+ 874 named destinations out of 1000 (max. 500000)
  330 words of extra memory for PDF output out of 10000 (max. 10000000)
 
