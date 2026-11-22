@@ -624,7 +624,6 @@ El problema con esta configuración es que asume que la versión inmutable no ti
     \label{exp:dropped-list:client}
 \end{figure}
 
-
 Nuestro siguiente acercamiento fue intentar hacer esto mismo: combinar dos protocolos diferentes en uno, y asignándoselos a las instancias nuevas según la variante. De todos modos, \textit{JaTyC} no permite suscribir a un objeto a un protocolo u otro condicionalmente. Para solventar esto, diseñamos ambos protocolos por separado, y luego agregamos todos los \textit{typestates} a un mismo protocolo compartido. Luego, nuevas instancias del objeto comenzarán en el estado inicial de su sub-protocolo correspondiente.
 
 \begin{figure}[htbp]
@@ -646,9 +645,24 @@ Por otro lado, si el objeto inmutable precisa de un protocolo propio pero con al
 
 \subsection{Métodos Constructores}
 
-\textit{JaTyC} no permite incluir a los métodos estáticos dentro de un protocolo. Esto tiene sentido, dado que la herramienta intenta razonar sobre el estado de un objeto en todo punto de su ciclo de vida, y los métodos estáticos son métodos de la clase en vez. Incluso en lo detallado en la sección~\ref{alg:class-analisis}, los métodos estáticos se separan de los no estáticos para analizar por separado en cualquier orden.
+Tanto en la documentación de la herramienta como en la tesis sobre su primera versión, en ningún momento se menciona que \textit{JaTyC} permita incluir a los métodos de clase dentro de un protocolo. Esto tiene sentido, dado que la herramienta intenta razonar sobre el estado de un objeto en todo punto de su ciclo de vida y estos otros métodos, tales como los estáticos o constructores, no le pertenencen a la instancia en sí. Incluso en lo detallado en la sección~\ref{alg:class-analisis}, los métodos estáticos se separan de los no estáticos para analizar por separado en cualquier orden.
 
-Esto debería de incluir también al método constructor, el cual no puede mencionarse dentro de los protocolos. Si pudiésemos hacerlo, o a través de una funcionalidad similar, podríamos por ejemplo cambiar el el protocolo según el método constructor utilizado. En la sección anterior, logramos cambiar el protocolo utilizando métodos estáticos de instanciación de la clase, pero tuvimos que 
+En particular, el método consturctor de una clase no puede mencionarse dentro de los protocolos. Esto, o una funcionalidad similar, sería útil para, por ejemplo, permitir cambiar el protocolo según el método constructor utilizado. En la sección anterior logramos algo parecido: cambiamos el protocolo de la clase \texttt{ImmutableList} utilizando métodos estáticos de instanciación de la clase. De todos modos, para hacerlo tuvimos que agregar métodos como \texttt{immutable()} a la clase y al protocolo. Esto es un costo accidental por la falta de soporte de la herramienta y representa un método sin relevancia de modelado para la lista, lo cual agregar ruido y en general se puede considerar mal diseño. Poder distinguir entre protocolos según el método constructor facilitaría esto.
+
+Otro ejemplo práctico donde los constructores tienen influencia sobre los métodos disponibles de una instancia es la clase \texttt{Throwable}~\cite{java-docs:throwable} nativa de Java. La misma tiene un método \texttt{initCause()} para inicializar la ``causa'' de la excepción, y solo puede llamarse una vez. Dado que hay constructores sobrecargados para la clase, una llamada al constructor con un argumento \texttt{cause} provoca que este método no pueda llamarse ni una vez para la instancia. En otras palabras, solamente puede llamarse a \texttt{initCause()} si en el constructor no se provee ya la causa.
+
+A pesar de ya saber que \textit{JaTyC} probablemente no permitía incluir a los métodos constructores dentro del protocolo, decidimos intentarlo en un pequeño experimento. En la Figura~\ref{exp:constructor} puede verse un protocolo para un iterador el cual su estado inicial solo incluye al método constructor. La herramienta reporta que este método \texttt{Iterator()} (el constructor) es requerido por el protocolo pero no está implementado. Esto tiene sentido, dado que probablemente lo interpreta como un método de instancia, y el constructor estaba implementado pero normalmente (como método de clase). Intentar quitarle el tipo de retorno en el protocolo, similar a la declaración usual del método \texttt{Iterator(int[]): HasNext}, produce otro error de la herramienta sobre sintaxis inválida de protocolo. 
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/constructor_protocol/Iterator.protocol}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/constructor_protocol/Error.txt}
+    \caption{Protocolo para \texttt{Iterator} que incluye al método constructor en su estado Inicial. \textit{JaTyC} reporta un error.}
+    \label{exp:constructor}
+\end{figure}
+
+Esto nos muestra que, efectivamente, \textit{JaTyC} no soporta el agregado de métodos constructores en sus protocolos.
 
 \section{Excepciones}
 

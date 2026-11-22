@@ -31,9 +31,9 @@
   - [x] 25: Human Intervention
   - [x] 26: Subtyping
   - [x] 27: State Versus Typestates
-  - [ ] 28: Modeling Capabilities
+  - [x] 28: Modeling Capabilities
   - [ ] 29: Aliasing
-  - [ ] 30: Exceptions
+  - [x] 30: Exceptions
 - [x] How the tool works
   - [x] 1,2: Escribir cómo funciona en el paper que hicieron
   - [x] 3,4: Escribir cómo interactúa con el Checker Framework
