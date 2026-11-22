@@ -516,8 +516,6 @@ Por un lado, esto muestra que \textit{JaTyC} comprende, en cierto sentido, que e
 
 En síntesis, los experimentos muestran que en \textit{JaTyC} el \textit{typestate} de un objeto es una abstracción que la herramienta rastrea de forma independiente de su estado interno concreto. La herramienta garantiza que los clientes respeten el protocolo y restringe parte de los accesos que podrían desincronizar ambos planos, como el acceso externo a colaboradores públicos, pero no verifica que cada \textit{typestate} se corresponda con una o varias configuraciones válidas del estado interno. Esa correspondencia, de la cual depende que seguir el protocolo implique efectivamente la ausencia de fallas, queda a cargo del desarrollador. Por lo tanto, las garantías de \textit{JaTyC} deben entenderse como garantías de cumplimiento del protocolo y no como garantías de corrección de la implementación.
 
-\section{Aliasing}
-
 \section{Capacidades de Modelado}
 
 En esta sección no trataremos conceptos generales sobre \textit{object protocols} o \textit{typestates}, sino sobre distintas experimentaciones que realizamos con \textit{JaTyC} para entender sus capacidades de modelado. Mencionaremos las pruebas y hallazgos que consideramos más relevantes, mostrando las habilidades y limitaciones de la herramienta a la hora de utilizarla.
@@ -569,6 +567,7 @@ En la Figura~\ref{exp:overloaded:error} se aprecia el código cliente que utiliz
 Lo que ambos experimentos nos muestran es que, tanto para sobrecarga de métodos en el mismo \textit{typestate} como en separados, \textit{JaTyC} es claramente capaz de procesarlos como métodos completamente distintos y no confundir las variantes. En ese sentido, parecería dar soporte a la sobrecarga sin problemas.
 
 \subsection{@Ensures en Parámetros}
+\label{exp:ensures}
 
 Como mencionamos en la sección~\ref{ensures}, luego de experimentar con la herramienta descubrimos su capacidad de anotar parámetros de métodos con \texttt{@Ensures}. A pesar de que esta funcionalidad no está mencionada en su documentación actual, la primera versión de \textit{JaTyC} basada en el trabajo de João Mota~\cite{jatyc:msc-thesis} la incluía de base. Esto permite especificar el \textit{typestate} de un parámetro luego de finalizar el método, y los argumentos provistos por el cliente al llamarlo vuelven a ser referencias lineales al objeto en ese estado. Dado que esta característica eleva la expresabilidad de la herramienta a lo hora de utilizar los \textit{typestates}, nos pareció interesante mencionarlo.
 
@@ -663,6 +662,48 @@ A pesar de ya saber que \textit{JaTyC} probablemente no permitía incluir a los 
 \end{figure}
 
 Esto nos muestra que, efectivamente, \textit{JaTyC} no soporta el agregado de métodos constructores en sus protocolos.
+
+\section{Aliasing}
+
+Una particularidad de la herramienta es su manejo del \textbf{aliasing}, cuando varias variables referencian al mismo objeto en memoria. \textit{JaTyC} permite mantener solamente una referencia lineal del objeto, la cual es capaz de llamar todos sus métodos disponibles y alterar su \textit{typestate}. El resto de las referencia son compartidas, y solamente pueden llamar a sus métodos no mencionados por el protocolo. De este modo, la herramienta se asegura que el estado de un objeto solo puede ser alterado por una variable a la vez, y solventar los problemas típicos que vienen con realizar análisis de códgio estático en la presencia de aliasing. En esta sección quisimos profundizar sobre la capacidad de la herramienta para manejar el aliasing en situaciones interesantes.
+
+Unas primeras pruebas son las realizadas en la sección~\ref{exp:ensures}, donde se probaba que la herramienta permitía el uso de la anotación \texttt{@Ensures} en parámetros de métodos. En ellas puede verse que al pasar como argumento a un método una referencia lineal (con la anotación \texttt{@Requires}), la linealidad se pierde dentro del método llamado y la referencia local termina siendo compartida. Esto provoca que la utilización de objetos protocolados en presencia de llamadas a métodos se dificulte y sea un poco inflexible: el cliente siempre pierde la referencia lineal del objeto, y el método debe de asegurarse que el mismo finalize su protocolo. En ese sentido, el poder utilizar la anotación \texttt{@Ensures} permite que la posesión del objeto siga siendo del cliente origianl, y la responsabilidad de finalizar su protocolo permanenza más cerca al lugar de donde se instanció.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+    \lstinputlisting{./code/capitulo4/parameter_ensures_3/StackProtocol.protocol}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \lstinputlisting[language=Java]{./code/capitulo4/parameter_ensures_3/Main.java}
+\end{minipage}
+\caption{Protocolo de una clase \texttt{Stack} que solo finaliza al llamar a \texttt{close()}. Al lado el código cliente que utiliza el objeto.}
+\label{exp:parameter-ensures-3}
+\end{figure}
+
+Un experimento que se desprende del anterior es eso mismo: probar que sin utilizar la anotación \textit{JaTyC} requiere que el parámetro con referencia lineal finalize su protocolo antes de terminar el \textit{scope} del método. En la Figura~\ref{exp:parameter-ensures-3} mostramos el protocolo de una clase 
+\texttt{Stack} muy similar a las anteriores, pero que solo puede transicionar a \texttt{end} al llamar al método \texttt{close()} (no hay estados descartables). Al lado puede observarse el mismo código cliente de la Figura~\ref{exp:parameter-ensures-1}, contando con un método \texttt{pushtoStack()} el cual anota al parámetro \texttt{stack} con \texttt{@Requires}, haciendo que la referencia sea lineal. Notemos que no se utilizó \texttt{@Ensures}, con lo cual esta linealidad no puede volver hacia el método \texttt{main()} al finalizar. También notemos que no se llama al método \texttt{close()} para terminar el protocolo.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting{./code/capitulo4/parameter_ensures_3/Error.txt}
+\caption{Errores reportados por \textit{JaTyC} al analizar la configuración de la Figura~\ref{exp:parameter-ensures-3}.}
+\label{exp:parameter-ensures-3:error}
+\end{figure}
+
+En la Figura~\ref{exp:parameter-ensures-3:error} pueden verse los errores reportados por \textit{JaTyC}. El segundo menciona que, luego de delegar la referencia lineal en la llamada de método, la variable \texttt{stack} es compartida y por ende sus métodos protocolados (\texttt{isFull()}) ya no pueden ser llamados. Este es el mismo error que el reportado en la Figura~\ref{parameter-ensures-1}. El primer error reporta lo que pretendíamos, que la pila no finalizó su protocolo, y apunta al método \texttt{pushToStack()} como el culpable. Esto nos muestra que efectivamente la transferencia de linealidad del objeto hacia el método sucedió, y \textit{JaTyC} espera que con ella también lo haga la responsabilidad de dejarlo en un estado final correcto.
+
+Otro expermiento interesante para hacer es qué pasaría si permitiésemos compartir referencias a colaboradores internos protocolados. Es decir, ¿nos permitiría \textit{JaTyC} construir métodos \textit{getters} para colaboradores internos con protocolo? ¿A caso la referencia local se transformría en una compartida?
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_3/Main.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/collaborator_compound_typestate_3/Error.txt}
+    \caption{Errores reportados por \textit{JaTyC} al analizar el código del controlador en la Figura \ref{exp:compound-3:controller} y su respectivo código cliente \texttt{Main}.}
+    \label{exp:compound-3:error}
+\end{figure}
 
 \section{Excepciones}
 

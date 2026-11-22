@@ -1,0 +1,26 @@
+typestate RobotProtocol {
+  TopLeft = {
+    void moveRight(): TopRight,
+    void moveDown(): BotLeft,
+    void rest(): end,
+    drop: end
+  }
+  BotLeft = {
+    void moveRight(): BotRight,
+    void moveUp(): TopLeft,
+    void rest(): end,
+    drop: end
+  }
+  TopRight = {
+    void moveLeft(): TopLeft,
+    void moveDown(): BotRight,
+    void rest(): end,
+    drop: end
+  }
+  BotRight = {
+    void moveLeft(): BotLeft,
+    void moveUp(): TopRight,
+    void rest(): end,
+    drop: end
+  }
+}
