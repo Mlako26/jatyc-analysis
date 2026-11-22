@@ -1,0 +1,4 @@
+Main.java:7: error: Cannot call [isFull] on Shared{Stack}
+    if (!stack.isFull()) {
+                     ^
+1 error

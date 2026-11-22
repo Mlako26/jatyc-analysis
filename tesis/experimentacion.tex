@@ -516,9 +516,139 @@ Por un lado, esto muestra que \textit{JaTyC} comprende, en cierto sentido, que e
 
 En síntesis, los experimentos muestran que en \textit{JaTyC} el \textit{typestate} de un objeto es una abstracción que la herramienta rastrea de forma independiente de su estado interno concreto. La herramienta garantiza que los clientes respeten el protocolo y restringe parte de los accesos que podrían desincronizar ambos planos, como el acceso externo a colaboradores públicos, pero no verifica que cada \textit{typestate} se corresponda con una o varias configuraciones válidas del estado interno. Esa correspondencia, de la cual depende que seguir el protocolo implique efectivamente la ausencia de fallas, queda a cargo del desarrollador. Por lo tanto, las garantías de \textit{JaTyC} deben entenderse como garantías de cumplimiento del protocolo y no como garantías de corrección de la implementación.
 
-\section{Casos Bordes} % o \section{Capacidad de Modelado}
-
 \section{Aliasing}
+
+\section{Capacidades de Modelado}
+
+En esta sección no trataremos conceptos generales sobre \textit{object protocols} o \textit{typestates}, sino sobre distintas experimentaciones que realizamos con \textit{JaTyC} para entender sus capacidades de modelado. Mencionaremos las pruebas y hallazgos que consideramos más relevantes, mostrando las habilidades y limitaciones de la herramienta a la hora de utilizarla.
+
+\subsection{Sobrecarga de Métodos}
+
+Una carácterística de Java que mejora la expresabilidad de los programas es la capacidad de \textbf{sobrecargar métodos}. Esto implica definir para una misma clase métodos con el mismo nombre pero con diferentes parámetros. La sobrecarga de métodos permite agrupar operaciones que conceptualmente hacen lo mismo, fomenta las interfaces más limpias y con menos cantidad de nombres de métodos, y flexibiliza las llamadas por parte de los clientes, entre otras cosas.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/Sobrecarga.java}
+    \caption{Ejemplo de sobrecarga de métodos en Java.}
+    \label{exp:overload:example}
+\end{figure}
+
+En la Figura~\ref{exp:overload:example} puede verse un ejemplo de sobrecarga de métodos, donde se presentan tres variaciones de \texttt{add()}. Como el nombre indica, las mismas suman los valores de los parámetros pasados, pero el número y tipo de parámetros varía según la declaración. La primera declaración suma dos enteros, la segunda tres, y la tercera dos números de punto flotante.
+
+Nos interesaba saber si \textit{JaTyC} permitía diseñar y verificar protocolos involucrando métodos sobrecargados. Para ello, realizamos pruebas con una pila similar a las vistas anteriormente, pero con dos métodos distintos para apilar, \texttt{push(int)} para enteros y \texttt{push(float)} para números de punto flotante.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/overloaded_stack_1/StackProtocol.protocol}
+    \caption{Protocolo de una pila donde se utilizan ambas versiones del método \texttt{push()} en el mismo estado \textit{CanPush}.}
+    \label{exp:overload:protocol-1}
+\end{figure}
+
+Un primer experimento realizado quería ver qué sucedería de agregar ambas versiones sobrecargadas de este método a un mismo \textit{typestate}, como puede verse en la Figura~\ref{exp:overload:protocol-1}. En ella, puede verse que en el estado \textit{CanPush} el cliente debería de ser capaz de apilar tanto enteros como flotantes. Al analizar la herramienta este protocolo con su respectiva implementación, e incluso con un código cliente que llamase a ambas versiones del método, no se reportó ningún error.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/overloaded_stack_2/StackProtocol.protocol}
+    \caption{Protocolo de una pila simplificado donde solo se predica sobre el apilar. Las versiones del método sobrecargado \texttt{add()} se encuentran disponibles en \textit{typestates} distintos.}
+    \label{exp:overload:protocol-2}
+\end{figure}
+
+Una segunda prueba separaba ambos variantes en distintos \textit{typestates} (Figura~\ref{exp:overload:protocol-2}). Con un protocolo simplificado de la pila donde solo se trataba con las operaciones de apilado, se separó el estado de \textit{CanPush} en \textit{PushInt} y \textit{PushFloat}, con sus respectivas variantes del método \texttt{push()} disponibles. Luego, se llegaba a ellos con métodos de control desde el estado incial \textit{Init}, \texttt{canPushInt()} y \texttt{canPushFloat()}.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/overloaded_stack_2/Main.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/overloaded_stack_2/Error.txt}
+    \caption{Código cliente para la pila con protocolo de la Figura~\ref{exp:overload:protocol-2} y errores reportados por \textit{JaTyC}.}
+    \label{exp:overloaded:error}
+\end{figure}
+
+En la Figura~\ref{exp:overloaded:error} se aprecia el código cliente que utiliza este \texttt{Stack}. Este comienza siguiendo el protocolo correctamente, utilizando ambas operaciones de apilado detrás de sus respectivos métodos de control, y luego rompe el protocolo al utilizarlas al revéz. \textit{JaTyC} fue capaz de detectar esto, dado que reportó errores para ambos usos de los métodos de apilado en \textit{typestates} incorrectos.
+
+Lo que ambos experimentos nos muestran es que, tanto para sobrecarga de métodos en el mismo \textit{typestate} como en separados, \textit{JaTyC} es claramente capaz de procesarlos como métodos completamente distintos y no confundir las variantes. En ese sentido, parecería dar soporte a la sobrecarga sin problemas.
+
+\subsection{@Ensures en Parámetros}
+
+Como mencionamos en la sección~\ref{ensures}, luego de experimentar con la herramienta descubrimos su capacidad de anotar parámetros de métodos con \texttt{@Ensures}. A pesar de que esta funcionalidad no está mencionada en su documentación actual, la primera versión de \textit{JaTyC} basada en el trabajo de João Mota~\cite{jatyc:msc-thesis} la incluía de base. Esto permite especificar el \textit{typestate} de un parámetro luego de finalizar el método, y los argumentos provistos por el cliente al llamarlo vuelven a ser referencias lineales al objeto en ese estado. Dado que esta característica eleva la expresabilidad de la herramienta a lo hora de utilizar los \textit{typestates}, nos pareció interesante mencionarlo.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/parameter_ensures/Main.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/parameter_ensures/Error.txt}
+    \caption{Error reportado por \textit{JaTyC} al analizar código cliente para una pila que intenta utilizar métodos protocolados luego de enviarla como argumento.}
+    \label{exp:parameter-ensures-1}
+\end{figure}
+
+Utilizando el mismo \texttt{Stack} de la Figura~\ref{exp:normal-stack}, implementamos el código cliente de la Figura~\ref{exp:parameter-ensures-1}. En él, se crea un método \texttt{pushToStack()}, el cual toma un \texttt{Stack} en el estado \textit{Init} (referencia lineal), y apila un elemento. El método \texttt{main()} instancia una nueva pila y luego la pasa como argumento al método. Al finalizar, intenta apilar un elemento y \textit{JaTyC} reporta un error, mencionando que la variable es en ese punto del programa una referencia compartida.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/parameter_ensures/Main.java}
+    \caption{Ejemplo de uso de anotación \texttt{@Ensures}.}
+    \label{exp:parameter-ensures-2}
+\end{figure}
+
+Luego, actualizamos la definición del método con la anotación \texttt{@Ensures} en el parámetro, como se ve en la Figura~\ref{exp:parameter-ensures-2}. En particular, se especifica que al finalizar el método la variable de la pila se encontrará en el \textit{typestate} \textit{Init}, y a su vez que la variable es de tipo \texttt{final}. Esto último es un requerimiento de \textit{JaTyC} para utilizar la anotación en parámetros, y no permite que la variable sea reasignada durante la ejecución del método. De utilizar la anotación sin ella, la herramienta reporta el error \textbf{Parameters with @Ensures should be final}. El análisis de este código cliente con \textit{JaTyC} no devuelve ningún error, con lo cual se pudo correctamente devolver la referencia lineal del parámetro al cliente que llamó el método.
+
+Esto es un descubrimiento que consideramos muy positivo para el uso de la herramienta en proyectos reales. Esto es porque, de no poder retomar la referencia lineal de los objetos pasados como parámetros a métodos, potencialmente se limitaría bastante el uso de los objetos protocolados, y se intentaría evitar utilizarlos como argumentos. A su vez, aclaramos que estas pruebas no son suficientes para afirmar que esta funcionalidad funciona en todos los casos, dado que no está oficialmente mencionada en la documentación.
+
+\subsection{Objetos Inmutables}
+
+A veces existen instancias de objetos los cuales, según el método de construcción, tienen distintos métodos disponibles. Por ejemplo, tomemos el constructor \texttt{List.of("foo")} el cual crea una instancia de tipo \textit{List} pero \textbf{inmutable}. Esto significa que la collección no puede ser modificada con métodos tales como \texttt{add()} para agregar elementos o \texttt{remove()} para quitarlos no pueden ser llamados. Ahora, si quisiéramos construir un protocolo para las listas, ¿podríamos representar algo similar con \textit{JaTyC}? Es decir, ¿tenemos forma de utilizar la herramienta en casos donde un objeto puede ser o no inmutable?
+
+Un primer acercamiento a esto fue a través de agregar todos los métodos de la versión mutable al protocolo, y el resto de los métodos como no protocolados. Luego, intentamos instanciar todas las versiones inmutables como referencias compartidas a un objeto que ya finalizó su protocolo, y las mutables como referencias lineales normales. En la Figura~\ref{exp:dropped-list} puede observarse un ejemplo de esto, donde una clase \texttt{DroppedList} tiene un método \texttt{add()} protocolado, y otros métodos utilizables desde referencias inmutables como \texttt{get()} no protocolados. Luego, el constructor normal de la clase devuelve un objeto en el estado inicial del protocolo, y agregamos un método estático \texttt{of()} el cual devuelve una instancia que ya finalizó el suyo.
+
+Esto pretende que, de llamar al método estático, se devuelva una referencia inmutable, la cual no tiene acceso a métodos de modificación tales como \texttt{add()}. De utilizar el constructor convencional para instanciar un objeto, este tendrá de todos modos acceso a todos los métodos, modelando la situación que queríamos inicialmente.
+
+En la Figura~\ref{exp:dropped-list:client} puede apreciarse el código cliente para esta clase, el cual utiliza ambas versiones mutables e inmutables. En particular, intenta utilizar el método \texttt{add()} con la versión inmutable y eso genera un error con la herramienta. Por otro lado, la versión inmutable de \texttt{DroppedList} es capaz de llamar a todos sus métodos.
+
+El problema con esta configuración es que asume que la versión inmutable no tiene protocolo propio. Es decir, de querer darle un orden válido a sus operaciones, forzando que clientes la utilizen en forma correcta, necesitamos un modelado diferente. En cierta forma, necesitamos poder representar dos protocolos en uno, para instancias mutables e inmutables.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/immutable_list/DroppedList.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/immutable_list/DroppedList.protocol}
+    \caption{Implementación y protocolo para \texttt{DroppedList}, la cual tiene variante inmutable.}
+    \label{exp:dropped-list}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/immutable_list/ClientCode.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/immutable_list/Error.txt}
+    \caption{Código cliente y error reportado por \textit{JaTyC} al utilizar \texttt{DroppedList}.}
+    \label{exp:dropped-list:client}
+\end{figure}
+
+
+Nuestro siguiente acercamiento fue intentar hacer esto mismo: combinar dos protocolos diferentes en uno, y asignándoselos a las instancias nuevas según la variante. De todos modos, \textit{JaTyC} no permite suscribir a un objeto a un protocolo u otro condicionalmente. Para solventar esto, diseñamos ambos protocolos por separado, y luego agregamos todos los \textit{typestates} a un mismo protocolo compartido. Luego, nuevas instancias del objeto comenzarán en el estado inicial de su sub-protocolo correspondiente.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/immutable_list/ImmutableList.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/immutable_list/ImmutableList.protocol}
+    \caption{Implementación y protocolo para \texttt{ImmutableList}, la cual incluye protocolo tanto para su versión mutable como inmutable.}
+    \label{exp:immutable-list}
+\end{figure}
+
+Esto puede verse en la Figura~\ref{exp:immutable-list}, donde se detalla la implementación y protocolo para la clase \texttt{ImmutableList}. El protocolo incluye dos sub-protocolos de un único \textit{typestate} cada uno, \textit{Mutable} e \textit{Immutable}. Similar a la clase anterior \texttt{DroppedList}, puede instanciarse a través del método constructor y de uno estático \texttt{of()}. Este último llama al constructor de la clase y luego al método \texttt{immutable()}, el cual pasa la instancia al sub-protocolo de tipo inmutable. Observemos que \texttt{immutable()} es público y está incluido en el protocolo, dado que de otra forma no tenemos otra forma de hacer transicionar al objeto hacia el \textit{typestate} inicial deseado. A su vez, este método estático utiliza la anotación \texttt{@Ensures} para devolver una referencia lineal en el sub-protocolo correcto. Con un cliente idéntico al de la Figura~\ref{exp:droppable_iterator_protocol} conseguimos el mismo error, donde correctamente se diferencian las operaciones habilitadas para las dos variantes de la clase.
+
+Como resumen, \textit{JaTyC} no parece dar soporte directo a objetos inmutables, pero podemos modelar situaciones similares con diferentes técnicas.
+
+Por un lado, si la variante inmutable no precisa de un protocolo propio, podemos simplemente instanciarla con el protocolo ya completado. Si dejamos los métodos de modificación del objeto dentro de \textit{typestates}, estas instancias no tendrán acceso a los mismos y \textit{JaTyC} será capaz de correctamente identificar usos incorrectos.
+
+Por otro lado, si el objeto inmutable precisa de un protocolo propio pero con algunos métodos restringidos, podemos utilizar algo similar a lo mostrado con \texttt{ImmutableList}. Diseñando distintos sub-protocolos, se los puede juntar en uno solo y luego inicializar el objeto en el \textit{typestate} inicial respectivo. Luego, los clientes podrán utilizar ambas variantes del objeto, y \textit{JaTyC} reportar errores de uso indebido de sus protocolos. Este mismo acercamiento debería de funcionar para casos por fuera de objetos inmutables, donde se requiera que un objeto tenga distintos protocolos según la inicialización, y para cualquier cantidad de sub-protocolos (podemos utilizar un método estático por cada uno).
+
+\subsection{Métodos Constructores}
+
+\textit{JaTyC} no permite incluir a los métodos estáticos dentro de un protocolo. Esto tiene sentido, dado que la herramienta intenta razonar sobre el estado de un objeto en todo punto de su ciclo de vida, y los métodos estáticos son métodos de la clase en vez. Incluso en lo detallado en la sección~\ref{alg:class-analisis}, los métodos estáticos se separan de los no estáticos para analizar por separado en cualquier orden.
+
+Esto debería de incluir también al método constructor, el cual no puede mencionarse dentro de los protocolos. Si pudiésemos hacerlo, o a través de una funcionalidad similar, podríamos por ejemplo cambiar el el protocolo según el método constructor utilizado. En la sección anterior, logramos cambiar el protocolo utilizando métodos estáticos de instanciación de la clase, pero tuvimos que 
 
 \section{Excepciones}
 

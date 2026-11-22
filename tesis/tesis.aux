@@ -271,13 +271,50 @@
 \@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/public\textunderscore stack/Error.txt}{45}{lstlisting.4.-54}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {4.28}{\ignorespaces Error reportado por \textit  {JaTyC} al analizar la pila y su respectivo código cliente \texttt  {Main}.}}{45}{figure.caption.64}\protected@file@percent }
 \newlabel{exp:public-stack:error}{{4.28}{45}{Error reportado por \textit {JaTyC} al analizar la pila y su respectivo código cliente \texttt {Main}}{figure.caption.64}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Casos Bordes}{46}{section.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Aliasing}{46}{section.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.8}Excepciones}{46}{section.4.8}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/exception\textunderscore stack/Stack.java}{47}{lstlisting.4.-55}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/exception\textunderscore stack/Main.java}{47}{lstlisting.4.-56}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.29}{\ignorespaces Implementación de \texttt  {Stack} que lanza excepciones ante operaciones inválidas y código cliente que la utiliza.}}{47}{figure.caption.65}\protected@file@percent }
-\newlabel{exp:exception-stack}{{4.29}{47}{Implementación de \texttt {Stack} que lanza excepciones ante operaciones inválidas y código cliente que la utiliza}{figure.caption.65}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Aliasing}{46}{section.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Capacidades de Modelado}{46}{section.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.1}Sobrecarga de Métodos}{46}{subsection.4.7.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/Sobrecarga.java}{47}{lstlisting.4.-55}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.29}{\ignorespaces Ejemplo de sobrecarga de métodos en Java.}}{47}{figure.caption.65}\protected@file@percent }
+\newlabel{exp:overload:example}{{4.29}{47}{Ejemplo de sobrecarga de métodos en Java}{figure.caption.65}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/overloaded\textunderscore stack\textunderscore 1/StackProtocol.protocol}{47}{lstlisting.4.-56}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.30}{\ignorespaces Protocolo de una pila donde se utilizan ambas versiones del método \texttt  {push()} en el mismo estado \textit  {CanPush}.}}{47}{figure.caption.66}\protected@file@percent }
+\newlabel{exp:overload:protocol-1}{{4.30}{47}{Protocolo de una pila donde se utilizan ambas versiones del método \texttt {push()} en el mismo estado \textit {CanPush}}{figure.caption.66}{}}
+\citation{jatyc:msc-thesis}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/overloaded\textunderscore stack\textunderscore 2/StackProtocol.protocol}{48}{lstlisting.4.-57}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.31}{\ignorespaces Protocolo de una pila simplificado donde solo se predica sobre el apilar. Las versiones del método sobrecargado \texttt  {add()} se encuentran disponibles en \textit  {typestates} distintos.}}{48}{figure.caption.67}\protected@file@percent }
+\newlabel{exp:overload:protocol-2}{{4.31}{48}{Protocolo de una pila simplificado donde solo se predica sobre el apilar. Las versiones del método sobrecargado \texttt {add()} se encuentran disponibles en \textit {typestates} distintos}{figure.caption.67}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/overloaded\textunderscore stack\textunderscore 2/Main.java}{48}{lstlisting.4.-58}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/overloaded\textunderscore stack\textunderscore 2/Error.txt}{48}{lstlisting.4.-59}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.32}{\ignorespaces Código cliente para la pila con protocolo de la Figura~\ref {exp:overload:protocol-2} y errores reportados por \textit  {JaTyC}.}}{48}{figure.caption.68}\protected@file@percent }
+\newlabel{exp:overloaded:error}{{4.32}{48}{Código cliente para la pila con protocolo de la Figura~\ref {exp:overload:protocol-2} y errores reportados por \textit {JaTyC}}{figure.caption.68}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.2}@Ensures en Parámetros}{48}{subsection.4.7.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/parameter\textunderscore ensures/Main.java}{49}{lstlisting.4.-60}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/parameter\textunderscore ensures/Error.txt}{49}{lstlisting.4.-61}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.33}{\ignorespaces Error reportado por \textit  {JaTyC} al analizar código cliente para una pila que intenta utilizar métodos protocolados luego de enviarla como argumento.}}{49}{figure.caption.69}\protected@file@percent }
+\newlabel{exp:parameter-ensures-1}{{4.33}{49}{Error reportado por \textit {JaTyC} al analizar código cliente para una pila que intenta utilizar métodos protocolados luego de enviarla como argumento}{figure.caption.69}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/parameter\textunderscore ensures/Main.java}{50}{lstlisting.4.-62}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.34}{\ignorespaces Ejemplo de uso de anotación \texttt  {@Ensures}.}}{50}{figure.caption.70}\protected@file@percent }
+\newlabel{exp:parameter-ensures-2}{{4.34}{50}{Ejemplo de uso de anotación \texttt {@Ensures}}{figure.caption.70}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.3}Objetos Inmutables}{50}{subsection.4.7.3}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/immutable\textunderscore list/DroppedList.java}{51}{lstlisting.4.-63}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/immutable\textunderscore list/DroppedList.protocol}{51}{lstlisting.4.-64}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.35}{\ignorespaces Implementación y protocolo para \texttt  {DroppedList}, la cual tiene variante inmutable.}}{51}{figure.caption.71}\protected@file@percent }
+\newlabel{exp:dropped-list}{{4.35}{51}{Implementación y protocolo para \texttt {DroppedList}, la cual tiene variante inmutable}{figure.caption.71}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/immutable\textunderscore list/ClientCode.java}{51}{lstlisting.4.-65}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/immutable\textunderscore list/Error.txt}{51}{lstlisting.4.-66}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.36}{\ignorespaces Código cliente y error reportado por \textit  {JaTyC} al utilizar \texttt  {DroppedList}.}}{51}{figure.caption.72}\protected@file@percent }
+\newlabel{exp:dropped-list:client}{{4.36}{51}{Código cliente y error reportado por \textit {JaTyC} al utilizar \texttt {DroppedList}}{figure.caption.72}{}}
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/immutable\textunderscore list/ImmutableList.java}{52}{lstlisting.4.-67}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/immutable\textunderscore list/ImmutableList.protocol}{52}{lstlisting.4.-68}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.37}{\ignorespaces Implementación y protocolo para \texttt  {ImmutableList}, la cual incluye protocolo tanto para su versión mutable como inmutable.}}{52}{figure.caption.73}\protected@file@percent }
+\newlabel{exp:immutable-list}{{4.37}{52}{Implementación y protocolo para \texttt {ImmutableList}, la cual incluye protocolo tanto para su versión mutable como inmutable}{figure.caption.73}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.4}Métodos Constructores}{53}{subsection.4.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}Excepciones}{53}{section.4.8}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/exception\textunderscore stack/Stack.java}{54}{lstlisting.4.-69}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{./code/capitulo4/exception\textunderscore stack/Main.java}{54}{lstlisting.4.-70}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.38}{\ignorespaces Implementación de \texttt  {Stack} que lanza excepciones ante operaciones inválidas y código cliente que la utiliza.}}{54}{figure.caption.74}\protected@file@percent }
+\newlabel{exp:exception-stack}{{4.38}{54}{Implementación de \texttt {Stack} que lanza excepciones ante operaciones inválidas y código cliente que la utiliza}{figure.caption.74}{}}
 \bibstyle{plain}
 \bibdata{tesis}
 \bibcite{plaid:paper}{1}
@@ -306,4 +343,4 @@
 \bibcite{plaid}{24}
 \bibcite{mungo:website}{25}
 \bibcite{mungo:repo}{26}
-\gdef \@abspage@last{56}
+\gdef \@abspage@last{64}
