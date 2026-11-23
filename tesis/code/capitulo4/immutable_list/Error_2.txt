@@ -1,0 +1,4 @@
+ClientCode2.java:8: error: Cannot call [add] on State{ImmutableList, Immutable}
+                list.add("bar");
+                        ^
+1 error

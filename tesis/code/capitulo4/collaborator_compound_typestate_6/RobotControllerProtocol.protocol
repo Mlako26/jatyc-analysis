@@ -1,0 +1,9 @@
+typestate RobotControllerProtocol {
+  CanMove = {
+    boolean canMoveRobot(): <true: Move, false: CanMove>,
+    drop: end
+  }
+  Move = {
+    void run(): CanMove
+  }
+}

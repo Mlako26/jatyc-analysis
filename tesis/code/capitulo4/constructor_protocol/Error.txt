@@ -1,0 +1,4 @@
+Iterator.java:5: error: Method [Iterator] is required by the typestate but not implemented
+public class Iterator {
+       ^
+1 error

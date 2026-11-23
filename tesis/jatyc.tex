@@ -132,6 +132,7 @@ Durante nuestra experimentación, notamos que la anotación también puede utili
 Un ejemplo de uso de ambas anotaciones puede observarse en la Figura~\ref{jatyc:ensures_param}, donde se opera con un \texttt{Stack}. El método declara que el stack provisto deberá encontrarse en el typestate \texttt{Init}, y que lo devolverá en el mismo estado. Para que funcione, \textit{JaTyC} requiere que el parámetro sea \texttt{final}, es decir, que la variable no sea reasignada durante la ejecución del método.
 
 \section{Subtipado}
+\label{subtipado}
 
 Una de las características más interesantes de la herramienta, similar a lo mencionado en el capítulo~\ref{teorico:objetos}, es el soporte para \textbf{subtipado}. Es una de las funcionalidades distintivas de \textit{JaTyC} en comparación con su predecesora Mungo, y es crucial dentro del paradigma de los objetos.
 
@@ -228,6 +229,7 @@ Como parte de esta funcionalidad, \textit{JaTyC} también introduce lógica para
 Con todas las características mencionadas anteriormente, \textit{JaTyC} consigue determinar en tiempo de compilación que todos los objetos sigan y completen sus protocolos, de tenerlos. En otras palabras, verifica que los métodos de los objetos se llamen en el orden correcto y que los objetos se utilicen hasta el final. Además, mediante sus anotaciones permite detectar potenciales errores de punteros nulos y especificar los typestates esperados para parámetros y valores de retorno de métodos. Finalmente, da soporte al subtipado, permitiendo a los usuarios aplicar herencia entre cualquier clase y manteniendo la correcta verificación de protocolos.
 
 \section{Limitaciones}
+\label{limitaciones}
 
 Los autores describieron en la documentación oficial~\cite{jatyc:documentation} algunas limitaciones de la herramienta en las que están trabajando. Consideramos relevante tenerlas en cuenta a la hora de analizar las capacidades de \textit{JaTyC}, dado que condicionan el tipo de programas que pueden verificarse y ayudan a interpretar correctamente algunos resultados obtenidos en nuestros experimentos. A continuación, se detallan las más relevantes para nuestro trabajo.
 
@@ -576,7 +578,7 @@ Otra de las clases importantes del Checker Framework es el \texttt{SourceVisitor
 
 Como mencionamos en la sección anterior, el \texttt{SourceChecker} se encarga de proveer su propio \texttt{SourceVisitor}. En el caso de \textit{JaTyC}, el \texttt{JavaTypestateChecker} inicializa su propia subclase, el \texttt{CFVisitor}. A diferencia del \texttt{BaseTypeVisitor}, que verifica el código a la par que lo recorre, el \texttt{CFVisitor} realiza su análisis en dos fases.
 
-La primera fase sí se parece al comportamiento habitual de las subclases del \texttt{SourceVisitor}: aprovecha su lógica de recorrido de \textit{AST}s, pero no realiza ninguna tarea relacionada con el \textit{Class Analysis} ni con la verificación de \textit{typestates}. Su objetivo es construir la representación interna de \textit{JaTyC}. Por ejemplo, el \texttt{CFVisitor} sobrescribe el método \texttt{visitClass()} para que, por cada clase visitada, esta se traduzca a su representación interna (\texttt{ClassDeclAndCompanion}), se guarde en un mapa indexado por su nombre y se encole para ser analizada en la segunda fase.
+La primera fase sí se asemeja a las subclases del \texttt{SourceVisitor} en su comportamiento habitual: aprovecha su lógica de recorrido de \textit{AST}s, pero no realiza ninguna tarea relacionada con el \textit{Class Analysis} ni con la verificación de \textit{typestates}. Su objetivo es construir la representación interna de \textit{JaTyC}. Por ejemplo, el \texttt{CFVisitor} sobrescribe el método \texttt{visitClass()} para que, por cada clase visitada, esta se traduzca a su representación interna (\texttt{ClassDeclAndCompanion}), se guarde en un mapa indexado por su nombre y se encole para ser analizada en la segunda fase.
 
 Otra función de la primera fase es validar las anotaciones de \textit{JaTyC} presentes en los archivos, mediante el método \texttt{visitAnnotation()}. Observando los nodos de los árboles provistos por el compilador, se asegura que \texttt{@Requires} solo aparezca en parámetros de métodos, \texttt{@Ensures} en parámetros o tipos de retorno, y \texttt{@Typestate} en clases o interfaces. Además, se verifica que los estados mencionados en estas anotaciones existan en el protocolo del objeto que especifican.
 

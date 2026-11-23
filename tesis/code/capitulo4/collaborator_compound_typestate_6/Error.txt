@@ -1,0 +1,4 @@
+RobotController.java:11: error: Incompatible return value: cannot cast from Shared{Robot} to State{Robot, TopLeft}
+        public @Ensures("TopLeft") Robot getRobot() { return this.robot; }
+                                                      ^
+1 error

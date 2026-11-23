@@ -1,0 +1,4 @@
+Main.java:4: error: Cannot call [push] on State{Stack, Init}
+        stack.push(5);
+                  ^
+1 error

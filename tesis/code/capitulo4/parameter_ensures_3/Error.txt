@@ -1,0 +1,7 @@
+Main.java:20: error: [stack] did not complete its protocol (found: State{Stack, Init})
+    public static void pushToStack(@Requires("Init") Stack stack, int e) {
+                       ^
+Main.java:8: error: Cannot call [isFull] on Shared{Stack}
+      if (!stack.isFull()) {
+                       ^
+2 errors

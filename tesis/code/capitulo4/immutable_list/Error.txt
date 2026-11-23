@@ -1,0 +1,4 @@
+ClientCode.java:8: error: Cannot call [add] on Shared{DroppedList}
+                list.add("bar");
+                        ^
+1 error

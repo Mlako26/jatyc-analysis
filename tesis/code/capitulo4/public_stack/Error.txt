@@ -1,0 +1,4 @@
+Main.java:4: error: Cannot access [stack.size]
+                stack.size = 2; 
+                     ^
+1 error

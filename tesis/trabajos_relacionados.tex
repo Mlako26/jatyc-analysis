@@ -3,6 +3,7 @@
 \section{Typestates y Object Protocols}
 
 \subsection{Inicios}
+\label{typestate-theory}
 
 La noción de \textbf{typestate} fue introducida en 1986 por Strom y Yemini~\cite{typestate}. A pesar de que ya en esa época existían mecanismos de prevención de errores en programas, tales como los sistemas de tipado o reglas basadas en scopes estáticos, los autores identificaron una limitación en los mismos. Específicamente, no estaban diseñados para detectar ciertas operaciones prohibidas en algunos contextos, tales como desreferenciar un puntero apuntando a memoria ya liberada, o utilizar una variable antes de ser inicializada. Para cubrir esa necesidad definieron los \textbf{typestates}, los cuales intentan modelar el estado en el que se encuentra un objeto a la hora de realizar una operación. Mientras que los tipos restringen las operaciones permitidas para un dato/objeto, y los scopes el acceso a variables fuera de su ciclo de vida, los typestates intentan restringir el orden en el cual las operaciones suceden bajo un contexto particular.
 

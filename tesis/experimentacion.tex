@@ -1,12 +1,12 @@
 \chapter{Experimentación}
 
-A lo largo de este capítulo se recopilará la experimentación realizada con \textit{JaTyC}. Recordemos que el propósito principal es analizar las capacidades y limitaciones de la herramienta, y a su vez validar que se comporte correctamente en casos interesantes. También buscamos entender mejor el potencial de la verificación de protocolos de objetos con typestates en general.
+A lo largo de este capítulo se recopilará la experimentación realizada con \textit{JaTyC}. Recordemos que el propósito principal es analizar las capacidades y limitaciones de la herramienta, y a su vez validar que se comporte correctamente en casos interesantes. También buscamos entender mejor el potencial de la verificación de protocolos de objetos con \textit{typestates} en general.
 
 Las pruebas se realizaron sobre pequeños extractos de código, compuestos por diferentes clases, interfaces, protocolos y clientes. Estos se analizaron con la herramienta y se anotó el comportamiento observado. Cada sección del capítulo tratará un aspecto diferente de \textit{JaTyC} o de la verificación de protocolos de objetos en general, e incluirá algunas de las pruebas más relevantes.
 
 \section{Protocolos Compuestos}
 
-Nos interesa saber en qué medida \textit{JaTyC} tiene en cuenta el estado de los colaboradores internos de un objeto protocolado. La herramienta parece interpretar un typestate simplemente como un conjunto de métodos habilitados para una instancia y sus transiciones hacia otros typestates. El estado interno de un objeto pasa a ser secundario para la herramienta, aunque entiende que solo debe ser modificado por métodos protocolados y no por los \textit{anytime}. En este sentido, el protocolo y el uso debido de un objeto están dictados solamente por las secuencias válidas de sus métodos.
+Nos interesa saber en qué medida \textit{JaTyC} tiene en cuenta el estado de los colaboradores internos de un objeto protocolado. La herramienta parece interpretar un \textit{typestate} simplemente como un conjunto de métodos habilitados para una instancia y sus transiciones hacia otros \textit{typestates}. El estado interno de un objeto pasa a ser secundario para la herramienta, aunque, según su documentación, solo debería ser modificado por métodos protocolados y no por los \textit{anytime} (en la sección~\ref{sec:estado-typestate} veremos que esto no siempre se verifica). En este sentido, el protocolo y el uso debido de un objeto están dictados solamente por las secuencias válidas de sus métodos.
 
 \begin{figure}[htbp]
 \centering
@@ -21,9 +21,9 @@ Nos interesa saber en qué medida \textit{JaTyC} tiene en cuenta el estado de lo
 \label{exp:compound-1:robot}
 \end{figure}
 
-Lo que queremos aprender es si, a pesar de esto, la herramienta es capaz de razonar sobre ``protocolos compuestos'', donde un objeto protocolado tiene de colaborador interno a otro objeto protocolado. ¿Puede el comportamiento de un método de un objeto padre depender del typestate del colaborador? Es decir, ¿puede el protocolo del padre ser uno compuesto, de modo que, dependiendo del typestate de un colaborador, llamadas a un mismo método produzcan resultados distintos (como excepciones en ciertas ocasiones)? Intentamos entender cómo la herramienta analiza estos casos, donde determinar el comportamiento correcto de un objeto parecería exceder su propio alcance.
+Lo que queremos aprender es si, a pesar de esto, la herramienta es capaz de razonar sobre ``protocolos compuestos'', donde un objeto protocolado tiene como colaborador interno a otro objeto protocolado. ¿Puede el comportamiento de un método de un objeto padre depender del \textit{typestate} del colaborador? Es decir, ¿puede el protocolo del padre ser uno compuesto, de modo que, dependiendo del \textit{typestate} de un colaborador, llamadas a un mismo método produzcan resultados distintos (como excepciones en ciertas ocasiones)? Intentamos entender cómo la herramienta analiza estos casos, donde determinar el comportamiento correcto de un objeto parecería exceder su propio alcance.
 
-\begin{figure}[!bp]
+\begin{figure}[htbp]
     \centering
     \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate/RobotController.java}
     \vspace{0.3cm}
@@ -32,29 +32,28 @@ Lo que queremos aprender es si, a pesar de esto, la herramienta es capaz de razo
     \label{exp:compound-1:controller}
 \end{figure}
 
-
 Nuestros experimentos buscaban romper el protocolo de un colaborador interno respetando el del objeto padre. En otras palabras, nos interesaba saber si, desde el punto de vista de un cliente, se podían provocar comportamientos inesperados en un objeto a pesar de utilizarlo correctamente, causados por su estado interno. Buscábamos entender si \textit{JaTyC} reaccionaría ante estas situaciones y si reportaría un error durante la compilación.
 
-El código y el protocolo de la clase \texttt{Robot} pueden observarse en la Figura \ref{exp:compound-1:robot}. El robot se mueve en un mapa de tamaño $2\times2$, una unidad de distancia a la vez, con los métodos \texttt{moveLeft()}, \texttt{moveRight()}, \texttt{moveUp()} y \texttt{moveDown()}. Comienza en la posición inicial, arriba a la izquierda, y si se mueve a una posición fuera del mapa lanzará una excepción, simulando ``caerse del mapa''. Su protocolo refleja este comportamiento, con un typestate para cada posición posible del robot y solo los movimientos permitidos, de modo que nunca se caiga.
+El código y el protocolo de la clase \texttt{Robot} pueden observarse en la Figura~\ref{exp:compound-1:robot}. El robot se mueve en un mapa de tamaño $2\times2$, una unidad de distancia a la vez, con los métodos \texttt{moveLeft()}, \texttt{moveRight()}, \texttt{moveUp()} y \texttt{moveDown()}. Comienza en la posición inicial, arriba a la izquierda, y si se mueve a una posición fuera del mapa lanzará una excepción, simulando ``caerse del mapa''. Su protocolo refleja este comportamiento, con un \textit{typestate} para cada posición posible del robot y solo los movimientos permitidos, de modo que nunca se caiga.
 
-Un primer experimento con este robot se realizó con el controlador de la Figura \ref{exp:compound-1:controller}. El \texttt{RobotController} tiene un \texttt{Robot} como colaborador interno y simplemente toma instrucciones de un cliente para moverlo. Su protocolo es pequeño: cuenta con un método de control inicial \texttt{canMoveRobot()}, que habilita al método \texttt{move(String direction)}, el cual mueve al robot en la dirección deseada. % TODO: aclarar qué devuelve canMoveRobot() y cómo se ramifica el protocolo según su resultado, para que el lector no dependa solo de la figura.
+Un primer experimento con este robot se realizó con el controlador de la Figura~\ref{exp:compound-1:controller}. El \texttt{RobotController} tiene un \texttt{Robot} como colaborador interno y simplemente toma instrucciones de un cliente para moverlo. Su protocolo es pequeño: cuenta con un método de control inicial \texttt{canMoveRobot()}, que habilita al método \texttt{move(String direction)}, el cual mueve al robot en la dirección deseada.
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate/Main.java}
     \vspace{0.3cm}
     \lstinputlisting{./code/capitulo4/collaborator_compound_typestate/Error.txt}
-    \caption{Errores reportados por \textit{JaTyC} al analizar el código del controlador en la Figura \ref{exp:compound-1:controller} y su respectivo código cliente \texttt{Main}.}
+    \caption{Errores reportados por \textit{JaTyC} al analizar el código del controlador en la Figura~\ref{exp:compound-1:controller} y su respectivo código cliente \texttt{Main}.}
     \label{exp:compound-1:error}
 \end{figure}
 
-Por su parte, el código cliente de la Figura \ref{exp:compound-1:error} sigue el protocolo del controlador pero rompe el del robot. Esto se debe a que mueve al robot hacia la izquierda desde la posición inicial, con lo cual cae fuera del mapa. Lo que busca el experimento es generar una situación en la que el cliente, a pesar de usar correctamente el controlador, quebrante sin saberlo el protocolo del robot.
+Por su parte, el código cliente de la Figura~\ref{exp:compound-1:error} sigue el protocolo del controlador pero rompe el del robot. Esto se debe a que mueve al robot hacia la izquierda desde la posición inicial, con lo cual este cae fuera del mapa. Lo que busca el experimento es generar una situación en la que el cliente, a pesar de usar correctamente el controlador, quebrante sin saberlo el protocolo del robot.
 
-El error devuelto por la herramienta muestra que detecta claramente el incumplimiento del protocolo del robot. En concreto, indica que no pueden llamarse \texttt{moveUp} ni \texttt{moveLeft} sobre un robot en el typestate \texttt{TopLeft}, ambas llamadas dentro del \texttt{RobotController}. Lo interesante es que no culpa al código cliente, cuyas llamadas al controlador harían caer al robot fuera del mapa, sino al método \texttt{move(String direction)} del \texttt{RobotController}. Esto tiene sentido, dado que dicho método no controla el \textit{input} del cliente y es capaz de mover al robot fuera del mapa: no utiliza métodos de control para asegurarse de que la dirección del movimiento sea segura.
+El error devuelto por la herramienta muestra que detecta claramente el incumplimiento del protocolo del robot. En concreto, indica que no pueden llamarse \texttt{moveUp} ni \texttt{moveLeft} sobre un robot en el \textit{typestate} \texttt{TopLeft}, ambas llamadas dentro del \texttt{RobotController}. Lo interesante es que no culpa al código cliente, cuyas llamadas al controlador harían caer al robot fuera del mapa, sino al método \texttt{move(String direction)} del \texttt{RobotController}. Esto tiene sentido, dado que dicho método no controla el \textit{input} del cliente y es capaz de mover al robot fuera del mapa: no utiliza métodos de control para asegurarse de que la dirección del movimiento sea segura.
 
 Una conclusión que puede sacarse de esto es que el verdadero cliente del robot no es el código en \texttt{Main}, sino el controlador mismo. \textit{JaTyC} reportó el posible incumplimiento del protocolo desde el \texttt{RobotController} porque es allí donde se utiliza el robot. Por ende, no analiza ambos protocolos como uno compuesto desde \texttt{Main}, sino que verifica por separado a cada cliente de un objeto protocolado.
 
-Una variación del experimento que muestra el mismo comportamiento puede verse en la Figura \ref{exp:compound-3:controller}. Mientras que el \texttt{Robot} no tiene cambios, el \texttt{RobotController} ahora cuenta con un método \texttt{run()}, que hace que el robot dé una vuelta al mapa en sentido horario, y con \texttt{moveRight()}, que mueve al robot una posición hacia la derecha. Notemos que la única posición segura del robot desde la cual puede llamarse a \texttt{run()} es la inicial.
+Una variación del experimento que muestra el mismo comportamiento puede verse en la Figura~\ref{exp:compound-3:controller}. Mientras que el \texttt{Robot} no tiene cambios, el \texttt{RobotController} ahora cuenta con un método \texttt{run()}, que hace que el robot dé una vuelta al mapa en sentido horario, y con \texttt{moveRight()}, que mueve al robot una posición hacia la derecha. Notemos que la única posición segura del robot desde la cual puede llamarse a \texttt{run()} es la inicial.
 
 \begin{figure}[htbp]
     \centering
@@ -65,32 +64,32 @@ Una variación del experimento que muestra el mismo comportamiento puede verse e
     \label{exp:compound-3:controller}
 \end{figure}
 
-\textit{JaTyC} analizó el código con dos clientes diferentes. El primero solamente realizaba una llamada a \texttt{canMoveRobot()} y otra a \texttt{run()}, respetando los protocolos tanto del robot como del controlador. El segundo (Figura \ref{exp:compound-3:error}) llama a \texttt{run()}, luego a \texttt{moveRight()} y finalmente a \texttt{run()}, todas precedidas por llamadas a \texttt{canMoveRobot()}. Comenzando en la posición inicial del mapa de $2\times2$, arriba a la izquierda, la primera llamada a \texttt{run()} deja al robot en la misma posición. Al llamar a \texttt{moveRight()}, el robot pasa a estar arriba a la derecha. Finalmente, la última llamada a \texttt{run()} hace que el robot se caiga del mapa, dado que comienza con un movimiento a la derecha, y así rompe su protocolo.
+\textit{JaTyC} analizó el código con dos clientes diferentes. El primero solamente realizaba una llamada a \texttt{canMoveRobot()} y otra a \texttt{run()}, respetando los protocolos tanto del robot como del controlador. El segundo (Figura~\ref{exp:compound-3:error}) llama a \texttt{run()}, luego a \texttt{moveRight()} y finalmente a \texttt{run()}, todas precedidas por llamadas a \texttt{canMoveRobot()}. Comenzando en la posición inicial del mapa de $2\times2$, arriba a la izquierda, la primera llamada a \texttt{run()} deja al robot en la misma posición. Al llamar a \texttt{moveRight()}, el robot pasa a estar arriba a la derecha. Finalmente, la última llamada a \texttt{run()} hace que el robot se caiga del mapa, dado que comienza con un movimiento a la derecha, y así rompe su protocolo.
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_3/Main.java}
     \vspace{0.3cm}
     \lstinputlisting{./code/capitulo4/collaborator_compound_typestate_3/Error.txt}
-    \caption{Errores reportados por \textit{JaTyC} al analizar el código del controlador en la Figura \ref{exp:compound-3:controller} y su respectivo código cliente \texttt{Main}.}
+    \caption{Errores reportados por \textit{JaTyC} al analizar el código del controlador en la Figura~\ref{exp:compound-3:controller} y su respectivo código cliente \texttt{Main}.}
     \label{exp:compound-3:error}
 \end{figure}
 
-Para ambos códigos clientes, la herramienta reporta los mismos errores de la Figura \ref{exp:compound-3:error}: no se puede mover al robot hacia la derecha dado que se encuentra en los posibles typestates \texttt{TopLeft} y \texttt{TopRight}, para ambos métodos \texttt{run()} y \texttt{moveRight()} del controlador. En otras palabras, \textit{JaTyC} detecta que el robot puede estar en cualquiera de esos dos estados, y para el caso del typestate \texttt{TopRight} se caería del mapa de moverse a la derecha nuevamente.
+Para ambos códigos clientes, la herramienta reporta los mismos errores de la Figura~\ref{exp:compound-3:error}: no se puede mover al robot hacia la derecha dado que se encuentra en los posibles \textit{typestates} \texttt{TopLeft} y \texttt{TopRight}, para ambos métodos \texttt{run()} y \texttt{moveRight()} del controlador. En otras palabras, \textit{JaTyC} detecta que el robot puede estar en cualquiera de esos dos estados, y para el caso del \textit{typestate} \texttt{TopRight} se caería del mapa de moverse a la derecha nuevamente.
 
 En particular, el primer cliente, que nunca hace caer al robot, recibe los mismos errores que el segundo, que sí lo hace. Estos errores señalan solamente el uso indebido del robot por parte del controlador, donde diferentes combinaciones de llamadas a métodos provocan que caiga del mapa. Esto es consistente con lo observado en el primer experimento: para \textit{JaTyC} los protocolos no son compuestos, y se analizan por separado el uso del controlador por parte del código cliente y el uso del robot por parte del controlador.
 
-En resumen, ambos experimentos sugieren que \textit{JaTyC} realiza una verificación modular: se analiza el uso de los objetos protocolados en cada clase por separado, pero el protocolo de un objeto padre parece no depender del de sus colaboradores internos. Una consecuencia es que la herramienta rechaza al controlador independientemente de cómo lo use el cliente, lo cual es conservador y puede reportar errores (falsos positivos) en programas que, vistos en conjunto, nunca harían caer al robot. Para que el controlador sea aceptado, debería garantizar por sí mismo que nunca viola el protocolo del robot, por ejemplo validando la dirección mediante métodos de control o reflejando en su propio protocolo las posiciones posibles del robot. Esto puede verse como un enfoque por \textit{JaTyC} en la división de responsabilidades y encapsulamiento, donde cada objeto es el encargado de asegurarse de funcionar correctamente y cumplir con protocolos. También puede entenderse como una decisión de diseño que prioriza la simplicidad del análisis a costa de expresividad.
+En resumen, ambos experimentos sugieren que \textit{JaTyC} realiza una verificación modular: se analiza el uso de los objetos protocolados en cada clase por separado, pero el protocolo de un objeto padre parece no depender del de sus colaboradores internos. Una consecuencia es que la herramienta rechaza al controlador independientemente de cómo lo use el cliente, lo cual es conservador y puede reportar errores (falsos positivos) en programas que, vistos en conjunto, nunca harían caer al robot. Para que el controlador sea aceptado, debería garantizar por sí mismo que nunca viola el protocolo del robot, por ejemplo validando la dirección mediante métodos de control o reflejando en su propio protocolo las posiciones posibles del robot. Esto puede verse como un enfoque de \textit{JaTyC} basado en la división de responsabilidades y el encapsulamiento, donde cada objeto es el encargado de asegurarse de funcionar correctamente y cumplir con los protocolos. También puede entenderse como una decisión de diseño que prioriza la simplicidad del análisis a costa de expresividad.
 
-% Esto es respaldado por lo visto en la sección TODO, donde el algoritmo de análisis de clases repasa todas las posibles combinaciones de llamadas de métodos para una clase particular, realizando un seguimiento de los posibles estados para parámentros, valores de retorno y sus colaboradores internos.
+% Esto es respaldado por lo visto en la sección TODO, donde el algoritmo de análisis de clases repasa todas las posibles combinaciones de llamadas de métodos para una clase particular, realizando un seguimiento de los posibles estados para parámetros, valores de retorno y sus colaboradores internos.
 
 % \subsection{Finalización de Protocolo}
 
 % Por otro lado, realizamos experimentaciones enfocadas en la finalización de protocolos compuestos. Es decir, cómo reacciona la herramienta cuando uno de los dos protocolos termina antes que el otro.
 
-% Un primer caso sería que el objeto padre termine su protocolo antes que un colaborador interno. Nustras pruebas buscaban entender si \textit{JaTyC} reportaría esto como un error, dado que potencialmente se perdería la referencia lineal del colaborador antes de que finalice su protocolo.
+% Un primer caso sería que el objeto padre termine su protocolo antes que un colaborador interno. Nuestras pruebas buscaban entender si \textit{JaTyC} reportaría esto como un error, dado que potencialmente se perdería la referencia lineal del colaborador antes de que finalice su protocolo.
 
-% Similar a los tests anteriores, construimos una clase \texttt{Robot} simple como en la Figura \ref{exp:compound-4:robot}. La misma tiene un único método protocolado \texttt{rest()}, el cual hay que llamar para finalizar su protocolo. Por otro lado, creamos un controlador \texttt{RobotController} como en la Figura \ref{exp:compound-4:controller}. Este cuenta con un único método \texttt{turnOff()} para finalizar su protocolo, y nunca llama a \texttt{rest()} del robot.
+% Similar a las pruebas anteriores, construimos una clase \texttt{Robot} simple como en la Figura \ref{exp:compound-4:robot}. La misma tiene un único método protocolado \texttt{rest()}, el cual hay que llamar para finalizar su protocolo. Por otro lado, creamos un controlador \texttt{RobotController} como en la Figura \ref{exp:compound-4:controller}. Este cuenta con un único método \texttt{turnOff()} para finalizar su protocolo, y nunca llama a \texttt{rest()} del robot.
 
 % \begin{figure}[htbp]
 % \centering
@@ -99,7 +98,7 @@ En resumen, ambos experimentos sugieren que \textit{JaTyC} realiza una verificac
 % \end{minipage}
 % \hfill
 % \begin{minipage}[c]{0.46\textwidth}
-%     \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_4/RobotProtocol.protocol}
+%     \lstinputlisting{./code/capitulo4/collaborator_compound_typestate_4/RobotProtocol.protocol}
 % \end{minipage}
 % \caption{Código y protocolo para un \texttt{Robot} con un solo método \texttt{rest()}.}
 % \label{exp:compound-4:robot}
@@ -112,13 +111,13 @@ En resumen, ambos experimentos sugieren que \textit{JaTyC} realiza una verificac
 % \end{minipage}
 % \hfill
 % \begin{minipage}[c]{0.46\textwidth}
-%     \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_4/RobotControllerProtocol.protocol}
+%     \lstinputlisting{./code/capitulo4/collaborator_compound_typestate_4/RobotControllerProtocol.protocol}
 % \end{minipage}
 % \caption{Código y protocolo para un \texttt{RobotController} con un solo método \texttt{turnOff()}.}
 % \label{exp:compound-4:controller}
 % \end{figure}
 
-% En la Figura \ref{exp:compound-4:error} se puede ver el código cliente analizado. En el mismo, simplemente se instancia un controlador y se finaliza su protocolo llamando a \texttt{turnOff()}. El error es claro, donde se menciona que el robot no finalizó el suyo, sinó que termino en su estado inicial \texttt{Init}, y determinó como culpable a la clase \texttt{RobotController}. Nuevamente \textit{JaTyC} no hace referencia a la clase cliente \texttt{Main}, y demuestra que reconoce propiamente que el cliente del robot no se encargó de finalizar su protocolo durante el programa.
+% En la Figura \ref{exp:compound-4:error} se puede ver el código cliente analizado. En el mismo, simplemente se instancia un controlador y se finaliza su protocolo llamando a \texttt{turnOff()}. El error es claro, donde se menciona que el robot no finalizó el suyo, sino que terminó en su estado inicial \texttt{Init}, y determinó como culpable a la clase \texttt{RobotController}. Nuevamente \textit{JaTyC} no hace referencia a la clase cliente \texttt{Main}, y demuestra que reconoce propiamente que el cliente del robot no se encargó de finalizar su protocolo durante el programa.
 
 % \begin{figure}[htbp]
 %     \centering
@@ -129,13 +128,13 @@ En resumen, ambos experimentos sugieren que \textit{JaTyC} realiza una verificac
 %     \label{exp:compound-4:error}
 % \end{figure}
 
-% Por otro lado, nos preguntamos que sucede si un colaborador interno termina su protocolo antes que el objeto padre.
+% Por otro lado, nos preguntamos qué sucede si un colaborador interno termina su protocolo antes que el objeto padre.
 
 % TODO: revisar si quiero hablar de esto, no me parece super substancial, creo que las conclusiones son las mismas, donde jatyc simplemente lo toma al controlador como cliente.
 
 \section{Correctitud vs.\ Orden de Métodos}
 
-En general, el análisis de \textit{object protocols} se limita a verificar el orden correcto de las llamadas a métodos. Mientras que \textit{JaTyC} puede hacer mucho más que eso, como detectar posibles errores de puntero nulo o especificar \textit{typestates} esperados para parámetros o valores de retorno, nos preguntamos en qué medida tiene en cuenta el contenido de los métodos, y no solo lo que el protocolo predica sobre ellos. En principio, parecería no juzgar la \textbf{correctitud} de los métodos de un objeto protocolado, por lo que pueden ocurrir excepciones inesperadas incluso si se respeta su contrato. También puede suceder lo contrario: que un código sea correcto bajo cierta especificación y que \textit{JaTyC} reporte potenciales errores porque no se sigue algún protocolo. En ese sentido, es interesante indagar cómo está limitada la herramienta en este aspecto, y cómo podemos utilizarla para que nuestro código se alinee con su especificación de correctitud.
+En general, el análisis de \textit{object protocols} se limita a verificar el orden correcto de las llamadas a métodos. Mientras que \textit{JaTyC} puede hacer mucho más que eso, como detectar posibles errores de puntero nulo o especificar \textit{typestates} esperados para parámetros o valores de retorno, nos preguntamos en qué medida tiene en cuenta el contenido de los métodos, y no solo lo que el protocolo predica sobre ellos. En principio, parecería no juzgar la \textbf{correctitud} de los métodos de un objeto protocolado, por lo que pueden ocurrir excepciones inesperadas incluso si se respeta su contrato. También puede suceder lo contrario: que un código sea correcto bajo cierta especificación y que \textit{JaTyC} reporte potenciales errores porque no se sigue algún protocolo. Resulta entonces interesante indagar cómo está limitada la herramienta en este aspecto, y cómo podemos utilizarla para que nuestro código se alinee con su especificación de correctitud.
 
 \begin{figure}[htbp]
 \centering
@@ -150,7 +149,7 @@ En general, el análisis de \textit{object protocols} se limita a verificar el o
 \label{exp:faulty-stack:stack}
 \end{figure}
 
-En la Figura \ref{exp:faulty-stack:stack} puede verse una de las pruebas que realizamos al respecto, con una clase \texttt{Stack} implementada incorrectamente. Según su protocolo, se pueden apilar y desapilar elementos mientras la pila no esté llena ni vacía, respectivamente. Por ejemplo, solo se puede llamar a \texttt{push()} si \texttt{isFull()} retorna falso. En esta implementación, el \texttt{Stack} tiene una capacidad no expandible, definida mediante un parámetro \texttt{size} en el constructor. Sin embargo, el método \texttt{isFull()} siempre devuelve falso, con lo cual permite apilar elementos hasta sobrepasar el tamaño de la pila, lo que provoca una excepción.
+En la Figura~\ref{exp:faulty-stack:stack} puede verse una de las pruebas que realizamos al respecto, con una clase \texttt{Stack} implementada incorrectamente. Según su protocolo, se pueden apilar y desapilar elementos mientras la pila no esté llena ni vacía, respectivamente. Por ejemplo, solo se puede llamar a \texttt{push()} si \texttt{isFull()} retorna falso. En esta implementación, el \texttt{Stack} tiene una capacidad no expandible, definida mediante un parámetro \texttt{size} en el constructor. Sin embargo, el método \texttt{isFull()} siempre devuelve falso, con lo cual permite apilar elementos hasta sobrepasar el tamaño de la pila, lo que provoca una excepción.
 
 \begin{figure}[htbp]
     \centering
@@ -161,9 +160,9 @@ En la Figura \ref{exp:faulty-stack:stack} puede verse una de las pruebas que rea
     \label{exp:faulty-stack:client}
 \end{figure}
 
-El código cliente de la Figura \ref{exp:faulty-stack:client} usa la pila siguiendo su protocolo, pero apila más elementos que su capacidad. Al analizarlo con \textit{JaTyC}, notamos que efectivamente no reporta ningún error, pero al ejecutarlo falla con una \texttt{ArrayIndexOutOfBoundsException}. Esto responde a lo que queríamos indagar: incluso con un protocolo bien definido y un cliente que lo respeta, \textit{JaTyC} no asegura que el objeto esté implementado correctamente. Un programador podría confiarse en su código, al utilizar \texttt{isFull()} antes de apilar y no recibir errores de la herramienta, pero, como muestra el ejemplo, nada impide que \texttt{isFull()} devuelva cualquier valor.
+El código cliente de la Figura~\ref{exp:faulty-stack:client} usa la pila siguiendo su protocolo, pero apila más elementos que su capacidad. Al analizarlo con \textit{JaTyC}, notamos que efectivamente no reporta ningún error, pero al ejecutarlo falla con una \texttt{ArrayIndexOutOfBoundsException}. Esto responde a lo que queríamos indagar: incluso con un protocolo bien definido y un cliente que lo respeta, \textit{JaTyC} no asegura que el objeto esté implementado correctamente. Un programador podría confiarse en su código, al utilizar \texttt{isFull()} antes de apilar y no recibir errores de la herramienta, pero, como muestra el ejemplo, nada impide que \texttt{isFull()} devuelva cualquier valor.
 
-Por otro lado, si se modifica el método \texttt{isFull()} para que controle correctamente cuándo se puede apilar, como en la Figura \ref{exp:normal-stack}, el \texttt{Stack} y su protocolo constituyen un ejemplo de cómo podemos apoyarnos en la herramienta para que el código sea más seguro. Al obligar a los clientes a utilizar métodos de control antes de cada operación, conseguimos determinar estáticamente con \textit{JaTyC} que estas ocurran en el momento correcto, reduciendo potencialmente la cantidad de comportamientos inesperados.
+Por otro lado, si se modifica el método \texttt{isFull()} para que controle correctamente cuándo se puede apilar, como en la Figura~\ref{exp:normal-stack}, el \texttt{Stack} y su protocolo constituyen un ejemplo de cómo podemos apoyarnos en la herramienta para que el código sea más seguro. Al obligar a los clientes a utilizar métodos de control antes de cada operación, conseguimos determinar estáticamente con \textit{JaTyC} que estas ocurran en el momento correcto, reduciendo potencialmente la cantidad de comportamientos inesperados.
 
 \begin{figure}[htbp]
     \centering
@@ -172,27 +171,609 @@ Por otro lado, si se modifica el método \texttt{isFull()} para que controle cor
     \label{exp:normal-stack}
 \end{figure}
 
-Estos experimentos muestran una de las limitaciones aparentes de \textit{JaTyC} y del análisis de \textit{object protocols} con \textit{typestates}. Tomemos como ejemplo nuestro \texttt{Stack}, donde en esencia  buscamos asegurarnos de que no se apile si está lleno ni se desapile si está vacío. Si observamos el protocolo de la pila, notamos que todas las operaciones están resguardadas detrás de métodos de control. Esto es intencional: por la naturaleza de la herramienta, no hay mecanismos para contar la cantidad de llamadas a métodos ni sus secuencias. En otras palabras, dado que el protocolo se interpreta y procesa como un autómata finito sin pila, \textit{JaTyC} no tiene forma de conocer el tamaño del \texttt{Stack} ni la cantidad de elementos apilados en un momento dado.
+Estos experimentos muestran una de las limitaciones aparentes de \textit{JaTyC} y del análisis de \textit{object protocols} con \textit{typestates}. Tomemos como ejemplo nuestro \texttt{Stack}, donde en esencia buscamos asegurarnos de que no se apile si está lleno ni se desapile si está vacío. Si observamos el protocolo de la pila, notamos que todas las operaciones están resguardadas detrás de métodos de control. Esto es intencional: por la naturaleza de la herramienta, no hay mecanismos para contar la cantidad de llamadas a métodos ni para recordar sus secuencias. En otras palabras, dado que el protocolo se interpreta y procesa como un autómata finito (sin memoria auxiliar, como una pila), \textit{JaTyC} no tiene forma de conocer el tamaño del \texttt{Stack} ni la cantidad de elementos apilados en un momento dado.
 
-Bajo la filosofía y las capacidades de la herramienta, esto se soluciona mediante estos métodos de control, quitando flexibilidad al programador a cambio de seguridad y simplicidad en el análisis. Notemos que, de no utilizarlos, \textit{JaTyC} reportará estas carencias incluso si en la práctica nuestro código es seguro. En la Figura \ref{exp:normal-stack:client} se aprecia un ejemplo: un código cliente apila un solo elemento en un \texttt{Stack} de tamaño 10, una acción completamente segura. Sin embargo, como no respeta el protocolo del \texttt{Stack}, el análisis reporta un error. En cierto sentido, desde el punto de vista de la seguridad y la correctitud, \textit{JaTyC} reporta falsos positivos: el código potencialmente está bien, pero la herramienta sugiere al programador ser más defensivo.
+Bajo la filosofía y las capacidades de la herramienta, esto se soluciona mediante estos métodos de control, quitando flexibilidad al programador a cambio de seguridad y simplicidad en el análisis. Notemos que, de no utilizarlos, \textit{JaTyC} reportará estas carencias incluso si en la práctica nuestro código es seguro. En la Figura~\ref{exp:normal-stack:client} se aprecia un ejemplo: un código cliente apila un solo elemento en un \texttt{Stack} de tamaño 10, una acción completamente segura. Sin embargo, como no respeta el protocolo del \texttt{Stack}, el análisis reporta un error. En cierto sentido, desde el punto de vista de la seguridad y la correctitud, \textit{JaTyC} reporta falsos positivos: el código potencialmente está bien, pero la herramienta sugiere al programador ser más defensivo.
 
 \begin{figure}[htbp]
     \centering
     \lstinputlisting[language=Java]{./code/capitulo4/normal_stack/Main.java}
     \vspace{0.3cm}
     \lstinputlisting{./code/capitulo4/normal_stack/Error.txt}
-    \caption{Código cliente del stack y error reportado por \textit{JaTyC}, dado que no sigue su protocolo.}
+    \caption{Código cliente del \texttt{Stack} y error reportado por \textit{JaTyC}, dado que no sigue su protocolo.}
     \label{exp:normal-stack:client}
 \end{figure}
 
 \section{Intervención Humana}
 
+\textit{JaTyC} es una herramienta de verificación de \textit{typestates} cuyo objetivo es reducir los errores en programas Java. Para ello, se apoya en los protocolos definidos en archivos con extensión \textit{.protocol} y verifica estáticamente que las llamadas a métodos de objetos protocolados respeten el orden denotado en ellos. Sin embargo, ¿qué impide que un programador defina incorrectamente un protocolo? ¿Qué consecuencias podría tener esto en el programa final y en los errores reportados, o ignorados, por \textit{JaTyC}? Nos interesa investigar cómo se ve afectada la herramienta al depender de la intervención humana para detectar errores correctamente.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+    \lstinputlisting{./code/capitulo3/loop_iterator/Iterator.protocol}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial] (H) at (0,0)    {HasNext};
+\node[state]          (N) at (4.2,0)  {Next};
+\node[state, accepting] (E) at (2.1,-3) {end};
+
+\path (H) edge [bend left] node {hasNext()=true} (N)
+          edge             node [swap] {hasNext()=false} (E)
+      (N) edge [bend left] node {next()} (H)
+          edge             node {hasNext()=false} (E)
+          edge [loop above] node {hasNext()=true} (N);
+\end{tikzpicture}}
+\end{minipage}
+\caption{Protocolo \texttt{Iterator} y su autómata}
+\label{exp:iterator_protocol}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+    \lstinputlisting{./code/capitulo3/loop_iterator/LoopIterator.protocol}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (I) at (0,0) {Init};
+\node[state, accepting] (E) at (4,0) {end};
+
+\path (I) edge [loop above] node [align=center]
+          {hasNext()=true\\hasNext()=false\\next()} (I)
+          edge node {drop} (E);
+\end{tikzpicture}}
+\end{minipage}
+\caption{Protocolo \texttt{LoopIterator} y su autómata}
+\label{exp:loopiterator_protocol}
+\end{figure}
+
+En primer lugar, realizamos un experimento para probar la ``sobreespecificación'' de un protocolo, que interpretamos como uno que permite menos cadenas de llamadas a métodos de las esperadas. Lo llevamos a cabo con los dos iteradores introducidos en la sección~\ref{subtipado} sobre subtipado: la interfaz \texttt{Iterator} y la implementación \texttt{LoopIterator}. Volvemos a mostrar sus protocolos en las Figuras~\ref{exp:iterator_protocol} y~\ref{exp:loopiterator_protocol}. Recordemos que la interfaz permite obtener el siguiente elemento siempre que haya uno, y que su protocolo finaliza cuando no lo hay. Por otro lado, \texttt{LoopIterator} recorre la colección de forma cíclica e infinita, por lo que pueden llamarse \texttt{next()} y \texttt{hasNext()} en cualquier momento. Sus protocolos reflejan este comportamiento.
+
+La prueba realizada utiliza el código cliente de la Figura~\ref{exp:restrictive-iterator:client}, que simplemente instancia un \texttt{LoopIterator}, recorre su colección hasta el final y luego solicita un elemento más mediante \texttt{next()}. Dado que el protocolo de \texttt{LoopIterator} permite llamar a \texttt{next()} en cualquier estado, este cliente es válido. Analizamos el código completo en dos versiones: una en la que \texttt{LoopIterator} seguía el protocolo de la Figura~\ref{exp:loopiterator_protocol}, y otra en la que no (y, por lo tanto, seguía el protocolo de su interfaz \texttt{Iterator}).
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/restrictive_iterator/ClientCode.java}
+    \caption{Código cliente para un \texttt{LoopIterator} que intenta recorrer cíclicamente la colección.}
+    \label{exp:restrictive-iterator:client}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/restrictive_iterator/Error.txt}
+    \caption{Error producido por el código cliente de la Figura~\ref{exp:restrictive-iterator:client} cuando \texttt{LoopIterator} no implementa su propio protocolo.}
+    \label{exp:restrictive-iterator:error}
+\end{figure}
+
+Cuando la clase contaba con su propio protocolo, \textit{JaTyC} no detectó ningún error, como era de esperar. Cuando seguía el protocolo de su interfaz, más restrictivo, la herramienta reportó el error de la Figura~\ref{exp:restrictive-iterator:error}, indicando que la última llamada a \texttt{next()} incumplía el protocolo. Este resultado muestra que, si diseñamos los protocolos de forma más restrictiva de lo necesario, se rechazan cadenas de llamadas potencialmente válidas.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/underspecified_iterator/UnderspecifiedIterator.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/underspecified_iterator/UnderspecifiedIterator.protocol}
+    \caption{Implementación y protocolo de \texttt{UnderspecifiedIterator}, una simple implementación de \texttt{Iterator}.}
+    \label{exp:underspecified-iterator}
+\end{figure}
+
+El segundo experimento es su contraparte: probamos ``subespecificar'' el protocolo de un objeto, permitiendo más secuencias de métodos de las esperadas. Para ello construimos la clase \texttt{UnderspecifiedIterator} (Figura~\ref{exp:underspecified-iterator}), una implementación simple de la interfaz \texttt{Iterator} sin comportamientos particulares. Dado que no puede devolver más elementos una vez alcanzado el final de la colección, una nueva llamada a \texttt{next()} lanzaría una excepción. Sin embargo, esta clase está sujeta al mismo protocolo que el \texttt{LoopIterator} del experimento anterior, que permite llamar a \texttt{next()} en cualquier situación.
+
+Como era de esperar, \textit{JaTyC} no generó ningún error al compilar las clases. El cliente de la Figura~\ref{exp:underspecified-iterator:client} obtiene elementos dentro de un ciclo sin ninguna guarda, algo que el protocolo de la clase permite, por lo que el iterador termina excediendo el tamaño de la colección y el programa lanza una \texttt{java.lang.ArrayIndexOutOfBoundsException}.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/underspecified_iterator/ClientCode.java}
+    \caption{Código cliente para un \texttt{UnderspecifiedIterator} que intenta obtener elementos dentro de un ciclo sin verificar que existan.}
+    \label{exp:underspecified-iterator:client}
+\end{figure}
+
+Estas pruebas muestran que la herramienta es susceptible al error humano, donde una mala definición del protocolo puede alterar su resultado. Si los protocolos son más restrictivos y ``sobreespecifican'', se reportan errores para cadenas de métodos que, en principio, querríamos considerar válidas. Si son más laxos y ``subespecifican'', se permiten cadenas de métodos que querríamos evitar, y las excepciones en tiempo de ejecución pueden interrumpir nuestros programas. Esto complementa lo visto con el \texttt{Stack} defectuoso de la sección anterior: \textit{JaTyC} verifica el cumplimiento de un protocolo, pero que ese protocolo y la implementación reflejen el comportamiento deseado depende del programador. Quizás esto no resulte evidente con los ejemplos pequeños que diseñamos, pero en protocolos más complejos, con decenas de \textit{typestates} y aún más transiciones, especificar correctamente el comportamiento esperado de los clientes puede volverse rápidamente difícil y propenso a errores. A futuro, la generación automática de estos protocolos podría ser una solución. Un acercamiento en esta dirección puede verse en el trabajo de Uchitel et al.~\cite{xepa}, donde se toma la implementación actual de una clase como oráculo.
+
 \section{Subtipado}
 
-\section{Estado Vs Typestate}
+En relación con las funcionalidades de subtipado de la herramienta, nos interesaba explorar sus capacidades, sobre todo por ser una de sus principales distinciones con Mungo. Realizamos varias pruebas para entender cómo funcionaba, qué cosas permitía y qué no.
 
-\section{Casos Bordes} % o \section{Capacidad de Modelado}
+Un primer acercamiento a esta funcionalidad puede verse en uno de los experimentos de la sección anterior (Figuras~\ref{exp:iterator_protocol} y~\ref{exp:loopiterator_protocol}), donde la clase \texttt{LoopIterator} implementaba la interfaz \texttt{Iterator}. Si observamos los protocolos, podemos apreciar que el de la clase \textbf{permite más secuencias de métodos} que el de su interfaz (protocolo padre). Con el código cliente de la Figura~\ref{exp:restrictive-iterator:client}, que instancia un objeto de tipo \texttt{LoopIterator}, \textit{JaTyC} no reporta ningún error a pesar de que se rompe el protocolo de su interfaz. Realizamos la misma prueba con el código cliente de la Figura~\ref{exp:restrictive-iterator:client_2}, donde en cambio el objeto se declara con el tipo de la interfaz \texttt{Iterator}, y esta vez la herramienta sí reportó un error de incumplimiento de protocolo.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/restrictive_iterator/ClientCode2.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/restrictive_iterator/Error_2.txt}
+    \caption{Código cliente que intenta recorrer cíclicamente la colección con un objeto declarado como \texttt{Iterator} y no como \texttt{LoopIterator}. Se muestra también el error reportado por la herramienta.}
+    \label{exp:restrictive-iterator:client_2}
+\end{figure}
+
+Que \textit{JaTyC} haya reportado un error con el tipo de la interfaz pero no con el de la clase tiene sentido: al declarar un objeto de tipo \texttt{Iterator}, incluso si la instancia permite más secuencias de métodos, el cliente espera que se comporte como un \texttt{Iterator}.
+
+% ---------- Iterator ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.45\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)    {HasNext};
+\node[state]            (N) at (4.2,0)  {Next};
+\node[state, accepting] (E) at (0,-3)   {end};
+
+\path (H) edge [bend left] node {hasNext()=true} (N)
+          edge             node [swap] {hasNext()=false} (E)
+      (N) edge [bend left] node {next()} (H);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{Iterator}.}
+\label{exp:subtyping:iterator-protocol}
+\end{figure}
+
+A partir de esta prueba quisimos profundizar en este comportamiento. En particular, nos interesaba ver casos un poco más complejos de subprotocolado, y también qué sucedería si un subprotocolo permitiese \textbf{menos secuencias de métodos} que su protocolo padre.
+
+Comenzamos la prueba definiendo una interfaz \texttt{Iterator} con el protocolo de la Figura~\ref{exp:subtyping:iterator-protocol}. Es una versión simplificada del protocolo anterior (Figura~\ref{exp:iterator_protocol}): siempre que \texttt{hasNext()} devuelve verdadero debe llamarse a \texttt{next()}, y si devuelve falso el protocolo termina.
+
+% ---------- SafeIterator ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.6\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)    {HasNext};
+\node[state]            (V) at (4.2,0)  {Verify};
+\node[state]            (N) at (8.4,0)  {Next};
+\node[state, accepting] (E) at (0,-3)   {end};
+
+\path (H) edge [bend left] node {hasNext()=true} (V)
+          edge             node [swap] {hasNext()=false} (E)
+      (V) edge [bend left] node {next()} (H)
+          edge             node {iAmSure()} (N)
+      (N) edge [bend right=55] node {next()} (H);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{SafeIterator}.}
+\label{exp:safeiterator_protocol}
+\end{figure}
+
+Luego diseñamos distintas implementaciones de la interfaz, cada una con su propio subprotocolo. En la Figura~\ref{exp:safeiterator_protocol} puede verse el protocolo de \texttt{SafeIterator}, un iterador con un método extra \texttt{iAmSure()} (``\texttt{estoySeguro()}''). La clase se llama ``iterador seguro'' porque se puede llamar a \texttt{iAmSure()} entre \texttt{hasNext()} y \texttt{next()}, confirmando de cierta forma que se quiere acceder al próximo elemento. No obstante, este método puede omitirse: en el autómata existe una transición desde \textit{Verify} hacia \textit{HasNext} con \texttt{next()}. En otras palabras, el protocolo de este iterador admite todas las secuencias de llamadas de su interfaz.
+
+% ---------- SuperSafeIterator ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.6\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)    {HasNext};
+\node[state]            (V) at (4.2,0)  {Verify};
+\node[state]            (N) at (8.4,0)  {Next};
+\node[state, accepting] (E) at (0,-3)   {end};
+
+\path (H) edge             node {hasNext()=true} (V)
+          edge             node [swap] {hasNext()=false} (E)
+      (V) edge             node {iAmSure()} (N)
+      (N) edge [bend right=45] node {next()} (H);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{SuperSafeIterator}.}
+\label{exp:supersafeiterator_protocol}
+\end{figure}
+
+Por otro lado, en la Figura~\ref{exp:supersafeiterator_protocol} puede observarse el protocolo de una segunda variante llamada \texttt{SuperSafeIterator}, un ``iterador super seguro'' que obliga a llamar a \texttt{iAmSure()} entre \texttt{hasNext()} y \texttt{next()}. Notemos que en este caso la secuencia \texttt{hasNext();next()} ya no puede realizarse, con lo cual este protocolo no permite todas las secuencias de su interfaz.
+
+% ---------- TiredIterator ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.45\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)    {HasNext};
+\node[state]            (N) at (4.2,0)  {Next};
+\node[state]            (R) at (4.2,-3) {Rest};
+\node[state, accepting] (E) at (0,-3)   {end};
+
+\path (H) edge             node {hasNext()=true} (N)
+          edge             node [swap] {hasNext()=false} (E)
+      (N) edge             node {next()} (R)
+      (R) edge             node {rest()} (H);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{TiredIterator}.}
+\label{exp:tirediterator_protocol}
+\end{figure}
+
+Finalmente, en la Figura~\ref{exp:tirediterator_protocol} puede verse el protocolo para otra implementación, \texttt{TiredIterator}. Como su nombre lo indica, representa a un ``iterador cansado'': luego de cada llamada a \texttt{next()}, el protocolo exige que el cliente llame a un nuevo método \texttt{rest()} (descansar). Notemos que la secuencia \texttt{hasNext();next();hasNext()}, permitida por la interfaz, ya no puede realizarse con este protocolo.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/subtyping_iterators/Error.txt}
+    \caption{Errores reportados por \textit{JaTyC} al analizar las relaciones de protocolos entre los iteradores de las Figuras~\ref{exp:subtyping:iterator-protocol}, \ref{exp:safeiterator_protocol}, \ref{exp:supersafeiterator_protocol} y~\ref{exp:tirediterator_protocol}.}
+    \label{exp:subtyping:error}
+\end{figure}
+
+En la Figura~\ref{exp:subtyping:error} pueden verse los errores reportados por \textit{JaTyC} al analizar estos protocolos. En particular, reporta errores solo para las clases cuyos protocolos no admiten todas las secuencias de métodos de la interfaz que implementan: \texttt{SuperSafeIterator} y \texttt{TiredIterator}. Para la primera, reporta que la transición con \texttt{next()} en el estado \textit{Next} de la interfaz no está presente desde el estado \textit{Verify}. Esto tiene sentido dado que, como mencionamos, el \texttt{SuperSafeIterator} fuerza a llamar a \texttt{iAmSure()} antes de \texttt{next()}, y por ende esa transición no está disponible. Similarmente, para la segunda reporta correctamente que la transición con \texttt{hasNext()} en el estado \textit{HasNext} de \texttt{Iterator} no está disponible desde el estado \textit{Rest}. Esto también es esperable, dado que los clientes deben llamar a \texttt{rest()} luego de \texttt{next()}.
+
+Con este experimento confirmamos que la herramienta exige que todas las transiciones del protocolo de un supertipo estén disponibles también en el protocolo del subtipo. De ser así, como en \texttt{SafeIterator}, no se reporta ningún error. De lo contrario, como en \texttt{SuperSafeIterator} o \texttt{TiredIterator}, se especifica qué transiciones hacen falta para que los protocolos sean compatibles.
+
+Otro aspecto del subtipado que queríamos investigar era el de las finalizaciones de protocolo. \textit{JaTyC} se asegura de que, si tanto un supertipo como un subtipo están sujetos a protocolos diferentes, el protocolo del subtipo incluya al del supertipo. Sin embargo, nos preguntamos si esta inclusión tiene en cuenta todos los aspectos del protocolo, como los estados descartables. Nos interesa saber si además se requiere que el subtipo pueda finalizar su protocolo de la misma forma en que lo hace el supertipo.
+
+% ---------- Iterator (con drop) ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.45\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)     {HasNext};
+\node[state]            (N) at (4.2,0)   {Next};
+\node[state, accepting] (E) at (2.1,-3)  {end};
+
+\path (H) edge [bend left] node {hasNext()=true} (N)
+          edge             node [swap, align=center] {hasNext()=false\\drop} (E)
+      (N) edge [bend left] node {next()} (H)
+          edge             node {drop} (E);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{Iterator} con transiciones \texttt{drop}.}
+\label{exp:droppable_iterator_protocol}
+\end{figure}
+
+Para ello volvimos a crear una interfaz \texttt{Iterator} con su protocolo usual, pero con la diferencia de que ambos estados \textit{HasNext} y \textit{Next} son descartables. El autómata resultante puede observarse en la Figura~\ref{exp:droppable_iterator_protocol}.
+
+% ---------- SometimesDroppableIterator ----------
+\begin{figure}[htbp]
+\centering
+\resizebox{0.6\textwidth}{!}{%
+\begin{tikzpicture}[proto]
+\node[state, initial]   (H) at (0,0)    {HasNext};
+\node[state]            (N) at (4.2,0)  {Next};
+\node[state]            (D) at (8.4,0)  {DoNothing};
+\node[state, accepting] (E) at (4.2,-3) {end};
+
+\path (H) edge             node {hasNext()=true} (N)
+          edge             node [swap, align=center] {hasNext()=false\\drop} (E)
+      (N) edge [bend left=20] node {next()} (D)
+          edge             node [swap] {drop} (E)
+      (D) edge [bend left=20] node {hasNext()=true} (N)
+          edge             node {hasNext()=false} (E)
+          edge [bend right=60] node {doNothing()} (H);
+\end{tikzpicture}}
+\caption{Autómata del protocolo \texttt{SometimesDroppableIterator}.}
+\label{exp:sometimesdroppableiterator_protocol}
+\end{figure}
+
+Luego, por un lado, creamos una primera implementación, \texttt{NeverDroppableIterator}, la cual no tiene ningún estado descartable. Su protocolo es el del \texttt{Iterator} original, sin \texttt{drop} (Figura~\ref{exp:subtyping:iterator-protocol}), y por ende su única forma de transicionar a \texttt{end} es cuando \texttt{hasNext()} devuelve falso.
+
+Por otro lado, creamos una segunda implementación, \texttt{SometimesDroppableIterator}, con solo algunos estados descartables. El autómata de su protocolo puede verse en la Figura~\ref{exp:sometimesdroppableiterator_protocol}. La clase agrega un nuevo método \texttt{doNothing()} (``hacer nada''), que puede llamarse entre \texttt{next()} y \texttt{hasNext()}. El protocolo define un nuevo \textit{typestate}, \textit{DoNothing}, desde donde se puede llamar a este método y que no es descartable. Es importante observar que, tanto en esta clase como en la anterior, se preservan todas las secuencias de llamadas de métodos de la interfaz; lo único que cambia son las transiciones a \texttt{end} a través de estados descartables.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/subtyping_with_droppables/Error.txt}
+    \caption{Errores reportados por \textit{JaTyC} al analizar las relaciones de protocolos entre los iteradores de las Figuras~\ref{exp:droppable_iterator_protocol}, \ref{exp:subtyping:iterator-protocol} y~\ref{exp:sometimesdroppableiterator_protocol}.}
+    \label{exp:subtyping:drop-error}
+\end{figure}
+
+En la Figura~\ref{exp:subtyping:drop-error} pueden observarse los errores reportados por \textit{JaTyC} al analizar estos protocolos. Para \texttt{NeverDroppableIterator} reporta dos errores: las transiciones \texttt{drop} de los estados \textit{HasNext} y \textit{Next} de la interfaz no están presentes en los estados equivalentes de la clase, ya que ninguno es descartable. Para \texttt{SometimesDroppableIterator} reporta un error: la transición \texttt{drop} del estado \textit{HasNext} de la interfaz no está presente en el estado \textit{DoNothing} de la clase, que no es descartable. Esto confirma que toda transición a la finalización del protocolo, tanto mediante llamadas a métodos como mediante estados descartables, es contemplada al evaluar el correcto subtipado de protocolos.
+
+En resumen, los experimentos muestran que \textit{JaTyC} entiende el subtipado de protocolos como una relación de inclusión: el protocolo del subtipo debe admitir todas las secuencias de llamadas del protocolo del supertipo, incluyendo las que terminan en \texttt{end}, ya sea mediante una llamada a un método o mediante un estado descartable. El subtipo puede ofrecer secuencias adicionales, como en \texttt{SafeIterator} y \texttt{LoopIterator}, pero no puede restringir las del supertipo (como en \texttt{SuperSafeIterator} y \texttt{TiredIterator}) ni perder la posibilidad de finalizar en estados donde el supertipo sí la tiene (como en \texttt{NeverDroppableIterator} y \texttt{SometimesDroppableIterator}).
+
+\section{Estado vs.\ \textit{Typestate}}
+\label{sec:estado-typestate}
+
+En la sección~\ref{typestate-theory} relatamos la primera aparición de la noción de \textit{typestates}. En ella, se los describe como el modelado del estado de un objeto a la hora de realizar una operación. A cada uno de estos estados se le asocia un conjunto de operaciones disponibles y se definen los estados a los que se transiciona luego de llamarlas. \textit{JaTyC} también define a los \textit{typestates} en forma similar, donde cada uno modela un estado particular del objeto, con sus métodos y transiciones disponibles.
+
+Como notamos en la sección~\ref{implementacion}, donde explicamos la lógica detrás de la herramienta, el seguimiento del estado actual de un objeto protocolado comienza cuando se lo define, instanciándolo en su estado inicial. Este estado solo se actualiza cuando se llama a alguno de los métodos disponibles en el protocolo (o cuando el objeto se descarta desde un estado descartable), momento en el que el objeto transiciona al estado destino. Por lo tanto, parecería que el estado interno de un objeto toma un plano secundario a la hora de determinar su \textit{typestate}, dado que los cambios en los colaboradores internos no representan una transición.
+
+De todos modos, \textit{JaTyC} sí parecería tener en cuenta a estos colaboradores internos. Por un lado, hace seguimiento de sus tipos, aunque no para determinar si el protocolo del objeto actual fue quebrado, sino para verificar que el objeto no realice operaciones inválidas con ellos. Por otro lado, la herramienta declara como limitación (sección~\ref{limitaciones}) que los métodos \textit{anytime} no pueden escribir sobre los colaboradores internos, solamente leerlos. De esto se desprende que los colaboradores internos son relevantes para determinar el \textit{typestate} de un objeto.
+
+Nos interesa entonces entender mejor la relación entre el estado de un objeto y su \textit{typestate}. ¿Puede el estado interno de un objeto determinar el \textit{typestate} en el que se encuentra? ¿Cómo relaciona la herramienta a ambos conceptos?
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/state_equals_typestate/MoveToEndIterator.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/state_equals_typestate/MoveToEndIterator.protocol}
+    \caption{Implementación y protocolo para \texttt{MoveToEndIterator}.}
+    \label{exp:state-equals-typestate:iterator}
+\end{figure}
+
+Un primer experimento que realizamos fue nuevamente con iteradores. En particular, contamos con una clase \texttt{MoveToEndIterator} que sigue el protocolo simple de la interfaz \texttt{Iterator} (Figura~\ref{exp:state-equals-typestate:iterator}). Esta agrega un método propio no protocolado (\textit{anytime}) llamado \texttt{moveToEnd()}, el cual modifica el colaborador interno \texttt{index} hacia la última posición de la colección. Como puede observarse, el nuevo método de la clase está por fuera del protocolo y, por lo tanto, no hace transicionar al objeto hacia un \textit{typestate} nuevo. De todas formas, sí modifica su estado interno.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/state_equals_typestate/ClientCode.java}
+    \caption{Código cliente para \texttt{MoveToEndIterator}.}
+    \label{exp:state-equals-typestate:client}
+\end{figure}
+
+En la Figura~\ref{exp:state-equals-typestate:client} puede verse el código cliente utilizado. Este inicializa una lista no vacía e instancia un \texttt{MoveToEndIterator} con ella. Luego, llama a su método \texttt{hasNext()} como guarda de un condicional. En la rama verdadera, se reposiciona el \texttt{index} hacia el final y se pide el próximo elemento de la colección. Con este código cliente buscamos que la ejecución finalice con una excepción a pesar de estar siguiendo el protocolo, ``rompiendo'' de cierta forma el \textit{typestate} del objeto al cambiar su estado interno.
+
+A pesar de que \textit{JaTyC} menciona en su documentación que no permite que métodos no protocolados modifiquen a los colaboradores internos, no reportó ningún error al analizar la clase iteradora. Luego, al ejecutar el código, este efectivamente terminó con una excepción \texttt{java.lang.ArrayIndexOutOfBoundsException}.
+
+Por un lado, esto muestra que hay un error en la herramienta (una inconsistencia con lo que declara su documentación). Por otro, incluso si hubiese reportado un error para el método \texttt{moveToEnd()} por escribir en un colaborador, esto podría haberse reproducido de forma similar agregando la misma funcionalidad en el método \texttt{hasNext()}. Es decir, el mismo método protocolado podría alterar el estado interno del objeto de modo que, incluso siguiendo el protocolo, el código se rompería. Esto nos dice que \textit{JaTyC} realmente no tiene en cuenta el estado de los colaboradores internos de un objeto a la hora de evaluar su \textit{typestate}. A pesar de que intenta limitar las modificaciones indebidas del mismo, no asegura que un \textit{typestate} particular se corresponda con una o varias configuraciones del estado interno del objeto. Eso queda como responsabilidad del desarrollador, quien debe asegurarse de que la implementación y el protocolo se complementen para hacer el código más seguro y menos propenso a fallas.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+        \lstinputlisting[language=Java]{./code/capitulo4/public_stack/Stack.java}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \lstinputlisting{./code/capitulo4/public_stack/StackProtocol.protocol}
+\end{minipage}
+\caption{Código y protocolo de una clase \texttt{Stack}. La misma tiene a su colaborador interno \texttt{size} público.}
+\label{exp:public-stack:stack}
+\end{figure}
+
+Otra prueba que realizamos involucra a una pila, muy similar a implementaciones previamente expuestas. La implementación y el protocolo de la misma pueden observarse en la Figura~\ref{exp:public-stack:stack}. La única particularidad de esta pila es que tiene un colaborador interno público, \texttt{size}, el cual guarda la información del tamaño de la pila. Este valor es utilizado en el método \texttt{isFull()} para determinar si la pila ya está llena. Dado que es público, puede modificarse desde fuera del objeto y, por ende, alterar su estado interno sin alterar su \textit{typestate}.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/public_stack/Main.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/public_stack/Error.txt}
+    \caption{Código cliente para la pila de la Figura~\ref{exp:public-stack:stack} y error reportado por \textit{JaTyC} al analizarlo.}
+    \label{exp:public-stack:error}
+\end{figure}
+
+En la Figura~\ref{exp:public-stack:error} puede verse el código cliente utilizado para la prueba y el error reportado. Este instancia un \texttt{Stack} y lo intenta ``romper'' modificando su colaborador interno público para que almacene un tamaño mayor al verdadero de la pila. Luego, intenta apilar más elementos de los que admite, dado que la implementación del método \texttt{isFull()} ya no podrá funcionar correctamente.
+
+Nuestra intención con este experimento era, nuevamente, probar la flexibilidad de la herramienta, ver si permitiría que se den esta clase de situaciones y mejorar nuestro entendimiento de cómo relaciona el estado interno de una clase con su protocolo. Al analizar el código, \textit{JaTyC} reporta el error de la Figura~\ref{exp:public-stack:error}, donde no se le permite al cliente acceder al colaborador público.
+
+Por un lado, esto muestra que \textit{JaTyC} comprende, en cierto sentido, que el estado interno de un objeto es relevante para mantener estable su \textit{typestate}. Es decir, si pretendemos que un objeto tenga un protocolo bien definido, donde distintas acciones solo son permitidas en ciertos momentos del programa, no podemos permitir que el estado del objeto pueda ser modificado de cualquier forma desde cualquier lugar. Por otro lado, representa otra limitación para los programas que pueden desarrollarse con la herramienta: utilizar colaboradores internos públicos como una forma fácil de acceder a sus contenidos ya no está permitido. De todos modos, consideramos que esto es coherente con el concepto de encapsulamiento, y es práctica común mantener a estos colaboradores internos privados con métodos \textit{getters}. Por ende, no consideramos que sea una limitación particularmente grave. La situación es distinta cuando el colaborador es a su vez un objeto protocolado, caso en el que los \textit{getters} tienen complicaciones que analizamos en la sección~\ref{sec:aliasing}.
+
+En síntesis, los experimentos muestran que en \textit{JaTyC} el \textit{typestate} de un objeto es una abstracción que la herramienta rastrea de forma independiente de su estado interno concreto. La herramienta garantiza que los clientes respeten el protocolo y restringe parte de los accesos que podrían desincronizar ambos planos, como el acceso externo a colaboradores públicos, pero no verifica que cada \textit{typestate} se corresponda con una o varias configuraciones válidas del estado interno. Esa correspondencia, de la cual depende que seguir el protocolo implique efectivamente la ausencia de fallas, queda a cargo del desarrollador. Por lo tanto, las garantías de \textit{JaTyC} deben entenderse como garantías de cumplimiento del protocolo y no como garantías de corrección de la implementación.
+
+\section{Capacidades de Modelado}
+
+A diferencia de las secciones anteriores, que giraban en torno a preguntas conceptuales sobre \textit{object protocols} y \textit{typestates}, en esta presentaremos distintas experimentaciones que realizamos con \textit{JaTyC} para entender sus capacidades de modelado. Mencionaremos las pruebas y hallazgos que consideramos más relevantes, mostrando tanto las habilidades como las limitaciones de la herramienta a la hora de utilizarla. Los experimentos se organizan en cuatro ejes: la sobrecarga de métodos, el uso de \texttt{@Ensures} en parámetros, el modelado de objetos inmutables y la inclusión de métodos constructores en los protocolos.
+
+\subsection{Sobrecarga de Métodos}
+
+Una característica de Java que mejora la expresividad de los programas es la capacidad de \textbf{sobrecargar métodos}. Esto implica definir, dentro de una misma clase, métodos con el mismo nombre pero con diferentes parámetros. La sobrecarga permite agrupar operaciones que conceptualmente hacen lo mismo, fomenta interfaces más limpias y con menos nombres de métodos, y flexibiliza las llamadas por parte de los clientes, entre otras cosas.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/Sobrecarga.java}
+    \caption{Ejemplo de sobrecarga de métodos en Java.}
+    \label{exp:overload:example}
+\end{figure}
+
+En la Figura~\ref{exp:overload:example} puede verse un ejemplo de sobrecarga de métodos, donde se presentan tres variaciones de \texttt{add()}. Como el nombre indica, suman los valores de los parámetros recibidos, pero el número y tipo de parámetros varía según la declaración: la primera suma dos enteros, la segunda tres, y la tercera dos números de punto flotante.
+
+Nos interesaba saber si \textit{JaTyC} permitía diseñar y verificar protocolos que involucren métodos sobrecargados. Para ello, realizamos pruebas con una pila similar a las vistas anteriormente, pero con dos métodos distintos para apilar, \texttt{push(int)} para enteros y \texttt{push(float)} para números de punto flotante.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/overloaded_stack_1/StackProtocol.protocol}
+    \caption{Protocolo de una pila donde se utilizan ambas versiones del método \texttt{push()} en el mismo estado \textit{CanPush}.}
+    \label{exp:overload:protocol-1}
+\end{figure}
+
+Un primer experimento buscaba ver qué sucedería al agregar ambas versiones sobrecargadas de este método a un mismo \textit{typestate}, como puede verse en la Figura~\ref{exp:overload:protocol-1}. En ella, el cliente debería poder apilar tanto enteros como flotantes en el estado \textit{CanPush}. Al analizar este protocolo con su respectiva implementación, e incluso con un código cliente que llamase a ambas versiones del método, \textit{JaTyC} no reportó ningún error.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/overloaded_stack_2/StackProtocol.protocol}
+    \caption{Protocolo de una pila simplificado donde solo se predica sobre el apilar. Las versiones del método sobrecargado \texttt{push()} se encuentran disponibles en \textit{typestates} distintos.}
+    \label{exp:overload:protocol-2}
+\end{figure}
+
+Una segunda prueba separaba ambas variantes en distintos \textit{typestates} (Figura~\ref{exp:overload:protocol-2}). Con un protocolo simplificado de la pila donde solo se trataba con las operaciones de apilado, se separó el estado \textit{CanPush} en \textit{PushInt} y \textit{PushFloat}, cada uno con su respectiva variante del método \texttt{push()}. Luego, se llegaba a ellos con los métodos de control \texttt{canPushInt()} y \texttt{canPushFloat()} desde el estado inicial \textit{Init}.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/overloaded_stack_2/Main.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/overloaded_stack_2/Error.txt}
+    \caption{Código cliente para la pila con protocolo de la Figura~\ref{exp:overload:protocol-2} y errores reportados por \textit{JaTyC}.}
+    \label{exp:overloaded:error}
+\end{figure}
+
+En la Figura~\ref{exp:overloaded:error} se aprecia el código cliente que utiliza este \texttt{Stack}. Este comienza siguiendo el protocolo correctamente, utilizando ambas operaciones de apilado detrás de sus respectivos métodos de control, y luego lo rompe al utilizarlas al revés. \textit{JaTyC} fue capaz de detectarlo, dado que reportó errores para ambos usos de los métodos de apilado en \textit{typestates} incorrectos.
+
+Lo que ambos experimentos nos muestran es que, tanto para sobrecarga de métodos en un mismo \textit{typestate} como en \textit{typestates} separados, \textit{JaTyC} es capaz de procesar las variantes como métodos distintos sin confundirlas. Por lo tanto, parecería dar soporte a la sobrecarga sin problemas.
+
+\subsection{\texttt{@Ensures} en Parámetros}
+\label{exp:ensures}
+
+Como mencionamos en la sección~\ref{ensures}, luego de experimentar con la herramienta descubrimos su capacidad de anotar parámetros de métodos con \texttt{@Ensures}. A pesar de que esta funcionalidad no está mencionada en su documentación actual, la primera versión de \textit{JaTyC}, basada en el trabajo de João Mota~\cite{jatyc:msc-thesis}, la incluía de base. Esto permite especificar el \textit{typestate} de un parámetro luego de finalizar el método, y los argumentos provistos por el cliente al llamarlo vuelven a ser referencias lineales al objeto en ese estado. Dado que esta característica eleva la expresividad de la herramienta a la hora de utilizar los \textit{typestates}, nos pareció interesante mencionarla.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/parameter_ensures/Main.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/parameter_ensures/Error.txt}
+    \caption{Error reportado por \textit{JaTyC} al analizar código cliente para una pila que intenta utilizar métodos protocolados luego de enviarla como argumento.}
+    \label{exp:parameter-ensures-1}
+\end{figure}
+
+Utilizando el mismo \texttt{Stack} de la Figura~\ref{exp:normal-stack}, implementamos el código cliente de la Figura~\ref{exp:parameter-ensures-1}. En él se crea un método \texttt{pushToStack()}, el cual toma un \texttt{Stack} en el estado \textit{Init} (referencia lineal) y apila un elemento. El método \texttt{main()} instancia una nueva pila y luego la pasa como argumento a ese método. Al finalizar, intenta volver a utilizar la pila y \textit{JaTyC} reporta un error, mencionando que en ese punto del programa la variable es una referencia compartida.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/parameter_ensures_2/Main.java}
+    \caption{Ejemplo de uso de anotación \texttt{@Ensures}.}
+    \label{exp:parameter-ensures-2}
+\end{figure}
+
+Luego, actualizamos la definición del método con la anotación \texttt{@Ensures} en el parámetro, como se ve en la Figura~\ref{exp:parameter-ensures-2}. En particular, se especifica que al finalizar el método la pila se encontrará en el \textit{typestate} \textit{Init}, y además se declara el parámetro como \texttt{final}. Esto último es un requerimiento de \textit{JaTyC} para utilizar la anotación en parámetros, y evita que la variable sea reasignada durante la ejecución del método. De utilizar la anotación sin dicho modificador, la herramienta reporta el error \texttt{Parameters with @Ensures should be final}.
+
+Esta restricción tiene sentido si pensamos en lo que promete la anotación: que al terminar el método la referencia que el cliente entregó le será devuelta en un \textit{typestate} determinado. Si el parámetro pudiera reasignarse dentro del método, la variable podría pasar a referenciar a un objeto distinto del recibido, y la garantía dejaría de hablar del objeto que el cliente espera recuperar. Al exigir que el parámetro sea \texttt{final}, la herramienta se asegura de que la referencia que vuelve al cliente sea efectivamente la misma que este entregó.
+
+El análisis de este código cliente con \textit{JaTyC} no devuelve ningún error, con lo cual la referencia lineal del parámetro pudo devolverse correctamente al cliente que llamó al método.
+
+Consideramos este descubrimiento muy positivo para el uso de la herramienta en proyectos reales. De no poder recuperar la referencia lineal de los objetos pasados como parámetros a métodos, el uso de objetos protocolados se limitaría bastante y se tendería a evitar utilizarlos como argumentos. Aclaramos también que estas pruebas no son suficientes para afirmar que esta funcionalidad se comporta correctamente en todos los casos, dado que no está oficialmente mencionada en la documentación. En la sección~\ref{sec:aliasing} profundizamos sobre esta funcionalidad desde el punto de vista del \textit{aliasing}, donde analizamos cómo se transfiere la linealidad cuando se utiliza (y cuando no) la anotación \texttt{@Ensures}, y qué errores reporta la herramienta en cada caso.
+
+\subsection{Objetos Inmutables}
+
+Existen objetos que, según cómo se construyan, tienen distintos métodos disponibles. Por ejemplo, tomemos el método estático \texttt{List.of("foo")}, el cual crea una instancia de tipo \textit{List} pero \textbf{inmutable}. Esto significa que la colección no puede ser modificada: métodos tales como \texttt{add()}, para agregar elementos, o \texttt{remove()}, para quitarlos, no pueden ser llamados (en Java, hacerlo lanza una excepción en tiempo de ejecución). Ahora, si quisiéramos construir un protocolo para las listas, ¿podríamos representar algo similar con \textit{JaTyC}? Es decir, ¿tenemos forma de utilizar la herramienta en casos donde un objeto puede ser o no inmutable?
+
+Un primer acercamiento fue agregar al protocolo los métodos propios de la versión mutable (los de modificación) y dejar el resto de los métodos como no protocolados. Luego, intentamos instanciar todas las versiones inmutables como referencias compartidas a un objeto cuyo protocolo ya finalizó, y las mutables como referencias lineales normales. En la Figura~\ref{exp:dropped-list} puede observarse un ejemplo de esto, donde la clase \texttt{DroppedList} tiene un método \texttt{add()} protocolado, y otros métodos, como \texttt{get()}, no protocolados y por lo tanto utilizables desde referencias compartidas. El constructor normal de la clase devuelve un objeto en el estado inicial del protocolo, y agregamos un método estático \texttt{of()}, el cual devuelve una instancia que ya finalizó el suyo.
+
+Con esto se busca que, al llamar al método estático, se devuelva una referencia inmutable, la cual no tiene acceso a métodos de modificación tales como \texttt{add()}. Si en cambio se utiliza el constructor convencional para instanciar un objeto, este tendrá acceso a todos los métodos, modelando la situación que queríamos inicialmente.
+
+En la Figura~\ref{exp:dropped-list:client} puede apreciarse el código cliente para esta clase, el cual utiliza ambas versiones, mutable e inmutable. En particular, intenta utilizar el método \texttt{add()} con la versión inmutable y la herramienta reporta un error. Por otro lado, la versión mutable de \texttt{DroppedList} es capaz de llamar a todos sus métodos.
+
+El problema con esta configuración es que asume que la versión inmutable no tiene un protocolo propio. Es decir, si quisiéramos darle un orden válido a sus operaciones, forzando a que los clientes la utilicen de forma correcta, necesitaríamos un modelado diferente. En cierta forma, necesitamos poder representar dos protocolos en uno, para instancias mutables e inmutables.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/immutable_list/DroppedList.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/immutable_list/DroppedList.protocol}
+    \caption{Implementación y protocolo para \texttt{DroppedList}, la cual tiene variante inmutable.}
+    \label{exp:dropped-list}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/immutable_list/ClientCode.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/immutable_list/Error.txt}
+    \caption{Código cliente y error reportado por \textit{JaTyC} al utilizar \texttt{DroppedList}.}
+    \label{exp:dropped-list:client}
+\end{figure}
+
+Nuestro siguiente acercamiento fue combinar dos protocolos diferentes en uno y asignarlos a las instancias nuevas según su variante. Sin embargo, \textit{JaTyC} no permite asociar un objeto a un protocolo u otro de manera condicional. Para superar esta limitación, diseñamos ambos protocolos por separado y luego agregamos todos los \textit{typestates} a un mismo protocolo compartido. De este modo, cada variante de la clase cuenta con un sub-protocolo propio, y las instancias deben ubicarse en el estado inicial del que les corresponde.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/immutable_list/ImmutableList.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/immutable_list/ImmutableList.protocol}
+    \caption{Implementación y protocolo para \texttt{ImmutableList}, la cual incluye protocolo tanto para su versión mutable como inmutable.}
+    \label{exp:immutable-list}
+\end{figure}
+
+Esto puede verse en la Figura~\ref{exp:immutable-list}, donde se detalla la implementación y protocolo para la clase \texttt{ImmutableList}. El protocolo incluye dos sub-protocolos de un único \textit{typestate} cada uno, \textit{Mutable} e \textit{Immutable}. De forma similar a la clase anterior \texttt{DroppedList}, puede instanciarse a través del método constructor y de uno estático \texttt{of()}. Este último llama al constructor de la clase y luego al método \texttt{immutable()}, el cual pasa la instancia al sub-protocolo de tipo inmutable. Observemos que \texttt{immutable()} es público y está incluido en el protocolo, ya que de otro modo no tendríamos forma de hacer transicionar al objeto hacia el \textit{typestate} inicial deseado. A su vez, este método estático utiliza la anotación \texttt{@Ensures} para devolver una referencia lineal en el sub-protocolo correcto. Con un cliente idéntico al de la Figura~\ref{exp:dropped-list:client} conseguimos el mismo error, donde se diferencian correctamente las operaciones habilitadas para las dos variantes de la clase.
+
+En resumen, \textit{JaTyC} no parece dar soporte directo a objetos inmutables, pero podemos modelar situaciones similares con diferentes técnicas.
+
+Por un lado, si la variante inmutable no precisa de un protocolo propio, podemos simplemente instanciarla con el protocolo ya completado. Si dejamos los métodos de modificación del objeto dentro de \textit{typestates}, estas instancias no tendrán acceso a los mismos y \textit{JaTyC} será capaz de identificar correctamente los usos incorrectos.
+
+Por otro lado, si el objeto inmutable precisa de un protocolo propio pero con algunos métodos restringidos, podemos utilizar algo similar a lo mostrado con \texttt{ImmutableList}. Diseñando distintos sub-protocolos, se los puede juntar en uno solo y luego inicializar el objeto en el \textit{typestate} inicial respectivo. Luego, los clientes podrán utilizar ambas variantes del objeto, y \textit{JaTyC} reportará errores de uso indebido de sus protocolos. Este mismo acercamiento debería funcionar para casos que van más allá de los objetos inmutables, donde se requiera que un objeto tenga distintos protocolos según la inicialización, y para cualquier cantidad de sub-protocolos (podemos utilizar un método estático por cada uno).
+
+\subsection{Métodos Constructores}
+
+Tanto en la documentación de la herramienta como en la tesis sobre su primera versión, en ningún momento se menciona que \textit{JaTyC} permita incluir dentro de un protocolo métodos que no pertenecen a la instancia, como los estáticos o los constructores. Esto tiene sentido, dado que la herramienta intenta razonar sobre el estado de un objeto en todo punto de su ciclo de vida, y estos métodos no le pertenecen a la instancia en sí. Incluso en el algoritmo detallado en la sección~\ref{alg:class-analisis}, los métodos estáticos se separan de los no estáticos y se analizan por separado, en cualquier orden.
+
+En particular, el método constructor de una clase no puede mencionarse dentro de los protocolos. Esto, o una funcionalidad similar, sería útil para, por ejemplo, permitir cambiar el protocolo según el método constructor utilizado. En la sección anterior logramos algo parecido: cambiamos el protocolo de la clase \texttt{ImmutableList} utilizando métodos estáticos de instanciación. De todos modos, para hacerlo tuvimos que agregar métodos como \texttt{immutable()} a la clase y al protocolo. Si bien este método puede interpretarse como una operación válida, como por ejemplo de congelamiento de la lista, en ese diseño se agregó solamente para poder cambiar de protocolo. Esto es un costo accidental por la falta de soporte de la herramienta y representa un método sin relevancia de modelado para la lista, lo cual agrega ruido y suele considerarse mal diseño. Poder distinguir entre protocolos según el método constructor facilitaría esto.
+
+Otro ejemplo práctico donde los constructores tienen influencia sobre los métodos disponibles de una instancia es la clase \texttt{Throwable}~\cite{java-docs:throwable}, nativa de Java. La misma tiene un método \texttt{initCause()} para inicializar la ``causa'' de la excepción, y solo puede llamarse una vez. Dado que hay constructores sobrecargados para la clase, una llamada al constructor con un argumento \texttt{cause} provoca que este método no pueda llamarse ni siquiera una vez para la instancia. En otras palabras, solamente puede llamarse a \texttt{initCause()} si en el constructor no se provee ya la causa.
+
+A pesar de saber de antemano que \textit{JaTyC} probablemente no permitía incluir a los métodos constructores dentro del protocolo, decidimos intentarlo en un pequeño experimento. En la Figura~\ref{exp:constructor} puede verse un protocolo para un iterador cuyo estado inicial solo incluye al método constructor. La herramienta reporta que este método \texttt{Iterator()} (el constructor) es requerido por el protocolo pero no está implementado. Esto tiene sentido, dado que probablemente lo interpreta como un método de instancia, mientras que el constructor sí estaba implementado, pero de la forma usual. Intentar quitar el tipo de retorno de la declaración en el protocolo, dejándola como \texttt{Iterator(int[]): HasNext} (similar a la declaración usual de un constructor), produce otro error de la herramienta por sintaxis de protocolo inválida.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting{./code/capitulo4/constructor_protocol/Iterator.protocol}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/constructor_protocol/Error.txt}
+    \caption{Protocolo para \texttt{Iterator} que incluye al método constructor en su estado inicial. \textit{JaTyC} reporta un error.}
+    \label{exp:constructor}
+\end{figure}
+
+Esto nos muestra que, efectivamente, \textit{JaTyC} no soporta el agregado de métodos constructores en sus protocolos.
 
 \section{Aliasing}
+\label{sec:aliasing}
+
+Una particularidad de la herramienta es su manejo del \textbf{aliasing}, es decir, la situación en la que varias variables referencian al mismo objeto en memoria. \textit{JaTyC} permite mantener solamente una referencia lineal del objeto, la cual es capaz de llamar a todos sus métodos disponibles y de alterar su \textit{typestate}. El resto de las referencias son compartidas, y solamente pueden llamar a los métodos no mencionados por el protocolo. De este modo, la herramienta se asegura de que el estado de un objeto solo pueda ser alterado por una variable a la vez, y evita los problemas típicos que trae realizar análisis estático de código en presencia de aliasing.
+
+En esta sección quisimos profundizar sobre la capacidad de la herramienta para manejar el aliasing en situaciones interesantes. Para ello, presentamos dos grupos de experimentos. El primero estudia cómo se transfiere la linealidad cuando una referencia protocolada se pasa como argumento de un método, y qué rol cumple la anotación \texttt{@Ensures} en ese caso. El segundo estudia qué ocurre cuando se pretende entregar, mediante un método \textit{getter}, la referencia a un colaborador interno protocolado.
+
+Unas primeras pruebas son las realizadas en la sección~\ref{exp:ensures}, donde se verificó que la herramienta permitía el uso de la anotación \texttt{@Ensures} en parámetros de métodos. En ellas puede verse que, al pasar como argumento a un método una referencia lineal (con la anotación \texttt{@Requires}), la linealidad se transfiere al método llamado y la referencia local del cliente termina siendo compartida. Esto vuelve poco flexible la utilización de objetos protocolados en presencia de llamadas a métodos: el cliente siempre pierde la referencia lineal del objeto, y el método debe asegurarse de que el mismo finalice su protocolo. Por lo tanto, poder utilizar la anotación \texttt{@Ensures} permite que la posesión del objeto siga siendo del cliente original, y que la responsabilidad de finalizar su protocolo permanezca más cerca del lugar donde se instanció.
+
+Para completar el análisis del primer caso, probamos el comportamiento complementario: qué sucede cuando no se utiliza \texttt{@Ensures}. Esperábamos que \textit{JaTyC} requiera que el parámetro con referencia lineal finalice su protocolo antes de terminar el \textit{scope} del método. En la Figura~\ref{exp:parameter-ensures-3} mostramos el protocolo de una clase \texttt{Stack} muy similar a las anteriores, pero que solo puede transicionar a \texttt{end} al llamar al método \texttt{close()} (no hay estados descartables). Al lado puede observarse el mismo código cliente de la Figura~\ref{exp:parameter-ensures-1}, que cuenta con un método \texttt{pushToStack()} el cual anota al parámetro \texttt{stack} con \texttt{@Requires}, haciendo que la referencia sea lineal. Notemos que no se utilizó \texttt{@Ensures}, con lo cual esta linealidad no puede volver hacia el método \texttt{main()} al finalizar. Notemos también que no se llama al método \texttt{close()} para terminar el protocolo.
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+    \lstinputlisting{./code/capitulo4/parameter_ensures_3/StackProtocol.protocol}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \lstinputlisting[language=Java]{./code/capitulo4/parameter_ensures_3/Main.java}
+\end{minipage}
+\caption{Protocolo de una clase \texttt{Stack} que solo finaliza al llamar a \texttt{close()}. Al lado, el código cliente que utiliza el objeto.}
+\label{exp:parameter-ensures-3}
+\end{figure}
+
+En la Figura~\ref{exp:parameter-ensures-3:error} pueden verse los errores reportados por \textit{JaTyC}. El segundo menciona que, luego de delegar la referencia lineal en la llamada al método, la variable \texttt{stack} es compartida y por ende sus métodos protocolados (\texttt{isFull()}) ya no pueden ser llamados. Este es el mismo error que el reportado en la Figura~\ref{exp:parameter-ensures-1}. El primer error reporta lo que pretendíamos provocar: la pila no finalizó su protocolo, y se señala al método \texttt{pushToStack()} como el culpable. Esto nos muestra que efectivamente la transferencia de linealidad del objeto hacia el método sucedió, y que \textit{JaTyC} espera que con ella también se transfiera la responsabilidad de dejarlo en un estado final correcto.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting{./code/capitulo4/parameter_ensures_3/Error.txt}
+\caption{Errores reportados por \textit{JaTyC} al analizar la configuración de la Figura~\ref{exp:parameter-ensures-3}.}
+\label{exp:parameter-ensures-3:error}
+\end{figure}
+
+El experimento anterior muestra cómo la linealidad puede viajar hacia un método y, con \texttt{@Ensures}, regresar al cliente. Nos preguntamos entonces qué sucede cuando la referencia que se desea entregar no es un argumento, sino un colaborador interno de un objeto protocolado. Es decir, ¿nos permitiría \textit{JaTyC} construir métodos \textit{getters} para colaboradores internos con protocolo? ¿Acaso la referencia local se transformaría en una compartida?
+
+Comenzamos utilizando el mismo robot de la Figura~\ref{exp:compound-1:robot}. Luego, creamos un controlador muy similar al original pero con un método \textit{getter}, el cual puede verse en la Figura~\ref{exp:collaborator-compound-6:controller}. El método \texttt{getRobot()} devuelve el colaborador interno y, gracias a su anotación \texttt{@Ensures}, declara que lo hace con la referencia lineal.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_6/RobotController.java}
+\vspace{0.3cm}
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol.protocol}
+\caption{Implementación y protocolo de un controlador de robots, el cual cuenta con un método \textit{getter}.}
+\label{exp:collaborator-compound-6:controller}
+\end{figure}
+
+En la Figura~\ref{exp:collaborator-compound-6:error} puede observarse un código cliente de este experimento. El mismo instancia un nuevo controlador, obtiene su robot a través del método \textit{getter} e intenta utilizar uno de sus métodos protocolados. Bajo esta situación, \textit{JaTyC} reporta un error, especificando que el método \textit{getter} tiene un problema de contrato: declara devolver una referencia lineal en el \textit{typestate} \textit{TopLeft}, pero devuelve una referencia compartida. Esto tiene sentido: dado que este método es \textit{anytime} (no está mencionado en el protocolo) y puede ser llamado incontables veces, luego de la primera llamada el colaborador interno pasa a ser una referencia compartida, y en los llamados siguientes el contrato se rompería.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_6/Main.java}
+\vspace{0.3cm}
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/Error.txt}
+\caption{Código cliente que intenta operar con el colaborador interno del controlador de la Figura~\ref{exp:collaborator-compound-6:controller} y el error reportado por \textit{JaTyC}.}
+\label{exp:collaborator-compound-6:error}
+\end{figure}
+
+Para comprobar si el resultado cambia, agregamos el método al protocolo, como puede verse en la Figura~\ref{exp:collaborator-compound-6:protocol-2}. Manteniendo la misma configuración para el resto del experimento, analizamos el código con la herramienta y obtuvimos los errores de la Figura~\ref{exp:collaborator-compound-6:error-2}.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol2.protocol}
+\caption{Protocolo para un controlador de robots, el cual incluye al método \textit{getter} dentro del estado inicial.}
+\label{exp:collaborator-compound-6:protocol-2}
+\end{figure}
+
+En primer lugar, el mismo error vuelve a aparecer: \textit{JaTyC} detecta correctamente que, luego de la primera llamada al método \textit{getter}, el colaborador interno pasará a ser compartido y los llamados siguientes romperán el contrato. Por otro lado, ahora se suma un nuevo error para \texttt{run()}, que reclama que sus llamadas a métodos protocolados del robot pueden estar siendo realizadas sobre una referencia compartida. Esto también tiene sentido: luego de llamar al \textit{getter}, y de que la referencia se convierta en compartida, el protocolo todavía permite llamar a \texttt{run()}.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/Error_2.txt}
+\caption{Errores reportados por \textit{JaTyC} al analizar el nuevo protocolo de la Figura~\ref{exp:collaborator-compound-6:protocol-2}.}
+\label{exp:collaborator-compound-6:error-2}
+\end{figure}
+
+Finalmente, modificamos por última vez el protocolo para que estas situaciones de error no puedan producirse. Como se muestra en la Figura~\ref{exp:collaborator-compound-6:protocol-3}, luego de llamar al método \textit{getter} ya no se permite volver a llamarlo ni utilizar el método \texttt{run()}. Esto evita que se llamen métodos dentro del controlador que asumen tener la referencia lineal luego de haberla convertido en compartida. Efectivamente, analizar esta situación con \textit{JaTyC} no reporta ningún error.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol3.protocol}
+\caption{Protocolo para un controlador de robots, el cual busca incluir un \textit{getter} sin errores.}
+\label{exp:collaborator-compound-6:protocol-3}
+\end{figure}
+
+Todo esto nos muestra que la herramienta sí permite tener métodos \textit{getters} que entreguen referencias lineales de colaboradores internos. De todos modos, hacerlo de tal forma que no se reporte ningún error altera enormemente el comportamiento de la clase: cualquier método que antes podía asumir que tenía una referencia lineal ya no puede hacerlo, y la referencia solo podrá entregarse una única vez.
+
+Este resultado también invita a considerar diseños alternativos que eviten exponer al colaborador interno. Una opción es que el controlador delegue los métodos del robot que los clientes necesiten (por ejemplo, ofreciendo sus propios \texttt{moveUp()} o \texttt{moveRight()}), de modo que el robot nunca abandone al controlador y este conserve la referencia lineal durante toda su vida; esto sigue el principio de encapsulamiento y evita la necesidad de un \textit{getter}. Otra opción es modelar la entrega del colaborador como una transición explícita del protocolo: un método que devuelve el robot y lleva al controlador a un estado en el que ya no lo utiliza, o directamente a \texttt{end}. Notemos que el protocolo de la Figura~\ref{exp:collaborator-compound-6:protocol-3} es, en esencia, una versión limitada de esta idea, dado que luego del \textit{getter} el controlador queda sin operaciones que dependan del robot.
+
+En resumen, en esta sección vimos algunos ejemplos interesantes del manejo del \textit{aliasing} por parte de la herramienta. Por un lado, vimos cómo se comporta al pasar referencias lineales como argumentos de métodos, cómo el cliente puede recuperarlas mediante \texttt{@Ensures}, y cómo \textit{JaTyC} reporta errores cuando la linealidad no se respeta estrictamente. Por el otro, vimos las complicaciones de utilizar métodos \textit{getters} sobre colaboradores protocolados, cómo esto altera el protocolo de la clase que los contiene y limita su reutilización, y cómo reacciona \textit{JaTyC} ante estas situaciones. En ambos casos, la herramienta se comporta de forma conservadora y correcta con respecto a su documentación: prefiere rechazar un programa que podría ser correcto, haciendo cumplir la linealidad referencial, antes que permitir que dos referencias alteren a la vez el \textit{typestate} de un mismo objeto.
 
 \section{Excepciones}
+
+Los protocolos interpretables por \textit{JaTyC} involucran una serie de \textit{typestates}, cada uno con un conjunto de métodos disponibles. Para cada método se define necesariamente el \textit{typestate} destino luego de ser llamado. Para algunos tipos particulares de valores de retorno, booleanos y enumeraciones, la herramienta permite definir no uno sino \textbf{múltiples estados destino} hacia los cuales se puede transicionar. Luego, el objeto transiciona hacia un estado u otro según los posibles resultados de llamar al método.
+
+Sin embargo, esta funcionalidad no cubre los casos en los que un método finaliza al lanzar una excepción. Si bien la herramienta permite definir el estado en el que termina un objeto luego de llamar a un método, e incluso hacerlo según el valor que devuelve, no permite definir transiciones cuando se lanzan excepciones esperadas, y mucho menos según el tipo de la excepción. Definir transiciones basadas en excepciones esperadas permitiría seguir utilizando objetos de forma segura luego de que sus métodos fallen, dado que la herramienta limitaría los métodos disponibles según lo intencionado por el desarrollador. A su vez, daría visibilidad a que estas excepciones pueden suceder, dejaría definido el estado del objeto posterior a ellas y haría que futuros cambios al programa contemplen estas posibilidades. Esta limitación está reconocida por la documentación de \textit{JaTyC}, como vimos en la sección~\ref{limitaciones}, pero de todos modos nos pareció interesante mencionarla.
+
+\begin{figure}[htbp]
+    \centering
+    \lstinputlisting[language=Java]{./code/capitulo4/exception_stack/Stack.java}
+    \vspace{0.3cm}
+    \lstinputlisting{./code/capitulo4/exception_stack/Main.java}
+    \caption{Implementación de \texttt{Stack} que lanza excepciones ante operaciones inválidas y código cliente que la utiliza.}
+    \label{exp:exception-stack}
+\end{figure}
+
+Un pequeño ejemplo que muestra la utilidad de dar soporte a excepciones protocolizadas puede verse en la Figura~\ref{exp:exception-stack}. En ella se aprecia la implementación de una pila simple como las mostradas anteriormente, con la diferencia de que lanza excepciones ante llamadas a operaciones inválidas; en particular, al desapilar cuando la pila está vacía y al apilar cuando está llena. Luego, el código cliente instancia un \texttt{Stack} e intenta llamar a \texttt{pop()} a pesar de que todavía está vacío. El cliente, a sabiendas de que el \texttt{Stack} puede lanzar una excepción de tipo \texttt{InvalidOperationException}, utiliza una estructura \textit{try-catch} y, en el bloque \textit{catch}, continúa utilizando la pila.
+
+Para este ejemplo, si se pudiese definir el \textit{typestate} en el que termina la pila luego de la excepción, junto con los métodos disponibles en él, la verificación de \textit{object protocols} podría continuar dentro del bloque \textit{catch}. Sin embargo, con la versión actual de la herramienta esto no es posible, y el estado del objeto deja de estar determinado para \textit{JaTyC}. Cabe aclarar que, en este caso particular, el cliente podría haber evitado la excepción consultando el método de control \texttt{isEmpty()} antes de llamar a \texttt{pop()}. El beneficio de esta funcionalidad es todavía mayor en los casos donde la excepción no puede prevenirse mediante un método de control, como ocurre, por ejemplo, ante fallas de entrada/salida.
+
+Permitir transiciones entre \textit{typestates} a través de excepciones flexibilizaría aún más el análisis de \textit{object protocols}, ampliaría los tipos de programas compatibles con la herramienta y daría visibilidad a las excepciones esperadas que pueden suceder.

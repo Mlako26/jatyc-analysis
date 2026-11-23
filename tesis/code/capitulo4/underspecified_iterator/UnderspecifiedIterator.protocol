@@ -1,0 +1,7 @@
+typestate UnderspecifiedIterator {
+  Init = {
+    boolean hasNext(): <true: Init, false: Init>,
+    int next(): Init,
+    drop: end
+  }
+}

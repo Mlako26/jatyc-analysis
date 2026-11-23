@@ -1,0 +1,7 @@
+Main.java:13: error: Cannot call [push] on State{Stack, PushInt}
+        stack.push((float) 3.4);
+                  ^
+Main.java:17: error: Cannot call [push] on State{Stack, PushFloat}
+        stack.push(3);
+                  ^
+2 errors

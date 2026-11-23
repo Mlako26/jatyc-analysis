@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  12 NOV 2026 20:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  22 NOV 2026 23:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -613,35 +613,29 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 9.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 9.
-<logofcen.pdf, id=163, 108.405pt x 108.405pt>
+<logofcen.pdf, id=183, 108.405pt x 108.405pt>
 File: logofcen.pdf Graphic file (type pdf)
 <use logofcen.pdf>
 Package pdftex.def Info: logofcen.pdf  used on input line 10.
 (pdftex.def)             Requested size: 73.97733pt x 73.98073pt.
  [1
 
-{d:/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./logofcen.pdf>]) (./abs_esp.tex) [1
+{d:/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./logofcen.pdf>]) (./dedicatoria.tex) [1
 
 
-] (./abs_en.tex) [2
 
-
-] (./agradecimientos.tex) [3
-
-
-] (./dedicatoria.tex) [4
 
 ] (./tesis.toc
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
-)
+ [2
+
+
+])
 \tf@toc=\write5
 \openout5 = `tesis.toc'.
 
- [5
-
-
-] (./introduccion.tex
+ [3] (./introduccion.tex
 Cap\'{\i }tulo 1.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
@@ -661,21 +655,21 @@ Cap\'{\i }tulo 2.
 [3
 
 ]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 26.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 27.
  (./code/capitulo2/iterator_example.java)
-LaTeX Info: Redefining \. on input line 44.
-LaTeX Info: Redefining \% on input line 44.
+LaTeX Info: Redefining \. on input line 45.
+LaTeX Info: Redefining \% on input line 45.
  [4] (./code/capitulo2/plaid_example.plaid
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <9> on input line 6.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 6.
 )
-LaTeX Info: Redefining \. on input line 65.
-LaTeX Info: Redefining \% on input line 65.
+LaTeX Info: Redefining \. on input line 66.
+LaTeX Info: Redefining \% on input line 66.
  [5] (./code/capitulo2/mungo_protocol.protocol)
-LaTeX Info: Redefining \. on input line 81.
-LaTeX Info: Redefining \% on input line 81.
+LaTeX Info: Redefining \. on input line 82.
+LaTeX Info: Redefining \% on input line 82.
  [6]) (./jatyc.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
@@ -698,58 +692,49 @@ LaTeX Info: Redefining \% on input line 107.
 LaTeX Info: Redefining \. on input line 131.
 LaTeX Info: Redefining \% on input line 131.
  [12] (./code/capitulo3/loop_iterator/Iterator.protocol) (./code/capitulo3/loop_iterator/LoopIterator.protocol)
-LaTeX Info: Redefining \. on input line 189.
-LaTeX Info: Redefining \% on input line 189.
+LaTeX Info: Redefining \. on input line 190.
+LaTeX Info: Redefining \% on input line 190.
  [13] (./code/capitulo3/tired_iterator/TiredIterator.protocol) (./code/capitulo3/tired_iterator/Tired_error.txt)
-LaTeX Info: Redefining \. on input line 223.
-LaTeX Info: Redefining \% on input line 223.
+LaTeX Info: Redefining \. on input line 224.
+LaTeX Info: Redefining \% on input line 224.
  [14]
-LaTeX Info: Redefining \. on input line 249.
-LaTeX Info: Redefining \% on input line 249.
+LaTeX Info: Redefining \. on input line 251.
+LaTeX Info: Redefining \% on input line 251.
  [15]
-LaTeX Info: Redefining \. on input line 352.
-LaTeX Info: Redefining \% on input line 352.
+LaTeX Info: Redefining \. on input line 354.
+LaTeX Info: Redefining \% on input line 354.
  [16]
-LaTeX Info: Redefining \. on input line 370.
-LaTeX Info: Redefining \% on input line 370.
+LaTeX Info: Redefining \. on input line 372.
+LaTeX Info: Redefining \% on input line 372.
  [17]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 386.
-LaTeX Info: Redefining \. on input line 423.
-LaTeX Info: Redefining \% on input line 423.
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 388.
+LaTeX Info: Redefining \. on input line 425.
+LaTeX Info: Redefining \% on input line 425.
  [18]
-LaTeX Info: Redefining \. on input line 433.
-LaTeX Info: Redefining \% on input line 433.
+LaTeX Info: Redefining \. on input line 435.
+LaTeX Info: Redefining \% on input line 435.
  [19]
-LaTeX Info: Redefining \. on input line 483.
-LaTeX Info: Redefining \% on input line 483.
+LaTeX Info: Redefining \. on input line 485.
+LaTeX Info: Redefining \% on input line 485.
  [20]
-LaTeX Info: Redefining \. on input line 495.
-LaTeX Info: Redefining \% on input line 495.
+LaTeX Info: Redefining \. on input line 497.
+LaTeX Info: Redefining \% on input line 497.
  [21]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 502.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 504.
  (./code/capitulo3/If.Java)
-LaTeX Info: Redefining \. on input line 536.
-LaTeX Info: Redefining \% on input line 536.
+LaTeX Info: Redefining \. on input line 538.
+LaTeX Info: Redefining \% on input line 538.
  [22] (./code/capitulo3/While.Java)
-LaTeX Info: Redefining \. on input line 557.
-LaTeX Info: Redefining \% on input line 557.
+LaTeX Info: Redefining \. on input line 559.
+LaTeX Info: Redefining \% on input line 559.
  [23]
-LaTeX Info: Redefining \. on input line 576.
-LaTeX Info: Redefining \% on input line 576.
+LaTeX Info: Redefining \. on input line 578.
+LaTeX Info: Redefining \% on input line 578.
  [24]
-Overfull \hbox (21.51659pt too wide) in paragraph at lines 579--580
-[]\OT1/cmr/m/n/10.95 La pri-me-ra fa-se s^^S^^P se pa-re-ce al com-por-ta-mien-to ha-bi-tual de las sub-cla-ses del \OT1/cmtt/m/n/10.95 SourceVisitor\OT1/cmr/m/n/10.95 :
- []
-
-
-Overfull \hbox (43.32774pt too wide) in paragraph at lines 579--580
-\OT1/cmr/m/n/10.95 que, por ca-da cla-se vi-si-ta-da, es-ta se tra-duz-ca a su re-pre-sen-ta-ci^^Son in-ter-na (\OT1/cmtt/m/n/10.95 ClassDeclAndCompanion\OT1/cmr/m/n/10.95 ),
- []
-
-LaTeX Info: Redefining \. on input line 592.
-LaTeX Info: Redefining \% on input line 592.
-[25]) (./experimentacion.tex
+LaTeX Info: Redefining \. on input line 594.
+LaTeX Info: Redefining \% on input line 594.
+ [25]) (./experimentacion.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
  [26]
@@ -757,33 +742,124 @@ Cap\'{\i }tulo 4.
 (./code/capitulo4/collaborator_compound_typestate/Robot.java) (./code/capitulo4/collaborator_compound_typestate/RobotProtocol.protocol)
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 20.
- [27
+ (./code/capitulo4/collaborator_compound_typestate/RobotController.java) (./code/capitulo4/collaborator_compound_typestate/RobotControllerProtocol.protocol) [27
 
-] (./code/capitulo4/collaborator_compound_typestate/RobotController.java) (./code/capitulo4/collaborator_compound_typestate/RobotControllerProtocol.protocol)
-LaTeX Info: Redefining \. on input line 37.
-LaTeX Info: Redefining \% on input line 37.
- [28] (./code/capitulo4/collaborator_compound_typestate/Main.java) (./code/capitulo4/collaborator_compound_typestate/Error.txt)
-LaTeX Info: Redefining \. on input line 54.
-LaTeX Info: Redefining \% on input line 54.
- [29] (./code/capitulo4/collaborator_compound_typestate_3/RobotController.java) (./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol)
-LaTeX Info: Redefining \. on input line 69.
-LaTeX Info: Redefining \% on input line 69.
- [30] (./code/capitulo4/collaborator_compound_typestate_3/Main.java) (./code/capitulo4/collaborator_compound_typestate_3/Error.txt)
-LaTeX Info: Redefining \. on input line 84.
-LaTeX Info: Redefining \% on input line 84.
- [31] (./code/capitulo4/faulty_stack/Stack.java) (./code/capitulo4/faulty_stack/StackProtocol.protocol)
-LaTeX Info: Redefining \. on input line 154.
-LaTeX Info: Redefining \% on input line 154.
+] (./code/capitulo4/collaborator_compound_typestate/Main.java) (./code/capitulo4/collaborator_compound_typestate/Error.txt)
+LaTeX Info: Redefining \. on input line 57.
+LaTeX Info: Redefining \% on input line 57.
+ [28] (./code/capitulo4/collaborator_compound_typestate_3/RobotController.java) (./code/capitulo4/collaborator_compound_typestate_3/RobotControllerProtocol.protocol) (./code/capitulo4/collaborator_compound_typestate_3/Main.java) (./code/capitulo4/collaborator_compound_typestate_3/Error.txt)
+LaTeX Info: Redefining \. on input line 79.
+LaTeX Info: Redefining \% on input line 79.
+ [29]
+LaTeX Info: Redefining \. on input line 138.
+LaTeX Info: Redefining \% on input line 138.
+ [30] (./code/capitulo4/faulty_stack/Stack.java) (./code/capitulo4/faulty_stack/StackProtocol.protocol)
+LaTeX Info: Redefining \. on input line 153.
+LaTeX Info: Redefining \% on input line 153.
+ [31]
+LaTeX Info: Redefining \. on input line 153.
+LaTeX Info: Redefining \% on input line 153.
  [32] (./code/capitulo4/faulty_stack/Main.java) (./code/capitulo4/faulty_stack/Error.txt) (./code/capitulo4/normal_stack/Stack.java)
-LaTeX Info: Redefining \. on input line 178.
-LaTeX Info: Redefining \% on input line 178.
- [33] (./code/capitulo4/normal_stack/Main.java) (./code/capitulo4/normal_stack/Error.txt))
+LaTeX Info: Redefining \. on input line 177.
+LaTeX Info: Redefining \% on input line 177.
+ [33] (./code/capitulo4/normal_stack/Main.java) (./code/capitulo4/normal_stack/Error.txt)
+LaTeX Info: Redefining \. on input line 190.
+LaTeX Info: Redefining \% on input line 190.
+ [34] (./code/capitulo3/loop_iterator/Iterator.protocol) (./code/capitulo3/loop_iterator/LoopIterator.protocol)
+LaTeX Info: Redefining \. on input line 241.
+LaTeX Info: Redefining \% on input line 241.
+ [35] (./code/capitulo4/restrictive_iterator/ClientCode.java) (./code/capitulo4/restrictive_iterator/Error.txt) (./code/capitulo4/underspecified_iterator/UnderspecifiedIterator.java) (./code/capitulo4/underspecified_iterator/UnderspecifiedIterator.protocol) (./code/capitulo4/underspecified_iterator/ClientCode.java)
+LaTeX Info: Redefining \. on input line 279.
+LaTeX Info: Redefining \% on input line 279.
+ [36]
+LaTeX Info: Redefining \. on input line 283.
+LaTeX Info: Redefining \% on input line 283.
+ [37] (./code/capitulo4/restrictive_iterator/ClientCode2.java) (./code/capitulo4/restrictive_iterator/Error_2.txt)
+LaTeX Info: Redefining \. on input line 339.
+LaTeX Info: Redefining \% on input line 339.
+ [38]
+LaTeX Info: Redefining \. on input line 360.
+LaTeX Info: Redefining \% on input line 360.
+ [39] (./code/capitulo4/subtyping_iterators/Error.txt)
+LaTeX Info: Redefining \. on input line 394.
+LaTeX Info: Redefining \% on input line 394.
+ [40]
+LaTeX Info: Redefining \. on input line 440.
+LaTeX Info: Redefining \% on input line 440.
+ [41] (./code/capitulo4/subtyping_with_droppables/Error.txt)
+LaTeX Info: Redefining \. on input line 458.
+LaTeX Info: Redefining \% on input line 458.
+ [42] (./code/capitulo4/state_equals_typestate/MoveToEndIterator.java) (./code/capitulo4/state_equals_typestate/MoveToEndIterator.protocol)
+LaTeX Info: Redefining \. on input line 473.
+LaTeX Info: Redefining \% on input line 473.
+ [43] (./code/capitulo4/state_equals_typestate/ClientCode.java) (./code/capitulo4/public_stack/Stack.java) (./code/capitulo4/public_stack/StackProtocol.protocol) (./code/capitulo4/public_stack/Main.java) (./code/capitulo4/public_stack/Error.txt)
+LaTeX Info: Redefining \. on input line 512.
+LaTeX Info: Redefining \% on input line 512.
+ [44]
+LaTeX Info: Redefining \. on input line 512.
+LaTeX Info: Redefining \% on input line 512.
+ [45] (./code/capitulo4/Sobrecarga.java)
+LaTeX Info: Redefining \. on input line 535.
+LaTeX Info: Redefining \% on input line 535.
+ [46] (./code/capitulo4/overloaded_stack_1/StackProtocol.protocol) (./code/capitulo4/overloaded_stack_2/StackProtocol.protocol)
+LaTeX Info: Redefining \. on input line 555.
+LaTeX Info: Redefining \% on input line 555.
+ [47] (./code/capitulo4/overloaded_stack_2/Main.java) (./code/capitulo4/overloaded_stack_2/Error.txt)
+LaTeX Info: Redefining \. on input line 568.
+LaTeX Info: Redefining \% on input line 568.
+ [48]
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 569.
+ (./code/capitulo4/parameter_ensures/Main.java) (./code/capitulo4/parameter_ensures/Error.txt) (./code/capitulo4/parameter_ensures_2/Main.java)
+LaTeX Info: Redefining \. on input line 593.
+LaTeX Info: Redefining \% on input line 593.
+ [49]
+LaTeX Info: Redefining \. on input line 603.
+LaTeX Info: Redefining \% on input line 603.
+ [50] (./code/capitulo4/immutable_list/DroppedList.java) (./code/capitulo4/immutable_list/DroppedList.protocol) (./code/capitulo4/immutable_list/ClientCode.java) (./code/capitulo4/immutable_list/Error.txt) (./code/capitulo4/immutable_list/ImmutableList.java) (./code/capitulo4/immutable_list/ImmutableList.protocol)
+LaTeX Info: Redefining \. on input line 646.
+LaTeX Info: Redefining \% on input line 646.
+ [51]
+LaTeX Info: Redefining \. on input line 648.
+LaTeX Info: Redefining \% on input line 648.
+ [52]
+LaTeX Info: Redefining \. on input line 654.
+LaTeX Info: Redefining \% on input line 654.
+ [53] (./code/capitulo4/constructor_protocol/Iterator.protocol) (./code/capitulo4/constructor_protocol/Error.txt)
+LaTeX Info: Redefining \. on input line 678.
+LaTeX Info: Redefining \% on input line 678.
+ [54] (./code/capitulo4/parameter_ensures_3/StackProtocol.protocol) (./code/capitulo4/parameter_ensures_3/Main.java)
+LaTeX Info: Redefining \. on input line 695.
+LaTeX Info: Redefining \% on input line 695.
+ [55] (./code/capitulo4/parameter_ensures_3/Error.txt) (./code/capitulo4/collaborator_compound_typestate_6/RobotController.java) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol.protocol)
+LaTeX Info: Redefining \. on input line 717.
+LaTeX Info: Redefining \% on input line 717.
+ [56] (./code/capitulo4/collaborator_compound_typestate_6/Main.java) (./code/capitulo4/collaborator_compound_typestate_6/Error.txt) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol2.protocol) (./code/capitulo4/collaborator_compound_typestate_6/Error_2.txt)
+LaTeX Info: Redefining \. on input line 746.
+LaTeX Info: Redefining \% on input line 746.
+ [57] (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol3.protocol)
+LaTeX Info: Redefining \. on input line 756.
+LaTeX Info: Redefining \% on input line 756.
+ [58]
+LaTeX Info: Redefining \. on input line 765.
+LaTeX Info: Redefining \% on input line 765.
+ [59] (./code/capitulo4/exception_stack/Stack.java) (./code/capitulo4/exception_stack/Main.java)) (./conclusion.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [60]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [61]
+Cap\'{\i }tulo 5.
+[62
+
+]
+LaTeX Info: Redefining \. on input line 26.
+LaTeX Info: Redefining \% on input line 26.
+ [63])
 LaTeX Info: Redefining \. on input line 122.
 LaTeX Info: Redefining \% on input line 122.
- [34]
-LaTeX Info: Redefining \. on input line 122.
-LaTeX Info: Redefining \% on input line 122.
- [35] (./tesis.bbl
+ [64] (./tesis.bbl
 Underfull \hbox (badness 3158) in paragraph at lines 53--57
 []\OT1/cmr/m/n/10.95 Checker Fra-me-work.  The chec-ker fra-me-work of-fi-cial ma-nual.  []$\OT1/cmtt/m/n/10.95 https : / /
  []
@@ -793,7 +869,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 75--79
 []\OT1/cmr/m/n/10.95 JastAdd.  Jas-tAdd - Ap-pli-ca-tions.  []$\OT1/cmtt/m/n/10.95 https : / / jastadd . cs . lth . se / web /
  []
 
-[36
+[65
 
 
 ]
@@ -804,7 +880,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 110--114
 )
 LaTeX Info: Redefining \. on input line 126.
 LaTeX Info: Redefining \% on input line 126.
- [37] (./tesis.aux
+ [66] (./tesis.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -813,21 +889,21 @@ LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
  ***********
 Package rerunfilecheck Info: File `tesis.out' has not changed.
-(rerunfilecheck)             Checksum: 5719E3F4C58C4A54CF425CF417E76BDD;5713.
+(rerunfilecheck)             Checksum: 26C71767A76F8DF8F8B27A1B575583C6;6558.
  ) 
 Here is how much of TeX's memory you used:
- 27745 strings out of 467099
- 527529 string characters out of 5412503
- 1290384 words of memory out of 5000000
- 55976 multiletter control sequences out of 15000+600000
- 637963 words of font info for 74 fonts, out of 8000000 for 9000
+ 28800 strings out of 467099
+ 553938 string characters out of 5412503
+ 1455663 words of memory out of 5000000
+ 56264 multiletter control sequences out of 15000+600000
+ 638491 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 92i,14n,94p,1988b,1443s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (43 pages, 449508 bytes).
+ 92i,14n,94p,1537b,1443s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on tesis.pdf (70 pages, 568584 bytes).
 PDF statistics:
- 1236 PDF objects out of 1440 (max. 8388607)
- 1138 compressed objects within 12 object streams
- 583 named destinations out of 1000 (max. 500000)
- 330 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2231 PDF objects out of 2487 (max. 8388607)
+ 2082 compressed objects within 21 object streams
+ 1237 named destinations out of 1440 (max. 500000)
+ 370 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,10 @@
+NeverDroppableIterator.java:5: error: [drop: end] transition(s) in [HasNext] of Iterator.protocol are not included in [HasNext] of NeverDroppableIterator.protocol
+public class NeverDroppableIterator implements Iterator {
+       ^
+NeverDroppableIterator.java:5: error: [drop: end] transition(s) in [Next] of Iterator.protocol are not included in [Next] of NeverDroppableIterator.protocol
+public class NeverDroppableIterator implements Iterator {
+       ^
+SometimesDroppableIterator.java:5: error: [drop: end] transition(s) in [HasNext] of Iterator.protocol are not included in [DoNothing] of SometimesDroppableIterator.protocol
+public class SometimesDroppableIterator implements Iterator {
+       ^
+3 errors
