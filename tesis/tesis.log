@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  23 NOV 2026 00:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  23 NOV 2026 00:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -620,22 +620,24 @@ Package pdftex.def Info: logofcen.pdf  used on input line 10.
 (pdftex.def)             Requested size: 73.97733pt x 73.98073pt.
  [1
 
-{d:/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./logofcen.pdf>]) (./dedicatoria.tex) [1
+{d:/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./logofcen.pdf>]) (./abs_esp.tex) [1
 
+
+] (./dedicatoria.tex) [2
 
 
 
 ] (./tesis.toc
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [2
+ [3
 
 
 ])
 \tf@toc=\write5
 \openout5 = `tesis.toc'.
 
- [3] (./introduccion.tex
+ [4] (./introduccion.tex
 Cap\'{\i }tulo 1.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
@@ -892,18 +894,18 @@ Package rerunfilecheck Info: File `tesis.out' has not changed.
 (rerunfilecheck)             Checksum: 26C71767A76F8DF8F8B27A1B575583C6;6558.
  ) 
 Here is how much of TeX's memory you used:
- 28800 strings out of 467099
- 553938 string characters out of 5412503
- 1455661 words of memory out of 5000000
- 56264 multiletter control sequences out of 15000+600000
+ 28808 strings out of 467099
+ 554045 string characters out of 5412503
+ 1455659 words of memory out of 5000000
+ 56267 multiletter control sequences out of 15000+600000
  638491 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  92i,14n,94p,1537b,1443s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (70 pages, 568871 bytes).
+Output written on tesis.pdf (71 pages, 570959 bytes).
 PDF statistics:
- 2231 PDF objects out of 2487 (max. 8388607)
- 2082 compressed objects within 21 object streams
- 1237 named destinations out of 1440 (max. 500000)
+ 2236 PDF objects out of 2487 (max. 8388607)
+ 2086 compressed objects within 21 object streams
+ 1239 named destinations out of 1440 (max. 500000)
  370 words of extra memory for PDF output out of 10000 (max. 10000000)
 

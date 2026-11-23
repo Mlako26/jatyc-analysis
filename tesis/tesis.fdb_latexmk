@@ -1,14 +1,15 @@
 # Fdb version 4
-["bibtex tesis"] 1795402671.64794 "tesis.aux" "tesis.bbl" "tesis" 1795403292.39552 0
+["bibtex tesis"] 1795404061.39228 "tesis.aux" "tesis.bbl" "tesis" 1795405934.09016 0
   "./tesis.bib" 1795402655.74189 11483 e9fe29d677394ba872f55b83fb619647 ""
   "d:/texlive/2026/texmf-dist/bibtex/bst/base/plain.bst" 1788543082.26116 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "tesis.aux" 1795403291.17042 50122 5da53b1a7ba751fbefe220b809e28d88 "pdflatex"
+  "tesis.aux" 1795405932.91751 50124 ef72c4d023c727e503714eefa5311a3e "pdflatex"
   (generated)
   "tesis.bbl"
   "tesis.blg"
   (rewritten before read)
-["pdflatex"] 1795403288.40018 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1795403292.39699 0
-  "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" 1795402655.75794 3881 d5827ed63f6d07a324fdab3cc7ccf1d1 ""
+["pdflatex"] 1795405929.79776 "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" "tesis.pdf" "tesis" 1795405934.091 0
+  "abs_esp.tex" 1795405928.93224 2045 e0903b4e0e0437081fa95ad234249002 ""
+  "c:/Users/mlako/OneDrive/Desktop/Stuff/Facultad/tesis/jatyc-analysis/tesis/tesis.tex" 1795404095.90326 3875 44e09b11e04bd5dd611a54470a175f06 ""
   "caratula.tex" 1788613547.29524 791 4bb3bc104a5e76a7619c16846e7acea1 ""
   "code/capitulo2/iterator_example.java" 1795402655.61568 143 8fe3b2830bd09863fd51d24ecc6e775a ""
   "code/capitulo2/mungo_protocol.protocol" 1795402655.61568 325 7636eb23fbbfbd55ca741d782f289696 ""
@@ -277,11 +278,11 @@
   "introduccion.tex" 1795402655.72584 4287 d1de070f6a03609782a2c5e5c32cac54 ""
   "jatyc.tex" 1795402655.72584 60066 8faa5b5e8197d9bf53b42193ffe030aa ""
   "logofcen.pdf" 1280949812 39758 9bdae1f60233e50ba5e4e659fa2e6078 ""
-  "tesis.aux" 1795403291.17042 50122 5da53b1a7ba751fbefe220b809e28d88 "pdflatex"
-  "tesis.bbl" 1795402672.15603 5904 63422d7484cef4ce9360f51e39460689 "bibtex tesis"
+  "tesis.aux" 1795405932.91751 50124 ef72c4d023c727e503714eefa5311a3e "pdflatex"
+  "tesis.bbl" 1795404061.91055 5904 63422d7484cef4ce9360f51e39460689 "bibtex tesis"
   "tesis.cls" 1312502354 36659 469a5b174f6a5f4de348ff19f86a677d ""
-  "tesis.out" 1795403291.18042 6558 26c71767a76f8df8f8b27a1b575583c6 "pdflatex"
-  "tesis.toc" 1795403291.18353 4426 0d3cb358fac99a9708d709123090022d "pdflatex"
+  "tesis.out" 1795405932.93937 6558 26c71767a76f8df8f8b27a1b575583c6 "pdflatex"
+  "tesis.toc" 1795405932.94113 4426 636fc08e1a278438b8f1e273f0597ff9 "pdflatex"
   "trabajos_relacionados.tex" 1795402655.75794 14228 450bfa51c37b68bdb139b1505132884d ""
   (generated)
   "tesis.aux"
