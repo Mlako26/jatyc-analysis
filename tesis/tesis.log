@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  21 NOV 2026 20:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  22 NOV 2026 21:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -813,37 +813,52 @@ LaTeX Info: Redefining \% on input line 516.
  [44]
 LaTeX Info: Redefining \. on input line 516.
 LaTeX Info: Redefining \% on input line 516.
- [45] (./code/capitulo4/Sobrecarga.java) (./code/capitulo4/overloaded_stack_1/StackProtocol.protocol)
-LaTeX Info: Redefining \. on input line 548.
-LaTeX Info: Redefining \% on input line 548.
- [46] (./code/capitulo4/overloaded_stack_2/StackProtocol.protocol) (./code/capitulo4/overloaded_stack_2/Main.java) (./code/capitulo4/overloaded_stack_2/Error.txt)
-LaTeX Info: Redefining \. on input line 570.
-LaTeX Info: Redefining \% on input line 570.
+ [45] (./code/capitulo4/Sobrecarga.java)
+LaTeX Info: Redefining \. on input line 535.
+LaTeX Info: Redefining \% on input line 535.
+ [46] (./code/capitulo4/overloaded_stack_1/StackProtocol.protocol) (./code/capitulo4/overloaded_stack_2/StackProtocol.protocol) (./code/capitulo4/overloaded_stack_2/Main.java) (./code/capitulo4/overloaded_stack_2/Error.txt)
+LaTeX Info: Redefining \. on input line 568.
+LaTeX Info: Redefining \% on input line 568.
  [47]
-LaTeX Info: Redefining \. on input line 574.
-LaTeX Info: Redefining \% on input line 574.
+LaTeX Info: Redefining \. on input line 573.
+LaTeX Info: Redefining \% on input line 573.
  [48] (./code/capitulo4/parameter_ensures/Main.java) (./code/capitulo4/parameter_ensures/Error.txt) (./code/capitulo4/parameter_ensures/Main.java)
-LaTeX Info: Redefining \. on input line 600.
-LaTeX Info: Redefining \% on input line 600.
+LaTeX Info: Redefining \. on input line 599.
+LaTeX Info: Redefining \% on input line 599.
  [49] (./code/capitulo4/immutable_list/DroppedList.java) (./code/capitulo4/immutable_list/DroppedList.protocol)
-LaTeX Info: Redefining \. on input line 616.
-LaTeX Info: Redefining \% on input line 616.
+LaTeX Info: Redefining \. on input line 615.
+LaTeX Info: Redefining \% on input line 615.
  [50] (./code/capitulo4/immutable_list/ClientCode.java) (./code/capitulo4/immutable_list/Error.txt)
-LaTeX Info: Redefining \. on input line 629.
-LaTeX Info: Redefining \% on input line 629.
+LaTeX Info: Redefining \. on input line 627.
+LaTeX Info: Redefining \% on input line 627.
  [51] (./code/capitulo4/immutable_list/ImmutableList.java) (./code/capitulo4/immutable_list/ImmutableList.protocol)
-LaTeX Info: Redefining \. on input line 644.
-LaTeX Info: Redefining \% on input line 644.
- [52] (./code/capitulo4/exception_stack/Stack.java) (./code/capitulo4/exception_stack/Main.java)
+LaTeX Info: Redefining \. on input line 642.
+LaTeX Info: Redefining \% on input line 642.
+ [52] (./code/capitulo4/constructor_protocol/Iterator.protocol) (./code/capitulo4/constructor_protocol/Error.txt)
 LaTeX Info: Redefining \. on input line 669.
 LaTeX Info: Redefining \% on input line 669.
- [53]
-LaTeX Info: Redefining \. on input line 671.
-LaTeX Info: Redefining \% on input line 671.
- [54])
+ [53] (./code/capitulo4/parameter_ensures_3/StackProtocol.protocol) (./code/capitulo4/parameter_ensures_3/Main.java)
+LaTeX Info: Redefining \. on input line 686.
+LaTeX Info: Redefining \% on input line 686.
+ [54] (./code/capitulo4/parameter_ensures_3/Error.txt) (./code/capitulo4/collaborator_compound_typestate_6/RobotController.java) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol.protocol)
+LaTeX Info: Redefining \. on input line 706.
+LaTeX Info: Redefining \% on input line 706.
+ [55] (./code/capitulo4/collaborator_compound_typestate_6/Main.java) (./code/capitulo4/collaborator_compound_typestate_6/Error.txt) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol2.protocol)
+LaTeX Info: Redefining \. on input line 730.
+LaTeX Info: Redefining \% on input line 730.
+ [56] (./code/capitulo4/collaborator_compound_typestate_6/Error_2.txt) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol3.protocol)
+LaTeX Info: Redefining \. on input line 746.
+LaTeX Info: Redefining \% on input line 746.
+ [57]
+LaTeX Info: Redefining \. on input line 756.
+LaTeX Info: Redefining \% on input line 756.
+ [58] (./code/capitulo4/exception_stack/Stack.java) (./code/capitulo4/exception_stack/Main.java)
+LaTeX Info: Redefining \. on input line 767.
+LaTeX Info: Redefining \% on input line 767.
+ [59])
 LaTeX Info: Redefining \. on input line 122.
 LaTeX Info: Redefining \% on input line 122.
- [55] (./tesis.bbl
+ [60] (./tesis.bbl
 Underfull \hbox (badness 3158) in paragraph at lines 53--57
 []\OT1/cmr/m/n/10.95 Checker Fra-me-work.  The chec-ker fra-me-work of-fi-cial ma-nual.  []$\OT1/cmtt/m/n/10.95 https : / /
  []
@@ -853,7 +868,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 75--79
 []\OT1/cmr/m/n/10.95 JastAdd.  Jas-tAdd - Ap-pli-ca-tions.  []$\OT1/cmtt/m/n/10.95 https : / / jastadd . cs . lth . se / web /
  []
 
-[56
+[61
 
 
 ]
@@ -864,7 +879,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 110--114
 )
 LaTeX Info: Redefining \. on input line 126.
 LaTeX Info: Redefining \% on input line 126.
- [57] (./tesis.aux
+ [62] (./tesis.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -873,21 +888,21 @@ LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
  ***********
 Package rerunfilecheck Info: File `tesis.out' has not changed.
-(rerunfilecheck)             Checksum: B7DFA2E072E09CF092642990128A83D8;6456.
+(rerunfilecheck)             Checksum: F4B5656725A91DB14E9FEB8C57DC8796;6456.
  ) 
 Here is how much of TeX's memory you used:
- 28547 strings out of 467099
- 546642 string characters out of 5412503
- 1376266 words of memory out of 5000000
- 56195 multiletter control sequences out of 15000+600000
+ 28798 strings out of 467099
+ 553788 string characters out of 5412503
+ 1423544 words of memory out of 5000000
+ 56261 multiletter control sequences out of 15000+600000
  637963 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  92i,14n,94p,1988b,1443s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (64 pages, 536260 bytes).
+Output written on tesis.pdf (69 pages, 558694 bytes).
 PDF statistics:
- 1982 PDF objects out of 2073 (max. 8388607)
- 1847 compressed objects within 19 object streams
- 1078 named destinations out of 1200 (max. 500000)
+ 2209 PDF objects out of 2487 (max. 8388607)
+ 2064 compressed objects within 21 object streams
+ 1234 named destinations out of 1440 (max. 500000)
  362 words of extra memory for PDF output out of 10000 (max. 10000000)
 

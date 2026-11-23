@@ -112,6 +112,12 @@ João Mota and Lorenzo Bacchiani.
 \newblock \url{https://github.com/jdmota/java-typestate-checker/wiki/Documentation}.
 \newblock Accessed: 2026-09-29.
 
+\bibitem{java-docs:throwable}
+Oracle.
+\newblock {Class Throwable}.
+\newblock \url{https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html}.
+\newblock Accessed: 2026-11-22.
+
 \bibitem{java-docs:iterator}
 Oracle.
 \newblock {Interface Iterator}.

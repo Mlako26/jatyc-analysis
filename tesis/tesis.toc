@@ -46,10 +46,10 @@
 \contentsline {section}{\numberline {4.3}Intervención Humana}{34}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Subtipado}{37}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Estado Vs Typestate}{42}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Aliasing}{46}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Capacidades de Modelado}{46}{section.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}Sobrecarga de Métodos}{46}{subsection.4.7.1}%
-\contentsline {subsection}{\numberline {4.7.2}@Ensures en Parámetros}{48}{subsection.4.7.2}%
-\contentsline {subsection}{\numberline {4.7.3}Objetos Inmutables}{50}{subsection.4.7.3}%
-\contentsline {subsection}{\numberline {4.7.4}Métodos Constructores}{53}{subsection.4.7.4}%
-\contentsline {section}{\numberline {4.8}Excepciones}{53}{section.4.8}%
+\contentsline {section}{\numberline {4.6}Capacidades de Modelado}{46}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Sobrecarga de Métodos}{46}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}@Ensures en Parámetros}{48}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}Objetos Inmutables}{50}{subsection.4.6.3}%
+\contentsline {subsection}{\numberline {4.6.4}Métodos Constructores}{53}{subsection.4.6.4}%
+\contentsline {section}{\numberline {4.7}Aliasing}{54}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Excepciones}{58}{section.4.8}%

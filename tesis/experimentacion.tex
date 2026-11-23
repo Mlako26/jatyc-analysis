@@ -667,7 +667,7 @@ Esto nos muestra que, efectivamente, \textit{JaTyC} no soporta el agregado de m�
 
 Una particularidad de la herramienta es su manejo del \textbf{aliasing}, cuando varias variables referencian al mismo objeto en memoria. \textit{JaTyC} permite mantener solamente una referencia lineal del objeto, la cual es capaz de llamar todos sus métodos disponibles y alterar su \textit{typestate}. El resto de las referencia son compartidas, y solamente pueden llamar a sus métodos no mencionados por el protocolo. De este modo, la herramienta se asegura que el estado de un objeto solo puede ser alterado por una variable a la vez, y solventar los problemas típicos que vienen con realizar análisis de códgio estático en la presencia de aliasing. En esta sección quisimos profundizar sobre la capacidad de la herramienta para manejar el aliasing en situaciones interesantes.
 
-Unas primeras pruebas son las realizadas en la sección~\ref{exp:ensures}, donde se probaba que la herramienta permitía el uso de la anotación \texttt{@Ensures} en parámetros de métodos. En ellas puede verse que al pasar como argumento a un método una referencia lineal (con la anotación \texttt{@Requires}), la linealidad se pierde dentro del método llamado y la referencia local termina siendo compartida. Esto provoca que la utilización de objetos protocolados en presencia de llamadas a métodos se dificulte y sea un poco inflexible: el cliente siempre pierde la referencia lineal del objeto, y el método debe de asegurarse que el mismo finalize su protocolo. En ese sentido, el poder utilizar la anotación \texttt{@Ensures} permite que la posesión del objeto siga siendo del cliente origianl, y la responsabilidad de finalizar su protocolo permanenza más cerca al lugar de donde se instanció.
+Unas primeras pruebas son las realizadas en la sección~\ref{exp:ensures}, donde se probaba que la herramienta permitía el uso de la anotfación \texttt{@Ensures} en parámetros de métodos. En ellas puede verse que al pasar como argumento a un método una referencia lineal (con la anotación \texttt{@Requires}), la linealidad se pierde dentro del método llamado y la referencia local termina siendo compartida. Esto provoca que la utilización de objetos protocolados en presencia de llamadas a métodos se dificulte y sea un poco inflexible: el cliente siempre pierde la referencia lineal del objeto, y el método debe de asegurarse que el mismo finalize su protocolo. En ese sentido, el poder utilizar la anotación \texttt{@Ensures} permite que la posesión del objeto siga siendo del cliente origianl, y la responsabilidad de finalizar su protocolo permanenza más cerca al lugar de donde se instanció.
 
 \begin{figure}[htbp]
 \centering
@@ -682,8 +682,7 @@ Unas primeras pruebas son las realizadas en la sección~\ref{exp:ensures}, donde
 \label{exp:parameter-ensures-3}
 \end{figure}
 
-Un experimento que se desprende del anterior es eso mismo: probar que sin utilizar la anotación \textit{JaTyC} requiere que el parámetro con referencia lineal finalize su protocolo antes de terminar el \textit{scope} del método. En la Figura~\ref{exp:parameter-ensures-3} mostramos el protocolo de una clase 
-\texttt{Stack} muy similar a las anteriores, pero que solo puede transicionar a \texttt{end} al llamar al método \texttt{close()} (no hay estados descartables). Al lado puede observarse el mismo código cliente de la Figura~\ref{exp:parameter-ensures-1}, contando con un método \texttt{pushtoStack()} el cual anota al parámetro \texttt{stack} con \texttt{@Requires}, haciendo que la referencia sea lineal. Notemos que no se utilizó \texttt{@Ensures}, con lo cual esta linealidad no puede volver hacia el método \texttt{main()} al finalizar. También notemos que no se llama al método \texttt{close()} para terminar el protocolo.
+Un experimento que se desprende del anterior es eso mismo: probar que sin utilizar la anotación \textit{JaTyC} requiere que el parámetro con referencia lineal finalize su protocolo antes de terminar el \textit{scope} del método. En la Figura~\ref{exp:parameter-ensures-3} mostramos el protocolo de una clase \texttt{Stack} muy similar a las anteriores, pero que solo puede transicionar a \texttt{end} al llamar al método \texttt{close()} (no hay estados descartables). Al lado puede observarse el mismo código cliente de la Figura~\ref{exp:parameter-ensures-1}, contando con un método \texttt{pushtoStack()} el cual anota al parámetro \texttt{stack} con \texttt{@Requires}, haciendo que la referencia sea lineal. Notemos que no se utilizó \texttt{@Ensures}, con lo cual esta linealidad no puede volver hacia el método \texttt{main()} al finalizar. También notemos que no se llama al método \texttt{close()} para terminar el protocolo.
 
 \begin{figure}[htbp]
 \centering
@@ -692,18 +691,62 @@ Un experimento que se desprende del anterior es eso mismo: probar que sin utiliz
 \label{exp:parameter-ensures-3:error}
 \end{figure}
 
-En la Figura~\ref{exp:parameter-ensures-3:error} pueden verse los errores reportados por \textit{JaTyC}. El segundo menciona que, luego de delegar la referencia lineal en la llamada de método, la variable \texttt{stack} es compartida y por ende sus métodos protocolados (\texttt{isFull()}) ya no pueden ser llamados. Este es el mismo error que el reportado en la Figura~\ref{parameter-ensures-1}. El primer error reporta lo que pretendíamos, que la pila no finalizó su protocolo, y apunta al método \texttt{pushToStack()} como el culpable. Esto nos muestra que efectivamente la transferencia de linealidad del objeto hacia el método sucedió, y \textit{JaTyC} espera que con ella también lo haga la responsabilidad de dejarlo en un estado final correcto.
+En la Figura~\ref{exp:parameter-ensures-3:error} pueden verse los errores reportados por \textit{JaTyC}. El segundo menciona que, luego de delegar la referencia lineal en la llamada de método, la variable \texttt{stack} es compartida y por ende sus métodos protocolados (\texttt{isFull()}) ya no pueden ser llamados. Este es el mismo error que el reportado en la Figura~\ref{exp:parameter-ensures-1}. El primer error reporta lo que pretendíamos, que la pila no finalizó su protocolo, y apunta al método \texttt{pushToStack()} como el culpable. Esto nos muestra que efectivamente la transferencia de linealidad del objeto hacia el método sucedió, y \textit{JaTyC} espera que con ella también lo haga la responsabilidad de dejarlo en un estado final correcto.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_6/RobotController.java}
+\vspace{0.3cm}
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol.protocol}
+\caption{Implementación y protocolo de un controlador de robots, el cual cuenta con un método \textit{getter}.}
+\label{exp:collaborator-compound-6:controller}
+\end{figure}
 
 Otro expermiento interesante para hacer es qué pasaría si permitiésemos compartir referencias a colaboradores internos protocolados. Es decir, ¿nos permitiría \textit{JaTyC} construir métodos \textit{getters} para colaboradores internos con protocolo? ¿A caso la referencia local se transformría en una compartida?
 
+Comenzamos utilizando el mismo robot de la Figura~\ref{exp:compound-1:robot}. Luego, creamos un controlador muy similar al original pero con un método \textit{getter}, el cual puede verse en la Figura~\ref{exp:collaborator-compound-6:controller}. El método \texttt{getRobot()} devuelve el colaborador interno, y con su anotación \texttt{@Ensures} lo hace con la refencia lineal.
+
 \begin{figure}[htbp]
-    \centering
-    \lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_3/Main.java}
-    \vspace{0.3cm}
-    \lstinputlisting{./code/capitulo4/collaborator_compound_typestate_3/Error.txt}
-    \caption{Errores reportados por \textit{JaTyC} al analizar el código del controlador en la Figura \ref{exp:compound-3:controller} y su respectivo código cliente \texttt{Main}.}
-    \label{exp:compound-3:error}
+\centering
+\lstinputlisting[language=Java]{./code/capitulo4/collaborator_compound_typestate_6/Main.java}
+\vspace{0.3cm}
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/Error.txt}
+\caption{Código cliente que intenta operar con el colaborador interno del controlador de la Figura~\ref{exp:collaborator-compound-6:controller} y el error reportado por \textit{JaTyC}.}
+\label{exp:collaborator-compound-6:error}
 \end{figure}
+
+En la Figura~\ref{exp:collaborator-compound-6:error} puede observarse un código cliente de este experimento. El mismo instancia un nuevo controlador, obtiene su robot a través del método \textit{getter}, e intenta utilizar uno de sus métodos protocolados. Bajo esta situación, \textit{JaTyC} reporta un error, especificando que el método \textit{getter} tiene un problema de contrato, dado que especifica devolver una referencia lineal en el \textit{typestate} \textit{TopLeft} pero devuelve una referencia compartida. Esto tiene sentido: ya que este método es \textit{anytime} y puede ser llamado incontables veces, luego de la primera llamada el colaborador interno pasa a ser una referencia compartida, y los próximos llamados el contrato se rompería.
+
+Para comprobar si el resultado cambia, procedimos a agregar el método al protocolo, como puede verse en la Figura~\ref{exp:collaborator-compound-6:protocol-2}. Manteniendo la misma configuración para el resto del experimento, analizamos el código con la herramienta y obtuvimos los errores de la Figura~\ref{exp:collaborator-compound-6:error-2}.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol2.protocol}
+\caption{Protocolo para un controlador de robots, el cual incluye al método \textit{getter} dentro del estado inicial.}
+\label{exp:collaborator-compound-6:protocol-2}
+\end{figure}
+
+En primer lugar, el mismo error vuelve a aparecer, donde \textit{JaTyC} corréctamente detecta que luego de la primera llamada al método \textit{getter}, el colaborador interno pasará a ser compartido y próximos llamados romperán el contrato. Por otro lado, ahora se suma un nuevo error para \texttt{run()}, reclamando que sus llamadas a métodos protocolados del robot pueden estar siendo realizadas a una referencia compartida. Esto tiene sentido, dado que luego de llamar al \textit{getter} y que la referencia se convierta en compartida el protocolo permite llamar a \texttt{run()}.
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/Error_2.txt}
+\caption{Error reportado por \textit{JaTyC} al analizar el nuevo protocolo de la Figura~\ref{exp:collaborator-compound-6:protocol-2}.}
+\label{exp:collaborator-compound-6:error-2}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\lstinputlisting{./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol3.protocol}
+\caption{Protocolo para un controlador de robots, el cual busca incluir un \textit{getter} sin errores.}
+\label{exp:collaborator-compound-6:protocol-3}
+\end{figure}
+
+Finalmente, decidimos modificar po última vez el protocolo para que estas situaciones de error no puedan producirse. Como se muestra en la Figura~\ref{exp:collaborator-compound-6:protocol-3}, luego de llamar al método \textit{getter} ya no se permite volver a llamarlo y ni utilizar el método \texttt{run()}. Esto busca que no se llamen métodos dentro del controlador que asumen que tienen la referencia lineal luego de haberla convertido en compartida. Efectivamente, analizar esta situación con \textit{JaTyC} no reporta ningún error.
+
+Todo esto nos muestra que la herramienta sí permite tener métodos \textit{getters} y compartir referencias lineales de colaboradores internos. De todos modos, hacerlo de tal forma que no reporte ningún error produce que la clase altere grandemente su comportamiento. Cualquier método que antes podía asumir que tenía una referencia lineal ya no puede hacerlo, y la referencia lineal solo podrá entregarla una única vez.
+
+En resumen, en esta sección vimos algunos ejemplos interesantes del manejo del aliasing por la herramienta. Por un lado, vimos cómo se comporta a la hora de pasar referencias lineales como argumentos de métodos, cómo el cliente puede recuperarlas, y cómo \textit{JaTyC} reporta errores cuando la linealidad no se sigue estrictamente. Por el otro, vimos las complicaciones de utilizar métodos \textit{getters} sobre colaboradores protocolados, cómo altera a la clase padre, y cómo reacciona \textit{JaTyC} ante estas situaciones.
 
 \section{Excepciones}
 
