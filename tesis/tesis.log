@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  22 NOV 2026 21:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.4)  22 NOV 2026 21:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -738,18 +738,9 @@ LaTeX Info: Redefining \% on input line 559.
 LaTeX Info: Redefining \. on input line 578.
 LaTeX Info: Redefining \% on input line 578.
  [24]
-Overfull \hbox (21.51659pt too wide) in paragraph at lines 581--582
-[]\OT1/cmr/m/n/10.95 La pri-me-ra fa-se s^^S^^P se pa-re-ce al com-por-ta-mien-to ha-bi-tual de las sub-cla-ses del \OT1/cmtt/m/n/10.95 SourceVisitor\OT1/cmr/m/n/10.95 :
- []
-
-
-Overfull \hbox (43.32774pt too wide) in paragraph at lines 581--582
-\OT1/cmr/m/n/10.95 que, por ca-da cla-se vi-si-ta-da, es-ta se tra-duz-ca a su re-pre-sen-ta-ci^^Son in-ter-na (\OT1/cmtt/m/n/10.95 ClassDeclAndCompanion\OT1/cmr/m/n/10.95 ),
- []
-
 LaTeX Info: Redefining \. on input line 594.
 LaTeX Info: Redefining \% on input line 594.
-[25]) (./experimentacion.tex
+ [25]) (./experimentacion.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
  [26]
@@ -837,25 +828,25 @@ LaTeX Info: Redefining \% on input line 642.
  [52] (./code/capitulo4/constructor_protocol/Iterator.protocol) (./code/capitulo4/constructor_protocol/Error.txt)
 LaTeX Info: Redefining \. on input line 669.
 LaTeX Info: Redefining \% on input line 669.
- [53] (./code/capitulo4/parameter_ensures_3/StackProtocol.protocol) (./code/capitulo4/parameter_ensures_3/Main.java)
-LaTeX Info: Redefining \. on input line 686.
-LaTeX Info: Redefining \% on input line 686.
- [54] (./code/capitulo4/parameter_ensures_3/Error.txt) (./code/capitulo4/collaborator_compound_typestate_6/RobotController.java) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol.protocol)
-LaTeX Info: Redefining \. on input line 706.
-LaTeX Info: Redefining \% on input line 706.
- [55] (./code/capitulo4/collaborator_compound_typestate_6/Main.java) (./code/capitulo4/collaborator_compound_typestate_6/Error.txt) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol2.protocol)
-LaTeX Info: Redefining \. on input line 730.
-LaTeX Info: Redefining \% on input line 730.
- [56] (./code/capitulo4/collaborator_compound_typestate_6/Error_2.txt) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol3.protocol)
-LaTeX Info: Redefining \. on input line 746.
-LaTeX Info: Redefining \% on input line 746.
- [57]
-LaTeX Info: Redefining \. on input line 756.
-LaTeX Info: Redefining \% on input line 756.
- [58] (./code/capitulo4/exception_stack/Stack.java) (./code/capitulo4/exception_stack/Main.java)
-LaTeX Info: Redefining \. on input line 767.
-LaTeX Info: Redefining \% on input line 767.
- [59])
+ [53]
+LaTeX Info: Redefining \. on input line 675.
+LaTeX Info: Redefining \% on input line 675.
+ [54] (./code/capitulo4/parameter_ensures_3/StackProtocol.protocol) (./code/capitulo4/parameter_ensures_3/Main.java) (./code/capitulo4/parameter_ensures_3/Error.txt)
+LaTeX Info: Redefining \. on input line 699.
+LaTeX Info: Redefining \% on input line 699.
+ [55] (./code/capitulo4/collaborator_compound_typestate_6/RobotController.java) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol.protocol)
+LaTeX Info: Redefining \. on input line 712.
+LaTeX Info: Redefining \% on input line 712.
+ [56] (./code/capitulo4/collaborator_compound_typestate_6/Main.java) (./code/capitulo4/collaborator_compound_typestate_6/Error.txt) (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol2.protocol) (./code/capitulo4/collaborator_compound_typestate_6/Error_2.txt)
+LaTeX Info: Redefining \. on input line 741.
+LaTeX Info: Redefining \% on input line 741.
+ [57] (./code/capitulo4/collaborator_compound_typestate_6/RobotControllerProtocol3.protocol)
+LaTeX Info: Redefining \. on input line 754.
+LaTeX Info: Redefining \% on input line 754.
+ [58] (./code/capitulo4/exception_stack/Stack.java) (./code/capitulo4/exception_stack/Main.java))
+LaTeX Info: Redefining \. on input line 122.
+LaTeX Info: Redefining \% on input line 122.
+ [59]
 LaTeX Info: Redefining \. on input line 122.
 LaTeX Info: Redefining \% on input line 122.
  [60] (./tesis.bbl
@@ -893,16 +884,16 @@ Package rerunfilecheck Info: File `tesis.out' has not changed.
 Here is how much of TeX's memory you used:
  28798 strings out of 467099
  553788 string characters out of 5412503
- 1423544 words of memory out of 5000000
+ 1377545 words of memory out of 5000000
  56261 multiletter control sequences out of 15000+600000
  637963 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  92i,14n,94p,1988b,1443s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><d:/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tesis.pdf (69 pages, 558694 bytes).
+Output written on tesis.pdf (69 pages, 560640 bytes).
 PDF statistics:
- 2209 PDF objects out of 2487 (max. 8388607)
- 2064 compressed objects within 21 object streams
+ 2210 PDF objects out of 2487 (max. 8388607)
+ 2065 compressed objects within 21 object streams
  1234 named destinations out of 1440 (max. 500000)
  362 words of extra memory for PDF output out of 10000 (max. 10000000)
 

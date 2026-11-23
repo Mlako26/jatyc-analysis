@@ -52,4 +52,4 @@
 \contentsline {subsection}{\numberline {4.6.3}Objetos Inmutables}{50}{subsection.4.6.3}%
 \contentsline {subsection}{\numberline {4.6.4}Métodos Constructores}{53}{subsection.4.6.4}%
 \contentsline {section}{\numberline {4.7}Aliasing}{54}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Excepciones}{58}{section.4.8}%
+\contentsline {section}{\numberline {4.8}Excepciones}{59}{section.4.8}%
