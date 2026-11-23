@@ -27,29 +27,30 @@
 \contentsline {subsection}{\numberline {3.7.1}Diferencias con la versión actual}{16}{subsection.3.7.1}%
 \contentsline {subsection}{\numberline {3.7.2}Visión general}{16}{subsection.3.7.2}%
 \contentsline {subsection}{\numberline {3.7.3}Primera Fase: Inferencia de Tipos}{16}{subsection.3.7.3}%
-\contentsline {subsubsection}{Reticulado de tipos}{16}{section*.21}%
-\contentsline {subsubsection}{\textit {Class Analysis}}{17}{section*.23}%
-\contentsline {paragraph}{Inventarios y fusión.}{18}{section*.24}%
-\contentsline {paragraph}{El algoritmo.}{18}{section*.25}%
-\contentsline {subsubsection}{Análisis de Métodos}{20}{section*.26}%
-\contentsline {paragraph}{Introducción de tipos.}{20}{section*.27}%
-\contentsline {paragraph}{Reglas de inferencia.}{21}{section*.29}%
-\contentsline {paragraph}{Control de flujo.}{22}{section*.31}%
+\contentsline {subsubsection}{Reticulado de tipos}{16}{section*.18}%
+\contentsline {subsubsection}{\textit {Class Analysis}}{17}{section*.20}%
+\contentsline {paragraph}{Inventarios y fusión.}{18}{section*.21}%
+\contentsline {paragraph}{El algoritmo.}{18}{section*.22}%
+\contentsline {subsubsection}{Análisis de Métodos}{20}{section*.23}%
+\contentsline {paragraph}{Introducción de tipos.}{20}{section*.24}%
+\contentsline {paragraph}{Reglas de inferencia.}{21}{section*.26}%
+\contentsline {paragraph}{Control de flujo.}{22}{section*.28}%
 \contentsline {subsection}{\numberline {3.7.4}Segunda Fase: Verificación de Errores}{23}{subsection.3.7.4}%
 \contentsline {subsection}{\numberline {3.7.5}Checker Framework}{24}{subsection.3.7.5}%
-\contentsline {subsubsection}{SourceChecker}{24}{section*.34}%
-\contentsline {subsubsection}{SourceVisitor}{24}{section*.35}%
-\contentsline {subsubsection}{Clases Utilitarias}{25}{section*.36}%
+\contentsline {subsubsection}{SourceChecker}{24}{section*.31}%
+\contentsline {subsubsection}{SourceVisitor}{24}{section*.32}%
+\contentsline {subsubsection}{Clases Utilitarias}{25}{section*.33}%
 \contentsline {chapter}{\numberline {4.}Experimentación}{27}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Protocolos Compuestos}{27}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{32}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Intervención Humana}{34}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Subtipado}{37}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Estado Vs Typestate}{42}{section.4.5}%
+\contentsline {section}{\numberline {4.2}Correctitud vs.\ Orden de Métodos}{31}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Intervención Humana}{35}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Subtipado}{38}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Estado vs.\ \textit {Typestate}}{42}{section.4.5}%
 \contentsline {section}{\numberline {4.6}Capacidades de Modelado}{46}{section.4.6}%
 \contentsline {subsection}{\numberline {4.6.1}Sobrecarga de Métodos}{46}{subsection.4.6.1}%
-\contentsline {subsection}{\numberline {4.6.2}@Ensures en Parámetros}{48}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.2}\texttt {@Ensures} en Parámetros}{49}{subsection.4.6.2}%
 \contentsline {subsection}{\numberline {4.6.3}Objetos Inmutables}{50}{subsection.4.6.3}%
-\contentsline {subsection}{\numberline {4.6.4}Métodos Constructores}{52}{subsection.4.6.4}%
+\contentsline {subsection}{\numberline {4.6.4}Métodos Constructores}{53}{subsection.4.6.4}%
 \contentsline {section}{\numberline {4.7}Aliasing}{54}{section.4.7}%
 \contentsline {section}{\numberline {4.8}Excepciones}{59}{section.4.8}%
+\contentsline {chapter}{\numberline {5.}Conclusión}{62}{chapter.5}%
